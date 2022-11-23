@@ -1,20 +1,20 @@
 import React from "react";
 import styled, { css } from "styled-components";
 
-const Button = ({ text, type, onClick }) => {
+const MyButton = ({ text, type, onClick }) => {
   const btnType = ["submit", "remove"].includes(type) ? type : "basic";
   return (
-    <MyButton type={btnType} onClick={onClick}>
+    <Button type={btnType} onClick={onClick}>
       {text}
-    </MyButton>
+    </Button>
   );
 };
 
-Button.defaultProps = {
+MyButton.defaultProps = {
   type: "basic",
 };
 
-export default Button;
+export default MyButton;
 
 const SubmitButton = css`
   background-color: #1565e0;
@@ -25,7 +25,7 @@ const RemoveButton = css`
 const BasicButton = css`
   background-color: #003c8f;
 `;
-const MyButton = styled.button`
+const Button = styled.button`
   cursor: pointer;
   border: none;
   border-radius: 50px;
