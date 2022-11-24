@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import styled from 'styled-components';
 
 function Input(props) {
-    const {label, placeholder} = props;
+    const {label, placeholder, type} = props;
     const [text, setText] = useState("");
     const handleChange = (e) => {
         setText(e.target.value)
@@ -10,7 +10,7 @@ function Input(props) {
     return (
         <BasicInputBox>
             <p>{label}</p>
-            <BasicInput placeholder={placeholder} value={text} onChange={handleChange}/>
+            <BasicInput type={type} placeholder={placeholder} value={text} onChange={handleChange}/>
         </BasicInputBox>
     );
 }

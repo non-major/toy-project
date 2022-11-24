@@ -5,7 +5,7 @@ function NewContent() {
     return (
         <>
             <Input label="아이디" placeholder="아이디"/>
-            <Input label="비밀번호" placeholder="비밀번호"/>
+            <Input type="password" label="비밀번호" placeholder="비밀번호"/>
         </>
     );
 }
