@@ -17,6 +17,17 @@ const GlobalStyles = createGlobalStyle`
     padding: 0;
     box-sizing: border-box;
   }
+
+  section {
+    display: flex;
+    width: 550px;
+    flex-direction: column;
+justify-content: center;
+align-items: center;
+margin: 0 auto;
+  }
 `;
 
 export default GlobalStyles;
+// display: flex;
+
