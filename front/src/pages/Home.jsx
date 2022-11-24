@@ -67,7 +67,25 @@ const dummyData = [
 const Home = () => {
   return (
     <ItemList className="itemList">
-      <div>
+      <div className="item">
+        <span>@jiyun</span>
+        <div className="img">
+          <img src="https://picsum.photos/300/400" />
+        </div>
+        <div>
+          책책책 책을 읽읍시다.책책책 책을 읽읍시다.책책책 책을 읽읍시다.
+        </div>
+      </div>
+      <div className="item">
+        <span>@jiyun</span>
+        <div className="img">
+          <img src="https://picsum.photos/300/400" />
+        </div>
+        <div>
+          책책책 책을 읽읍시다.책책책 책을 읽읍시다.책책책 책을 읽읍시다.
+        </div>
+      </div>
+      <div className="item">
         <span>@jiyun</span>
         <div className="img">
           <img src="https://picsum.photos/300/400" />
@@ -81,7 +99,13 @@ const Home = () => {
 };
 
 const ItemList = styled.div`
-  width: 250px;
+  width: 50vw;
+
+  .item {
+    width: 250px;
+    margin: 0 10px 0 10px;
+    float: left;
+  }
 
   .img {
     width: 250px;
@@ -90,6 +114,8 @@ const ItemList = styled.div`
   }
 
   .img img {
+    width: 250px;
+    height: 320px;
     object-fit: cover;
   }
 `;

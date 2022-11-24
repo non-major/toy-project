@@ -44,11 +44,12 @@ const MyHeader = () => {
 };
 
 const Header = styled.header`
+  min-height: 100px;
   height: 10vh;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 25px 15vw;
+  padding: 10px 15vw;
   border-bottom: 1px solid black;
 `;
 

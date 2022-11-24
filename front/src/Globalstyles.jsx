@@ -20,11 +20,11 @@ const GlobalStyles = createGlobalStyle`
 
   section {
     display: flex;
-    width: 550px;
+    width: 50vw;
     flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        margin: 50px auto;
+    justify-content: center;
+    align-items: center;
+    margin: 50px auto;
   }
 `;
 
