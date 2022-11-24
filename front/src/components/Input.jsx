@@ -2,21 +2,23 @@ import React, {useState} from 'react';
 import styled from 'styled-components';
 
 function Input(props) {
+    const [text, setText] = useState("")
     const {label, placeholder, type} = props;
-    const [text, setText] = useState("");
-    const handleChange = (e) => {
+
+    const handleChangeState = (e) => {
         setText(e.target.value)
     }
+
     return (
-        <BasicInputBox>
+        <>
             <p>{label}</p>
-            <BasicInput type={type} placeholder={placeholder} value={text} onChange={handleChange}/>
-        </BasicInputBox>
+            <BasicInput value={text} type={type} placeholder={placeholder} onChange={handleChangeState}/>
+        </>
     );
 }
 
 const BasicInput = styled.input`
-width: 250px;
+width: 500px;
 height: 30px;
 margin-top: 10px;
 padding: 5px 10px;
@@ -25,11 +27,6 @@ border-radius: 8px;
 &:focus{
     outline: 2px solid #003c8f;
 }
-`
-
-const BasicInputBox = styled.div`
-margin: 10px;
-
 `
 
 export default Input;
