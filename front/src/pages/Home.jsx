@@ -1,4 +1,5 @@
 import React from "react";
+import styled from "styled-components";
 
 const dummyData = [
   {
@@ -64,7 +65,33 @@ const dummyData = [
 ];
 
 const Home = () => {
-  return <div>Home</div>;
+  return (
+    <ItemList className="itemList">
+      <div>
+        <span>@jiyun</span>
+        <div className="img">
+          <img src="https://picsum.photos/300/400" />
+        </div>
+        <div>
+          책책책 책을 읽읍시다.책책책 책을 읽읍시다.책책책 책을 읽읍시다.
+        </div>
+      </div>
+    </ItemList>
+  );
 };
+
+const ItemList = styled.div`
+  width: 250px;
+
+  .img {
+    width: 250px;
+    height: 320px;
+    margin: 5px 0 5px 0;
+  }
+
+  .img img {
+    object-fit: cover;
+  }
+`;
 
 export default Home;
