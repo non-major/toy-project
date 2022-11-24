@@ -22,9 +22,9 @@ const GlobalStyles = createGlobalStyle`
     display: flex;
     width: 550px;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: 0 auto;
+        justify-content: center;
+        align-items: center;
+        margin: 50px auto;
   }
 `;
 

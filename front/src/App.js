@@ -5,6 +5,8 @@ import NewContent from "./pages/NewContent";
 import EditContent from "./pages/EditContent";
 import MyDiaryList from "./pages/MyDiaryList";
 import Layout from "./components/Layout";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
             <Route path="new" element={<NewContent />} />
             <Route path="edit" element={<EditContent />} />
             <Route path="mydiary" element={<MyDiaryList />} />
+            <Route path="register" element={<Register />} />
+            <Route path="login" element={<Login />} />
           </Route>
         </Routes>
       </div>
