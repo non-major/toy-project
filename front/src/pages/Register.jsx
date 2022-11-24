@@ -23,7 +23,7 @@ const Register = () => {
     <Formbox>
       <MyForm onSubmit={handleSubmit(onSubmit)}>
         <label>
-          이메일
+          <p>이메일</p>
           <Input
             type="email"
             placeholder="이메일"
@@ -39,7 +39,7 @@ const Register = () => {
         </label>
         {errors.email && <Errors>{errors.email.message}</Errors>}
         <label>
-          비밀번호
+          <p>비밀번호</p>
           <Input
             type="password"
             name="password"
@@ -55,7 +55,7 @@ const Register = () => {
         </label>
         {errors.password && <Errors>{errors.password.message}</Errors>}
         <label>
-          비밀번호확인
+          <p>비밀번호확인</p>
           <Input
             type="password"
             name="passwordConfirm"
@@ -73,7 +73,7 @@ const Register = () => {
           <Errors>{errors.passwordConfirm.message}</Errors>
         )}
         <label>
-          닉네임
+          <p>닉네임</p>
           <Input
             type="nickname"
             name="nickname"
@@ -103,7 +103,7 @@ export const Formbox = styled.div`
 export const MyForm = styled.form`
   display: flex;
   flex-direction: column;
-  border: none;
+  justify-content: center;
 `;
 
 export const Errors = styled.p`
