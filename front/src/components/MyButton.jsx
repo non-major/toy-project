@@ -32,19 +32,19 @@ const Button = styled.button`
   padding: 10px 20px 10px 20px;
   color: white;
   font-size: 18px;
-  font-weight: 700;
   white-space: pre-line;
   &:hover {
     opacity: 0.8;
   }
   @font-face {
-    font-family: "S-CoreDream-3Light";
-    src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff")
+    font-family: "S-CoreDream-4Regular";
+    src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-4Regular.woff")
       format("woff");
     font-weight: normal;
     font-style: normal;
   }
-  font-family: "S-CoreDream-3Light";
+
+  font-family: "S-CoreDream-4Regular";
   ${({ type }) => type === "submit" && SubmitButton}
   ${({ type }) => type === "remove" && RemoveButton}
   ${({ type }) => type === "basic" && BasicButton}
