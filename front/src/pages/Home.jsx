@@ -94,27 +94,39 @@ const Home = () => {
           책책책 책을 읽읍시다.책책책 책을 읽읍시다.책책책 책을 읽읍시다.
         </div>
       </div>
+      <div className="item">
+        <span>@jiyun</span>
+        <div className="img">
+          <img src="https://picsum.photos/300/400" />
+        </div>
+        <div>
+          책책책 책을 읽읍시다.책책책 책을 읽읍시다.책책책 책을 읽읍시다.
+        </div>
+      </div>
     </ItemList>
   );
 };
 
 const ItemList = styled.div`
-  width: 50vw;
-
   .item {
-    width: 250px;
-    margin: 0 10px 0 10px;
+    width: 30%;
     float: left;
+    margin-top: 40px;
+  }
+
+  .item:nth-of-type(3n + 1),
+  .item:nth-of-type(3n + 2) {
+    margin-right: 5%;
   }
 
   .img {
-    width: 250px;
+    width: 100%;
     height: 320px;
     margin: 5px 0 5px 0;
   }
 
   .img img {
-    width: 250px;
+    width: 100%;
     height: 320px;
     object-fit: cover;
   }
