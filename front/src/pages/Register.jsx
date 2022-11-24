@@ -2,6 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import MyButton from "../components/MyButton";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const {
@@ -10,7 +11,12 @@ const Register = () => {
     formState: { errors },
     getValues,
   } = useForm();
-  const onSubmit = (data) => console.log(data);
+  const navigate = useNavigate();
+  const onSubmit = (data) => {
+    alert("회원가입이 완료되었습니다.");
+    console.log(data);
+    navigate("/");
+  };
   const Regex = { email: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g };
 
   return (
@@ -90,24 +96,24 @@ const Register = () => {
 
 export default Register;
 
-const Formbox = styled.div`
+export const Formbox = styled.div`
   width: 300px;
 `;
 
-const MyForm = styled.form`
+export const MyForm = styled.form`
   display: flex;
   flex-direction: column;
   border: none;
 `;
 
-const Errors = styled.p`
+export const Errors = styled.p`
   color: red;
-  margin-left: 20px;
+  margin-left: 15px;
   margin-bottom: 10px;
   font-size: 12px;
 `;
 
-const Input = styled.input`
+export const Input = styled.input`
   width: 250px;
   height: 30px;
   margin-top: 10px;
@@ -118,4 +124,6 @@ const Input = styled.input`
   &:focus {
     outline: 2px solid #003c8f;
   }
+
+  font-family: "S-CoreDream-4Regular";
 `;
