@@ -4,7 +4,7 @@ import styled from "styled-components";
 import MyButton from "../components/MyButton";
 import { useNavigate } from "react-router-dom";
 
-const Register = () => {
+const Register = ({ isEdit }) => {
   const {
     register,
     handleSubmit,
@@ -13,9 +13,15 @@ const Register = () => {
   } = useForm();
   const navigate = useNavigate();
   const onSubmit = (data) => {
-    alert("회원가입이 완료되었습니다.");
-    console.log(data);
-    navigate("/");
+    if (isEdit) {
+      window.confirm("수정하시겠습니까?");
+      console.log(data);
+      window.location.reload();
+    } else {
+      alert("회원가입이 완료되었습니다.");
+      console.log(data);
+      navigate("/login");
+    }
   };
   const Regex = { email: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g };
 
@@ -25,6 +31,7 @@ const Register = () => {
         <label>
           <p>이메일</p>
           <Input
+            disabled={isEdit ? true : false}
             type="email"
             placeholder="이메일"
             id="email"
@@ -37,7 +44,7 @@ const Register = () => {
             })}
           />
         </label>
-        {errors.email && <Errors>{errors.email.message}</Errors>}
+        {isEdit ? "" : errors.email && <Errors>{errors.email.message}</Errors>}
         <label>
           <p>비밀번호</p>
           <Input
@@ -88,7 +95,10 @@ const Register = () => {
           />
         </label>
         {errors.nickname && <Errors>{errors.nickname.message}</Errors>}
-        <MyButton text={"회원가입"} type={"submit"} />
+        <MyButton
+          text={isEdit ? "수정하기" : "회원가입"}
+          type={isEdit ? "remove" : "submit"}
+        />
       </MyForm>
     </Formbox>
   );
@@ -98,6 +108,7 @@ export default Register;
 
 export const Formbox = styled.div`
   width: 300px;
+  margin-bottom: 20px;
 `;
 
 export const MyForm = styled.form`
