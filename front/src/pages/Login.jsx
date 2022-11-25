@@ -14,7 +14,7 @@ const Login = () => {
   const onSubmit = (data) => {
     alert("로그인이 완료되었습니다.");
     console.log(data);
-    navigate("/");
+    navigate("/", { replace: true });
   };
   const Regex = { email: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g };
   return (

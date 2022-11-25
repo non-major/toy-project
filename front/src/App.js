@@ -7,6 +7,7 @@ import MyDiaryList from "./pages/MyDiaryList";
 import Layout from "./components/Layout";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
+import MyPage from "./pages/MyPage";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route path="mydiary" element={<MyDiaryList />} />
             <Route path="register" element={<Register />} />
             <Route path="login" element={<Login />} />
+            <Route path="mypage" element={<MyPage />} />
           </Route>
         </Routes>
       </div>
