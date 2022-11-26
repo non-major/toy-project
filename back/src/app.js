@@ -1,6 +1,6 @@
 import cors from "cors";
 import express from "express";
-import {postRouter} from './routers/index.js';
+import {postRouter, userRouter} from './routers/index.js';
 
 const app = express();
 
@@ -14,5 +14,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use("/api", postRouter);
+app.use("/api",userRouter)
 
 export { app };
