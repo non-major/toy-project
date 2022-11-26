@@ -27,13 +27,19 @@ export class PostModel {
     return updatedPost;
   }
   // 게시글 삭제
+  async delete(postId){
+    const filter = {_id : postId};
+
+    const deletedPost = await Post.deleteOne(filter);
+    return deletedPost;
+  }
 
   // 게시글 조회
   async findById(postId){
     const post = await Post.findOne({_id: postId});
     return post;
   }
-  
+
   // 전체 게시글 조회
   async findAll() {
     const posts = await Post.find({});

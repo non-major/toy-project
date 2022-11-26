@@ -36,6 +36,13 @@ export class PostService { // 기능 로직 구현?
     );
     return updatedPost;
   }
+
+  // 게시글 삭제
+  async deletePost(postId){
+    const deletedPost = await this.postModel.delete(postId);
+
+    return deletedPost;
+  }
 }
 
 const postService = new PostService(postModel);
