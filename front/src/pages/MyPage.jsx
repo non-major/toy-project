@@ -1,109 +1,82 @@
 import React from "react";
-import { useForm } from "react-hook-form";
-import { Formbox, MyForm, Input, Errors } from "./Register";
+import Register from "./Register";
 import styled from "styled-components";
-import MyButton from "../components/MyButton";
+import { useNavigate } from "react-router-dom";
 
-const MyPage = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    getValues,
-  } = useForm();
-  const onSubmit = (data) => {
-    if (window.confirm("수정하시겠습니까?")) {
-      console.log(data);
-    }
-    // 새로고침
-    window.location.reload();
-  };
+const MyPage = ({ isMain }) => {
   const onUserRemove = (data) => {
     if (window.confirm("정말 탈퇴하시겠어요?😭")) {
-      console.log(data);
+      alert("회원 정보가 안전하게 삭제되었습니다.");
     }
   };
+  const navigate = useNavigate();
+  const Statistics = () => {
+    return <></>;
+  };
+  const EditRegister = () => {
+    return (
+      <>
+        <Register isEdit={true} />
+        <div>
+          <div>book극곰을 더이상 이용하지 않는다면😢</div>
+          <RemoveUserBox>
+            <RemoveUser onClick={onUserRemove}>회원탈퇴 바로가기 ></RemoveUser>
+          </RemoveUserBox>
+        </div>
+      </>
+    );
+  };
   return (
-    <Formbox>
-      <MyForm onSubmit={handleSubmit(onSubmit)}>
-        <label>
-          <p>이메일</p>
-          <Input
-            type="email"
-            placeholder="이메일은 수정 못함!"
-            id="email"
-            disabled
-          />
-        </label>
-        {errors.email && <Errors>{errors.email.message}</Errors>}
-        <label>
-          <p>비밀번호</p>
-          <Input
-            type="password"
-            name="password"
-            placeholder="비밀번호"
-            {...register("password", {
-              required: "비밀번호를 입력해주세요",
-              minLength: {
-                value: 6,
-                message: "최소 6자 이상의 비밀번호를 입력해주세요",
-              },
-            })}
-          />
-        </label>
-        {errors.password && <Errors>{errors.password.message}</Errors>}
-        <label>
-          <p>비밀번호확인</p>
-          <Input
-            type="password"
-            name="passwordConfirm"
-            placeholder="비밀번호 확인"
-            {...register("passwordConfirm", {
-              required: "비밀번호를 다시 입력해주세요",
-              validate: (value) => {
-                const { password } = getValues();
-                return password === value || "비밀번호가 일치하지 않습니다";
-              },
-            })}
-          />
-        </label>
-        {errors.passwordConfirm && (
-          <Errors>{errors.passwordConfirm.message}</Errors>
-        )}
-        <label>
-          <p>닉네임</p>
-          <Input
-            type="nickname"
-            name="nickname"
-            placeholder="닉네임"
-            {...register("nickname", {
-              required: "닉네임을 입력해주세요",
-              maxLength: {
-                value: 10,
-                message: "최대 10자까지 입력가능합니다",
-              },
-            })}
-          />
-        </label>
-        {errors.nickname && <Errors>{errors.nickname.message}</Errors>}
-        <MyButton text={"수정하기"} type={"remove"} />
-        <br />
-        <span>book극곰을 더이상 이용하지 않는다면😢</span>
-        <RemoveUserBox>
-          <RemoveUser onClick={onUserRemove}>회원탈퇴 바로가기 ></RemoveUser>
-        </RemoveUserBox>
-      </MyForm>
-    </Formbox>
+    <MypageBox>
+      <Sidebar>
+        <ul>
+          <Menu>
+            <a onClick={() => navigate("/mypage/main")}>통계보기</a>
+          </Menu>
+          <Menu>
+            <a onClick={() => navigate("/mypage/edit")}>회원정보수정</a>
+          </Menu>
+        </ul>
+      </Sidebar>
+      <ContentBar>{isMain ? <Statistics /> : <EditRegister />}</ContentBar>
+    </MypageBox>
   );
 };
 
 export default MyPage;
 
+const MypageBox = styled.div`
+  width: 100%;
+  display: flex;
+`;
+const Sidebar = styled.div`
+  border-right: 1px solid gray;
+  padding-right: 30px;
+`;
+
+const Menu = styled.li`
+  font-size: 18px;
+  margin-top: 20%;
+  cursor: pointer;
+
+  &:hover {
+    font-weight: 700;
+  }
+`;
+const ContentBar = styled.div`
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 10% 0 10% 0;
+`;
+
 const RemoveUserBox = styled.div`
-  margin-top: 10px;
+  margin-top: 7px;
 `;
 
 const RemoveUser = styled.a`
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 700;
 `;
