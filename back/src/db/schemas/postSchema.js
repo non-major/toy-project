@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
+import {setAutoIncrementId} from '../../utils/autoIncrement.js';
 
 const postSchema = new mongoose.Schema({
+  _id : Number,
   nickname : {
     type : String,
     required : true,
@@ -24,9 +26,12 @@ const postSchema = new mongoose.Schema({
   ]
   },
   {
-    collection : "Posts",
+    collection : "posts",
     timestamps : true,
+    _id : false,
   }
 );
+
+setAutoIncrementId(postSchema, mongoose, 'post', '_id');
 
 export {postSchema};

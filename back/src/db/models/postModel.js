@@ -17,8 +17,9 @@ export class PostModel {
     });
     return createdPost;
   }
+
   // 게시글 수정
-  async update({postId, update}){ 
+  async update(postId, update){ 
     const filter = {_id : postId};
     const option = {returnOriginal : false};
 
@@ -32,6 +33,7 @@ export class PostModel {
     const post = await Post.findOne({_id: postId});
     return post;
   }
+  
   // 전체 게시글 조회
   async findAll() {
     const posts = await Post.find({});
