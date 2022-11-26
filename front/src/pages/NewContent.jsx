@@ -48,6 +48,7 @@ margin: 10px 0;
 padding: 5px 10px;
 border: 1px solid grey;
 border-radius: 8px;
+font-family: "S-CoreDream-4Regular";
 &:focus{
     outline: 2px solid #003c8f;
 }`
@@ -59,6 +60,7 @@ margin: 10px 0;
 padding: 10px;
 border: 1px solid grey;
 border-radius: 8px;
+font-family: "S-CoreDream-4Regular";
 &:focus{
     outline: 2px solid #003c8f;
 }
@@ -68,7 +70,7 @@ width: 400px;
 margin-right: 20px;
 `
 
-const ButtonWrap = styled.div`
+export const ButtonWrap = styled.div`
 display: flex;
 justify-content: flex-end;
 `
