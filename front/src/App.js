@@ -1,13 +1,13 @@
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Home from "./pages/Home";
-import NewContent from "./pages/NewContent";
-import EditContent from "./pages/EditContent";
-import MyDiaryList from "./pages/MyDiaryList";
 import Layout from "./components/Layout";
-import Register from "./pages/Register";
-import Login from "./pages/Login";
-import MyPage from "./pages/MyPage";
+import Home from "./pages/Home";
+// import NewContent from "./pages/NewContent";
+// import EditContent from "./pages/EditContent";
+// import MyDiaryList from "./pages/MyDiaryList";
+// import Register from "./pages/Register";
+// import Login from "./pages/Login";
+// import MyPage from "./pages/MyPage";
 
 function App() {
   return (
@@ -16,13 +16,13 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route path="" element={<Home />} />
-            <Route path="new" element={<NewContent />} />
+            {/* <Route path="new" element={<NewContent />} />
             <Route path="edit" element={<EditContent />} />
             <Route path="mydiary" element={<MyDiaryList />} />
             <Route path="register" element={<Register />} />
             <Route path="login" element={<Login />} />
             <Route path="mypage/main" element={<MyPage isMain={true} />} />
-            <Route path="mypage/edit" element={<MyPage />} />
+            <Route path="mypage/edit" element={<MyPage />} /> */}
           </Route>
         </Routes>
       </div>
