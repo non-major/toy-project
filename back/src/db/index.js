@@ -15,4 +15,4 @@ try {
   console.log(error);
 }
 
-export * from './models/postModel';
+export * from './models/postModel.js';

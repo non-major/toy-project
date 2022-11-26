@@ -1,9 +1,9 @@
 import mongoose from 'mongoose';
 
 const postSchema = new mongoose.Schema({
-  author : {
-    type : mongoose.Schema.Types.ObjectId,
-    ref : "User",
+  nickname : {
+    type : String,
+    required : true,
   },
   title : {
     type : String,
@@ -19,11 +19,12 @@ const postSchema = new mongoose.Schema({
   comments : [
     {
       type : mongoose.Schema.Types.ObjectId,
-      ref : "Comment",
+      ref : "comments",
     }
-  ]},
+  ]
+  },
   {
-    collection : "Post",
+    collection : "Posts",
     timestamps : true,
   }
 );

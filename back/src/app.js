@@ -1,6 +1,6 @@
 import cors from "cors";
 import express from "express";
-import {postRouter} from './middlewares';
+import {postRouter} from './routers/index.js';
 
 const app = express();
 
