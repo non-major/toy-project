@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from "./components/Layout";
 import Home from "./pages/AllContents";
 import AllContents from "./pages/AllContents";
+import Content from "./pages/Content";
 import NewContent from "./pages/NewContent";
 import EditContent from "./pages/EditContent";
 import MyDiaryList from "./pages/MyDiaryList";
@@ -19,6 +20,7 @@ function App() {
             <Route path="" element={<Home />} />
             <Route path="all" element={<AllContents />} />
             <Route path="new" element={<NewContent />} />
+            <Route path="content" element={<Content />} />
             <Route path="edit" element={<EditContent />} />
             <Route path="mydiary" element={<MyDiaryList />} />
             <Route path="register" element={<Register />} />
