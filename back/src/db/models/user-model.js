@@ -21,6 +21,12 @@ export class UserModel{
       return await User.findOne({_id:userId})
    }
    
+   async update(userId,update){
+    const filter = { _id:userId};
+    const option = {returnOriginal:false};
+
+   return await User.findByIdAndUpdate(filter, update, option)
+   }
 
 
 

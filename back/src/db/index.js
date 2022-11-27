@@ -1,10 +1,8 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 
-// const DB_URI = dotenv.config().parsed.DB_URI;
-const DB_URI ="mongodb://localhost:27017"
-
-console.log(DB_URI);
+const DB_URI = dotenv.config().parsed.DB_URI;
+// const DB_URI ="mongodb://localhost:27017"
 
 try {
   // mongoose.connect(process.env.DB_URI);
