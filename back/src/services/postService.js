@@ -20,6 +20,12 @@ export class PostService { // 기능 로직 구현?
     return posts;
   }
 
+  // 게시글 전체 조회 (page nation)
+  async getPostsByPage(pageNumber, orderType) {
+    const posts = await this.postModel.findByPage(pageNumber, orderType);
+    return posts;
+  }
+
   // 게시글 내용 가져오기
   // async getPostData(postId){
   //   const post = await this.postModel.findById(postId);

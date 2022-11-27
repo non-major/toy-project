@@ -21,6 +21,15 @@ postRouter.get('/postList', async (req, res, next) => {
   res.status(200).json(posts);
 })
 
+// 전체 게시글 조회 (page nation)
+postRouter.get('/postList/:page', async (req, res, next) => {
+  const page = req.params.page;
+  const orderType = req.query.orderType === 'desc' ? -1 : 1;
+
+  const posts = await postService.getPostsByPage(page, orderType);
+
+  res.status(200).json(posts);
+})
 
 // 게시글 수정
 postRouter.patch('/posts/:postId', async (req, res, next) => {

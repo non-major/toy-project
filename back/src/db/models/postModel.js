@@ -46,6 +46,15 @@ export class PostModel {
     return posts;
   }
 
+  // 전체 게시글 조회 (page nation)
+  async findByPage(pageNumber, orderType=1) {
+    const postsNumberPerPage = 3;
+    const posts = await Post.find({}).sort({"_id":orderType}).limit(postsNumberPerPage).skip((pageNumber-1)*postsNumberPerPage);
+    return posts;
+  }
+
+  // 전체 게시글 조회 (과거순)
+
   // 게시글 전체 조회 (최신순)
 
   // 상세 게시글 조회
