@@ -69,6 +69,7 @@ const AllContents = () => {
           );
         })}
       </ItemList>
+
       <Paging>
         <Pagination
           activePage={page}
