@@ -19,7 +19,7 @@ const AllContents = () => {
       const response = await axios
         .get(`https://randomuser.me/api/?page=${page}&results=${count}`)
         .then((res) => {
-          return res.data.results;
+          return res.data.results.slice(0, 9);
         });
 
       return setContents(response);
@@ -61,7 +61,7 @@ const AllContents = () => {
               <span>@{content.name.last}</span>
               <a>
                 <div className="img">
-                  <img src="https://picsum.photos/300/400" />
+                  <img src="https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788936438890.jpg" />
                 </div>
                 <div className="title">{content.email}</div>
               </a>
@@ -111,6 +111,7 @@ const ItemList = styled.div`
   .title {
     height: 45px;
     line-height: 22px;
+    word-break: break-all;
   }
 `;
 

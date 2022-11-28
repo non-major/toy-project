@@ -7,7 +7,7 @@ const MyHeader = () => {
   //   return (
   //     <div className="nav">
   //       <ul>
-  //         <Link to="/mycontents">내 독서 기록</Link>
+  //         <Link to="/mydiary">내 독서 기록</Link>
   //         <Link to="/mypage">마이페이지</Link>
   //         <Link to="/" onClick={() => sessionStorage.removeItem("userToken")}>
   //           로그아웃
