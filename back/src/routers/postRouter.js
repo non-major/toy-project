@@ -1,10 +1,11 @@
 import {Router} from 'express';
 import {postService} from '../services/postService.js';
+import {loginRequired} from '../middlewares/login-required.js'
 
 const postRouter =  Router();
 
 // 게시글 추가
-postRouter.post('/post', async (req, res, next) => {
+postRouter.post('/post',loginRequired ,async (req, res, next) => {
   // 미들웨어 
   const {nickname, title, content, image, comments} = {...req.body};
   const newData = {nickname, title, content, image, comments};
@@ -41,7 +42,7 @@ postRouter.get('/postList/post/:postId', async (req, res, next) => {
 })
 
 // 내 게시글 조회
-postRouter.get('/myPostList/:pageNumber/:nickname', async (req, res, next) => {
+postRouter.get('/myPostList/:pageNumber/:nickname',loginRequired, async (req, res, next) => {
   const {pageNumber, nickname} = {...req.params};
 
   const posts = await postService.getMyPosts(pageNumber, nickname);
@@ -50,7 +51,7 @@ postRouter.get('/myPostList/:pageNumber/:nickname', async (req, res, next) => {
 })
 
 // 게시글 수정
-postRouter.patch('/posts/:postId', async (req, res, next) => {
+postRouter.patch('/posts/:postId',loginRequired, async (req, res, next) => {
   const postId = req.params.postId;
 
   const {title, content, image} = {...req.body};
@@ -66,7 +67,7 @@ postRouter.patch('/posts/:postId', async (req, res, next) => {
 })
 
 // 게시글 삭제
-postRouter.delete("/posts/:postId", async (req, res, next) => {
+postRouter.delete("/posts/:postId",loginRequired, async (req, res, next) => {
   const postId = req.params.postId;
 
   const deletedPost = await postService.deletePost(postId);

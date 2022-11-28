@@ -28,6 +28,10 @@ export class UserModel{
    return await User.findByIdAndUpdate(filter, update, option)
    }
 
+   async delete(userId){
+return await User.findByIdAndDelete({_id:userId})
+   }
+
 
 
 }

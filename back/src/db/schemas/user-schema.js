@@ -14,14 +14,10 @@ const UserSchema = new Schema(
         type:String,
         required:true,
     },
-    // userPost:{
-    //     type:mongoose.Schema.Type.objectId,
-    //     ref:'postSchema',
-    //     required:true
-    // }
 },{
     collection:"users",
     timestamps:true
 })
+
 
 export{UserSchema}

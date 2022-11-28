@@ -108,9 +108,13 @@ async setUser(userInfoRequired,toUpdate){
     user = await this.userModel.update(userId,toUpdate);
   
       return user;
-
-
 }
+
+//회원 탈퇴
+async deleteUser(userId){
+    return userModel.delete(userId)
+}
+
 }
 
 
