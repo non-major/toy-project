@@ -34,12 +34,6 @@ export class PostModel {
     return deletedPost;
   }
 
-  // 게시글 조회
-  async findById(postId){
-    const post = await Post.findOne({_id: postId});
-    return post;
-  }
-
   // 전체 게시글 조회
   async findAll() {
     const posts = await Post.find({});
@@ -48,18 +42,34 @@ export class PostModel {
 
   // 전체 게시글 조회 (page nation)
   async findByPage(pageNumber, orderType=1) {
-    const postsNumberPerPage = 3;
-    const posts = await Post.find({}).sort({"_id":orderType}).limit(postsNumberPerPage).skip((pageNumber-1)*postsNumberPerPage);
+    const postsNumberPerPage = 9;
+    const posts = await Post.find({}, ['nickname', 'title', 'image']).sort({"_id":orderType}).limit(postsNumberPerPage).skip((pageNumber-1)*postsNumberPerPage);
     return posts;
   }
 
-  // 전체 게시글 조회 (과거순)
-
-  // 게시글 전체 조회 (최신순)
-
   // 상세 게시글 조회
+  async findById(postId){
+    const post = await Post.findOne({_id: postId});
+    return post;
+  }
 
-  // 내 게시글 조회
+  // 내 게시글 조회 (page nation)
+  async findByNickName(pageNumber, nickname, orderType=1){
+    const postsNumberPerPage = 9;
+    const posts = await Post.find({nickname : nickname}).sort({"_id":orderType}).limit(postsNumberPerPage).skip((pageNumber-1)*postsNumberPerPage);
+    return posts;
+  }
+  // 월별 독서량 조회
+  // async findMonthlyReadings(nickname){
+  //   const currentYear = new Date().getFullYear();
+  //   const monthlyReadings = await Post.find({nickname : nickname}, ['createdAt']).find({createdAt : {$eq : currentYear}});
+  //   console.log(...monthlyReadings);
+
+    
+  //   return monthlyReadings;
+  // }
+
+  // 상위 Top 5 유저 조회
 };
 
 const postModel = new PostModel();

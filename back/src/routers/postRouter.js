@@ -31,6 +31,24 @@ postRouter.get('/postList/:page', async (req, res, next) => {
   res.status(200).json(posts);
 })
 
+// 상세 게시글 조회
+postRouter.get('/postList/post/:postId', async (req, res, next) => {
+  const postId = req.params.postId;
+
+  const post = await postService.getPostData(postId);
+
+  res.status(200).json(post);
+})
+
+// 내 게시글 조회
+postRouter.get('/myPostList/:pageNumber/:nickname', async (req, res, next) => {
+  const {pageNumber, nickname} = {...req.params};
+
+  const posts = await postService.getMyPosts(pageNumber, nickname);
+
+  res.status(200).json(posts);
+})
+
 // 게시글 수정
 postRouter.patch('/posts/:postId', async (req, res, next) => {
   const postId = req.params.postId;
@@ -55,5 +73,14 @@ postRouter.delete("/posts/:postId", async (req, res, next) => {
 
   res.status(200).json(deletedPost);
 })
+
+// postRouter.get('/mypage/:nickname', async (req, res, next) => {
+//   const nickname = req.params.nickname;
+
+//   const MonthlyReadings = await postService.getMonthlyReadings(nickname);
+
+//   res.status(200).json(MonthlyReadings);
+// })
+
 
 export {postRouter};
