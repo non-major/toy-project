@@ -2,12 +2,32 @@ import React from 'react';
 import styled from "styled-components";
 import {ButtonWrap} from "./NewContent.jsx"
 import MyButton from '../components/MyButton.jsx';
+import CommentList from '../components/CommentList.jsx';
+
+
 
 function Content(props) {
+    
+    // 1개의 게시글 get 해오기
+    // params..?
+    // 받은 게시글의 comment 배열 Comment 컴포넌트에 prop으로 전달해주기
+    let comments = [{id:1, author: "sjko", content: "감사합니다."}, {id:2, author: "hailee", content: "재미써용"}];
+
 
     const handleSubmit = () => {
         console.log("수정하기")
     }
+
+    const onCreate = (author, content, id=3) => {
+        // comment db에 create 요청 보내는 로직으로 변경 필요
+        comments.push({id: id, author: author, content: content});
+    }
+
+    const onEdit = (targetId, newContent) => {
+        comments = comments.map((item) => item.id === targetId? {...item, content: newContent} : item);
+        console.log(comments);
+    } // 전달된 newContent에서 content 속성만 빼와서 targetId와 같은 id 가진 요소 content만 바꿔끼우기
+    // api 요청 하면 patch로 해당 comment 업데이트 하고 새로 받아오는 걸로 로직 변경 필요
 
     return (
         <ContentWrap>
@@ -26,15 +46,7 @@ function Content(props) {
             <MyButton text="수정하기" type="basic" onClick={handleSubmit}/>
             <MyButton text="삭제하기" type="remove"/>
             </ButtonWrap>
-            <CommentWrap>
-                <div className="commentTitle">
-                    댓글
-                </div>
-                <div className="commentContent">
-                    <span className="commentAuthor">작성자</span>
-                    <span className="commentContent">댓글내용입니다.댓글내용입니다.댓글내용입니다.</span>
-                </div>
-            </CommentWrap>
+            <CommentList comments={comments} onCreate={onCreate} onEdit={onEdit}/>
         </ContentWrap>
     );
 }
@@ -77,18 +89,4 @@ display: flex;
 justify-content: center;
 padding: 20px;
 background-color: #e2e2e2;
-`
-const CommentWrap = styled.div`
-display: flex;
-flex-direction: column;
-.commentTitle {
-    padding: 10px 0;
-    border-bottom: 1px solid black;
-}
-.commentContent {
-    > span {
-        display: block;
-        padding: 10px 0;
-    }
-}
 `
