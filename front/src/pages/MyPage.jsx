@@ -4,10 +4,6 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import Chart from "../components/Chart";
 
-// const ContentTitle = ({ title }) => {
-//   return <Title>{title}</Title>;
-// };
-
 const MyPage = ({ isMain }) => {
   const onUserRemove = (data) => {
     if (window.confirm("정말 탈퇴하시겠어요?😭")) {
