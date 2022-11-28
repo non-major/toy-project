@@ -14,10 +14,12 @@ export class CommentModel {
 
   // 댓글 추가
   async create(content, userId) {
-    return Comment.create({
+    console.log("모델도착");
+    const comment = new Comment({
       content: content,
-      author: { _id: userId },
+      author: userId,
     });
+    await comment.save();
   }
 
   // 댓글 수정
@@ -31,7 +33,9 @@ export class CommentModel {
 
   // 댓글 삭제
   async delete(commentId) {
-    await Comment.deleteOne({ _id: commentId });
+    console.log("삭제 들어옴");
+    await Comment.findByIdAndDelete(commentId);
+    console.log("댓글삭제완료");
   }
 }
 

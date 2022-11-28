@@ -6,8 +6,10 @@ const commentRouter = Router();
 //  댓글 추가
 commentRouter.post("/", async (req, res, next) => {
   // TODO 미들웨어에서 user 받아서 author로 넘기기
-  const userId = "908080890890";
-  const content = req.body;
+  // const userId = req.currentUserId; // 미들웨어에서 로그인된 유저의 oid 들고오기
+  const userId = "6383449e0402ce95e608c312"; // 임시 데이터
+  const { content } = req.body;
+
   await commentService.createComment(content, userId);
   res.status(201).end();
 });
