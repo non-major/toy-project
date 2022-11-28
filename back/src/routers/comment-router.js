@@ -6,11 +6,13 @@ const commentRouter = Router();
 //  댓글 추가
 commentRouter.post("/", async (req, res, next) => {
   // TODO 미들웨어에서 user 받아서 author로 넘기기
-  // const userId = req.currentUserId; // 미들웨어에서 로그인된 유저의 oid 들고오기
-  const userId = "6383449e0402ce95e608c312"; // 임시 데이터
+  const base64Payload = req.header('token').split('.')[1];
+  const payload = Buffer.from(base64Payload, 'base64');
+  const nickname = JSON.parse(payload.toString()).nickname;
+
   const { content } = req.body;
 
-  await commentService.createComment(content, userId);
+  await commentService.createComment(content, nickname);
   res.status(201).end();
 });
 

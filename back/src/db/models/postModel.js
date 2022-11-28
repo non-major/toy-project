@@ -36,7 +36,7 @@ export class PostModel {
 
   // 전체 게시글 조회
   async findAll() {
-    const posts = await Post.find({});
+    const posts = await Post.find({}).populate();
     return posts;
   }
 
@@ -44,6 +44,8 @@ export class PostModel {
   async findByPage(pageNumber, orderType=1) {
     const postsNumberPerPage = 9;
     const posts = await Post.find({}, ['nickname', 'title', 'image']).sort({"_id":orderType}).limit(postsNumberPerPage).skip((pageNumber-1)*postsNumberPerPage);
+    const totalCount = posts.length;
+    posts.push({totalCount});
     return posts;
   }
 
@@ -56,18 +58,24 @@ export class PostModel {
   // 내 게시글 조회 (page nation)
   async findByNickName(pageNumber, nickname, orderType=1){
     const postsNumberPerPage = 9;
-    const posts = await Post.find({nickname : nickname}).sort({"_id":orderType}).limit(postsNumberPerPage).skip((pageNumber-1)*postsNumberPerPage);
+    const posts = await Post.find({nickname : nickname},['nickname', 'title', 'image']).sort({"_id":orderType}).limit(postsNumberPerPage).skip((pageNumber-1)*postsNumberPerPage);
+    const totalCount = posts.length;
+    posts.push({totalCount});
     return posts;
   }
   // 월별 독서량 조회
-  // async findMonthlyReadings(nickname){
-  //   const currentYear = new Date().getFullYear();
-  //   const monthlyReadings = await Post.find({nickname : nickname}, ['createdAt']).find({createdAt : {$eq : currentYear}});
-  //   console.log(...monthlyReadings);
-
+  async findMonthlyReadings(nickname){
+    const currentYear = new Date().getFullYear();
+    const monthlyReadings = await Post.find({nickname : nickname}, ['createdAt']);
+    console.log(monthlyReadings);
     
-  //   return monthlyReadings;
-  // }
+    const Months = {};
+    for (let i=0;i<12;i++) Months[i+1] = 0;
+
+    monthlyReadings.forEach(x=>Months[x.createdAt.getMonth()+1]++);
+    console.log(Months);
+    return Months;
+  }
 
   // 상위 Top 5 유저 조회
 };

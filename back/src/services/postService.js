@@ -57,10 +57,13 @@ export class PostService { // 기능 로직 구현?
   }
 
   // 월별 독서량 조회
-  // async getMonthlyReadings(nickname){
-  //   const MonthlyReadings = await this.postModel.findMonthlyReadings(nickname);
-  //   return MonthlyReadings;
-  // }
+  async getMonthlyReadings(nickname){
+    const MonthlyReadings = await this.postModel.findMonthlyReadings(nickname);
+    return MonthlyReadings;
+  }
+
+ 
+
 }
 
 const postService = new PostService(postModel);

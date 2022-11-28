@@ -64,7 +64,7 @@ const secretKey = process.env.JWT_SECRET_KEY || "secret-key";
 const token = jwt.sign(
     { userEmail: user.email, nickname: user.nickname }, 
     secretKey,
-    {expiresIn:900});
+    {expiresIn:'24h'});
 
 return {token}
 
