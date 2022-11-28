@@ -14,3 +14,4 @@ try {
   console.error("mongoDB error");
   console.log(error);
 }
+export * from "./models/comment-model.js";
