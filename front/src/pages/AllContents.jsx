@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
 import Pagination from "react-js-pagination";
@@ -6,20 +7,21 @@ import Pagination from "react-js-pagination";
 // axios 경로 수정
 // pagination param 수정
 // fetchUser 컴포넌트로 빼기?
-// 각 아이템에 link to 넣기
 // nav onClick 구현
 // 전체 기록 보기 > 내 기록 보기 세션스토리지로 체크?
 
 const AllContents = () => {
   const [page, setPage] = useState(1);
   const [contents, setContents] = useState([]);
+  const [all, setAll] = useState(true);
+  const location = useLocation();
 
   const fetchUsers = async ({ page, count }) => {
     try {
       const response = await axios
         .get(`https://randomuser.me/api/?page=${page}&results=${count}`)
         .then((res) => {
-          return res.data.results;
+          return res.data.results.slice(0, 9);
         });
 
       return setContents(response);
@@ -28,8 +30,13 @@ const AllContents = () => {
     }
   };
 
+  const setAllState = () => {
+    return location.pathname === "/mydiary" ? setAll(false) : false;
+  };
+
   useEffect(() => {
     fetchUsers({ page: 1, count: 9 });
+    setAllState();
   }, []);
 
   const handlePageChange = (page) => {
@@ -40,7 +47,7 @@ const AllContents = () => {
   return (
     <>
       <Division>
-        <p>전체 기록 보기</p>
+        <p>{all ? "전체 기록 보기" : "내 기록 보기"}</p>
         <div className="line"></div>
       </Division>
 
@@ -59,16 +66,17 @@ const AllContents = () => {
           return (
             <div className="item" key={idx}>
               <span>@{content.name.last}</span>
-              <a>
+              <Link to="/">
                 <div className="img">
-                  <img src="https://picsum.photos/300/400" />
+                  <img src="https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788936438890.jpg" />
                 </div>
                 <div className="title">{content.email}</div>
-              </a>
+              </Link>
             </div>
           );
         })}
       </ItemList>
+
       <Paging>
         <Pagination
           activePage={page}
@@ -91,25 +99,28 @@ const ItemList = styled.div`
 
   .item {
     width: 30%;
+    height: 100%;
+    overflow: hidden;
     float: left;
     margin: 40px 1.5% 0 1.5%;
   }
 
   .img {
     width: 100%;
-    height: 320px;
+    height: 20vw;
     margin: 5px 0 5px 0;
   }
 
   .img img {
     width: 100%;
-    height: 320px;
+    height: 100%;
     object-fit: cover;
   }
 
   .title {
     height: 45px;
     line-height: 22px;
+    word-break: break-all;
   }
 `;
 
