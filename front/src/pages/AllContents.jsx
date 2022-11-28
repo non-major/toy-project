@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
 import Pagination from "react-js-pagination";
@@ -6,13 +7,14 @@ import Pagination from "react-js-pagination";
 // axios 경로 수정
 // pagination param 수정
 // fetchUser 컴포넌트로 빼기?
-// 각 아이템에 link to 넣기
 // nav onClick 구현
 // 전체 기록 보기 > 내 기록 보기 세션스토리지로 체크?
 
 const AllContents = () => {
   const [page, setPage] = useState(1);
   const [contents, setContents] = useState([]);
+  const [all, setAll] = useState(true);
+  const location = useLocation();
 
   const fetchUsers = async ({ page, count }) => {
     try {
@@ -28,8 +30,13 @@ const AllContents = () => {
     }
   };
 
+  const setAllState = () => {
+    return location.pathname === "/mydiary" ? setAll(false) : false;
+  };
+
   useEffect(() => {
     fetchUsers({ page: 1, count: 9 });
+    setAllState();
   }, []);
 
   const handlePageChange = (page) => {
@@ -40,7 +47,7 @@ const AllContents = () => {
   return (
     <>
       <Division>
-        <p>전체 기록 보기</p>
+        <p>{all ? "전체 기록 보기" : "내 기록 보기"}</p>
         <div className="line"></div>
       </Division>
 
@@ -59,12 +66,12 @@ const AllContents = () => {
           return (
             <div className="item" key={idx}>
               <span>@{content.name.last}</span>
-              <a>
+              <Link to="/">
                 <div className="img">
                   <img src="https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788936438890.jpg" />
                 </div>
                 <div className="title">{content.email}</div>
-              </a>
+              </Link>
             </div>
           );
         })}
