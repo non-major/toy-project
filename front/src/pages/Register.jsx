@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import MyButton from "../components/MyButton";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export const MyTitle = ({ title }) => {
   return <Title>{title}</Title>;
@@ -23,8 +24,16 @@ const Register = ({ isEdit }) => {
       window.location.reload();
     } else {
       alert("회원가입이 완료되었습니다.");
-      console.log(data);
-      navigate("/login");
+      try {
+        axios.post("/api/register", {
+          email: data.email,
+          password: data.password,
+          nickname: data.nickname,
+        });
+      } catch (error) {
+        console.error(error);
+      }
+      navigate("/login", { replace: true });
     }
   };
   const Regex = { email: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g };
@@ -117,7 +126,7 @@ export default Register;
 
 export const RegisterBox = styled.div`
   width: 100%;
-  margin: 10% 0 5% 0;
+  margin: 5% 0 5% 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
