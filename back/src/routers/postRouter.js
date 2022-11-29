@@ -52,8 +52,9 @@ postRouter.get(
     const pageNumber = req.params.pageNumber;
 
     const orderType = req.query.orderType === "desc" ? -1 : 1;
+    const commentOrder = req.query.commentOrder === "desc" ? -1 : 1;
 
-    const posts = await postService.getMyPosts(pageNumber, nickname, orderType);
+    const posts = await postService.getMyPosts(pageNumber, nickname, orderType, commentOrder);
 
     res.status(200).json(posts);
   }

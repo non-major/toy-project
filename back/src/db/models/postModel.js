@@ -35,6 +35,7 @@ export class PostModel {
 
   // 전체 게시글 조회
   async findAll() {
+    
     const posts = await Post.find({}).populate();
     return posts;
   }
@@ -51,13 +52,14 @@ export class PostModel {
   // 상세 게시글 조회
   async findById(postId){
     const post = await Post.find({postId: postId}).populate({path: 'comments', match: {postId : postId}});
+
     return post;
   }
 
   // 내 게시글 조회 (page nation)
-  async findByNickName(pageNumber, nickname, orderType=1){
+  async findByNickName(pageNumber, nickname, orderType, conmmentOrder){
     const postsNumberPerPage = 9;
-    const posts = await Post.find({nickname : nickname},['postId','nickname', 'title', 'image']).sort({"postId":orderType}).limit(postsNumberPerPage).skip((pageNumber-1)*postsNumberPerPage);
+    const posts = await Post.find({nickname : nickname},['postId','nickname', 'title', 'image', 'commentCount']).sort({"commentCount":conmmentOrder,"postId":orderType}).limit(postsNumberPerPage).skip((pageNumber-1)*postsNumberPerPage);
     const totalCount = posts.length;
     posts.push({totalCount});
     return posts;
@@ -77,11 +79,42 @@ export class PostModel {
   }
   // 댓글 추가
   async addCommentId(postId, commentId){
+
     await Post.findOneAndUpdate(
       {postId : postId},
       {$push: {
         comments : commentId
-      }}
+        }
+      }
+    )
+    const count = (await Post.find({postId : postId}))[0].comments.length;
+
+    await Post.findOneAndUpdate(
+      {postId : postId},
+      {
+        commentCount : count
+      }
+    )
+  }
+
+  // 댓글 삭제
+  async deleteCommentId(postId, commentId){
+    await Post.findOneAndUpdate(
+      {postId : postId},
+      {$pull: {
+          comments : commentId
+        }
+      }
+    )
+
+    const count = (await Post.find({postId : postId}))[0].comments.length;
+    console.log(count);
+    
+    await Post.findOneAndUpdate(
+      {postId : postId},
+      {
+        commentCount : count
+      }
     )
   }
 

@@ -27,10 +27,11 @@ commentRouter.patch("/:commentId", async (req, res, next) => {
 });
 
 // 댓글 삭제
-commentRouter.delete("/:commentId", async (req, res, next) => {
+commentRouter.delete("/:postId/:commentId", async (req, res, next) => {
   // TODO 미들웨어 (글쓴이 == 현재 유저) but, 프론트에서 아예 버튼이 안나오지 않을까?
   const { commentId } = req.params;
-  await commentService.deleteComment(commentId);
+  const postId = req.params.postId;
+  await commentService.deleteComment(commentId, postId);
   res.status(201).end();
 });
 export { commentRouter };

@@ -9,8 +9,8 @@ export class CommentService {
     await commentModel.update(commentId, editContent);
   }
 
-  async deleteComment(commentId) {
-    await commentModel.delete(commentId);
+  async deleteComment(commentId, postId) {
+    await commentModel.delete(commentId, postId);
   }
 }
 

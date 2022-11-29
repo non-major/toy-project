@@ -35,8 +35,8 @@ export class PostService { // 기능 로직 구현?
   }
 
   // 내 게시글 조회
-  async getMyPosts(pageNumber, nickname, orderType){
-    const posts = await this.postModel.findByNickName(pageNumber, nickname, orderType);
+  async getMyPosts(pageNumber, nickname, orderType, commentOrder){
+    const posts = await this.postModel.findByNickName(pageNumber, nickname, orderType, commentOrder);
     return posts;
   }
 
