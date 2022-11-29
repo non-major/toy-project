@@ -1,6 +1,7 @@
 import {model} from 'mongoose';
 import {postSchema} from '../schemas/postSchema.js';
 import { commentModel, CommentModel } from './comment-model.js';
+import { userModel } from './user-model.js';
 
 const Post = model('posts', postSchema); // 스키마로부터 컴파일된 document 생성자
 
@@ -15,6 +16,8 @@ export class PostModel {
       content : content,
       image : image,
     });
+  
+    await userModel.increaseCount(userId);
     return createdPost;
   }
 
@@ -34,6 +37,7 @@ export class PostModel {
     comments.forEach(x=>commentModel.delete(x));
     const deletedPost = await Post.deleteOne(filter);
 
+    await userModel.decreaseCount(postId);
     return deletedPost;
   }
 
@@ -74,7 +78,7 @@ export class PostModel {
   // 월별 독서량 조회
   async findMonthlyReadings(nickname){
     const currentYear = new Date().getFullYear();
-    const monthlyReadings = await Post.find({nickname : nickname}, ['createdAt']);
+    const monthlyReadings = await Post.find({nickname : nickname, createdAt : {$gte : new Date(`${currentYear}`)}}, ['createdAt']);
     console.log(monthlyReadings);
     
     const Months = {};
@@ -125,7 +129,11 @@ export class PostModel {
       }
     )
   }
-  // 상위 Top 5 유저 조회
+
+  async getUserName(postId){
+    return await Post.find({postId},['nickname']);
+  }
+
 };
 
 const postModel = new PostModel();

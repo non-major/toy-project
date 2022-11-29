@@ -85,4 +85,19 @@ userRouter.delete(
   })
 );
 
+// 독서왕 top 5 조회
+userRouter.get("/readingRank", nextError(async (req, res, next)=>{
+    const ranks = await userService.findTopFive();
+
+    res.status(200).json(ranks);
+  })
+);
+
+userRouter.get('/user',loginRequired, nextError(async (req, res, next)=>{
+    const userId = req.currentUserId;
+    const user = await userService.getUserInfo(userId);
+    res.status(200).json(user);
+  })
+)
+
 export { userRouter };

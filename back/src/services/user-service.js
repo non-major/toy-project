@@ -105,6 +105,16 @@ class UserService {
   async deleteUser(userId) {
     return userModel.delete(userId);
   }
+
+  // 독서왕 top5 조회
+  async findTopFive(){
+    return await this.userModel.findTopFive();
+  }
+
+  // 회원정보 조회
+  async getUserInfo(userId){
+    return await this.userModel.getUserInfo(userId);
+  }
 }
 
 const userService = new UserService(userModel);

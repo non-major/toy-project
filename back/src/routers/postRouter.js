@@ -109,7 +109,7 @@ postRouter.delete(
   loginRequired,
   nextError(async (req, res, next) => {
     const postId = req.params.postId;
-
+    
     const deletedPost = await postService.deletePost(postId);
 
     res.status(200).json(deletedPost);

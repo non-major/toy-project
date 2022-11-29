@@ -1,5 +1,6 @@
 import { model } from "mongoose";
 import { UserSchema } from "../schemas/user-schema.js";
+import { postModel, PostModel } from "./postModel.js";
 
 const User =model("users",UserSchema);
 
@@ -25,15 +26,34 @@ export class UserModel{
     const filter = { _id:userId};
     const option = {returnOriginal:false};
 
-   return await User.findByIdAndUpdate(filter, update, option)
+      return await User.findByIdAndUpdate(filter, update, option)
    }
 
    async delete(userId){
-return await User.findByIdAndDelete({_id:userId})
+      return await User.findByIdAndDelete({_id:userId})
    }
 
+   async findTopFive(){
+      console.log(await User.find({}, {'postCount' : -1, 'createdAt' : 1}).limit(5));
+      const ranks = await User.find({}, ['nickname', 'postCount'], {'postCount' : -1, 'createdAt' : -1,}).limit(5);
+      return ranks;
+   }
 
+   async increaseCount(userId){
+      const user = await User.findOneAndUpdate({userId},{$inc : {postCount : 1}});
+      return user;
+   }
 
+   async decreaseCount(postId){
+      const userId = await postModel.getUserName(postId);
+
+      const user = await User.findOneAndUpdate({userId},{$inc : {postCount : -1}});
+      return user;
+   }
+
+   async getUserInfo(userId){
+      return await User.findOne({userId},['email','nickname','postCount']);
+   }
 }
 
 const userModel = new UserModel();
