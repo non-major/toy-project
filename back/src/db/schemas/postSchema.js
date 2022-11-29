@@ -1,11 +1,11 @@
 import mongoose from 'mongoose';
 import {setAutoIncrementId} from '../../utils/autoIncrement.js';
-import { CommentSchema } from './comment-schema.js';
 
 const postSchema = new mongoose.Schema({
   postId : Number,
-  nickname : {
-    type : String,
+  userId : {
+    type : mongoose.Schema.Types.ObjectId,
+    ref : "users",
     required : true,
   },
   title : {

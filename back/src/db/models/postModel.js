@@ -1,15 +1,16 @@
 import {model} from 'mongoose';
 import {postSchema} from '../schemas/postSchema.js';
+import { commentModel, CommentModel } from './comment-model.js';
 
-const Post = model('Post', postSchema); // 스키마로부터 컴파일된 document 생성자
+const Post = model('posts', postSchema); // 스키마로부터 컴파일된 document 생성자
 
 export class PostModel { 
   // 게시글 추가 document 생성
   async create(data){
-    const {nickname, title, content, image} = {...data};
+    const {userId, title, content, image} = {...data};
 
     const createdPost = await Post.create({
-      nickname : nickname,
+      userId : userId,
       title : title,
       content : content,
       image : image,
@@ -29,21 +30,25 @@ export class PostModel {
   async delete(postId){
     const filter = {postId : postId};
 
+    const comments = (await Post.findOne({postId})).comments
+    comments.forEach(x=>commentModel.delete(x));
     const deletedPost = await Post.deleteOne(filter);
+
     return deletedPost;
   }
 
   // 전체 게시글 조회
   async findAll() {
-    
-    const posts = await Post.find({}).populate();
+    const posts = await Post.find({}).populate({path : "userId", select:'nickname'});
     return posts;
   }
 
   // 전체 게시글 조회 (page nation)
   async findByPage(pageNumber, orderType=1) {
     const postsNumberPerPage = 9;
-    const posts = await Post.find({}, ['postId','nickname', 'title', 'image']).sort({"postId":orderType}).limit(postsNumberPerPage).skip((pageNumber-1)*postsNumberPerPage);
+    const posts = await Post.find({}, ['postId','nickname', 'title', 'image'])
+    .populate({path : "userId", select:'nickname'})
+    .sort({"postId":orderType}).limit(postsNumberPerPage).skip((pageNumber-1)*postsNumberPerPage);
     const totalCount = posts.length;
     posts.push({totalCount});
     return posts;
@@ -51,15 +56,17 @@ export class PostModel {
 
   // 상세 게시글 조회
   async findById(postId){
-    const post = await Post.find({postId: postId}).populate({path: 'comments', match: {postId : postId}});
+    const post = await Post.find({postId: postId})
+    .populate({path: 'comments', populate:{path:'author', select:"nickname"}})
+    .populate({path:'userId', select:'nickname'});
 
     return post;
   }
 
   // 내 게시글 조회 (page nation)
-  async findByNickName(pageNumber, nickname, orderType, conmmentOrder){
+  async findByNickName(pageNumber, userId, orderType, conmmentOrder){
     const postsNumberPerPage = 9;
-    const posts = await Post.find({nickname : nickname},['postId','nickname', 'title', 'image', 'commentCount']).sort({"commentCount":conmmentOrder,"postId":orderType}).limit(postsNumberPerPage).skip((pageNumber-1)*postsNumberPerPage);
+    const posts = await Post.find({userId : userId},['postId','userId', 'title', 'image', 'commentCount']).populate({path:"userId", select:"nickname"}).sort({"commentCount":conmmentOrder,"postId":orderType}).limit(postsNumberPerPage).skip((pageNumber-1)*postsNumberPerPage);
     const totalCount = posts.length;
     posts.push({totalCount});
     return posts;
@@ -77,6 +84,7 @@ export class PostModel {
     console.log(Months);
     return Months;
   }
+
   // 댓글 추가
   async addCommentId(postId, commentId){
 
@@ -117,7 +125,6 @@ export class PostModel {
       }
     )
   }
-
   // 상위 Top 5 유저 조회
 };
 

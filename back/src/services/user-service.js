@@ -62,7 +62,7 @@ if(!isPasswordCorrect){
 //로그인 성공=>jwt 웹 토큰 생성
 const secretKey = process.env.JWT_SECRET_KEY || "secret-key";
 const token = jwt.sign(
-    { userEmail: user.email, nickname: user.nickname }, 
+    { userId: user._id, userEmail: user.email, nickname: user.nickname }, 
     secretKey,
     {expiresIn:'24h'});
 

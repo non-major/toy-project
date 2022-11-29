@@ -1,7 +1,7 @@
 import { model } from "mongoose";
 import { UserSchema } from "../schemas/user-schema.js";
 
-const User =model("user",UserSchema);
+const User =model("users",UserSchema);
 
 export class UserModel{
 

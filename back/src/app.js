@@ -16,7 +16,6 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use("/api", postRouter);
 app.use("/api",userRouter)
-
-app.use("/api/comment", commentRouter);
+app.use("/api", commentRouter);
 
 export { app };

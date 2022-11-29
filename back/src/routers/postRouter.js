@@ -7,8 +7,9 @@ const postRouter = Router();
 // 게시글 추가
 postRouter.post("/post", loginRequired, async (req, res, next) => {
   // 미들웨어
-  const { nickname, title, content, image, comments } = { ...req.body };
-  const newData = { nickname, title, content, image, comments };
+  const userId = req.currentUserId;
+  const {title, content, image, comments } = { ...req.body };
+  const newData = { userId, title, content, image, comments };
 
   const post = await postService.createPost(newData);
 
@@ -46,15 +47,17 @@ postRouter.get(
   "/myPostList/:pageNumber",
   loginRequired,
   async (req, res, next) => {
-    const base64Payload = req.header('token').split('.')[1];
-    const payload = Buffer.from(base64Payload, 'base64');
-    const nickname = JSON.parse(payload.toString()).nickname;
+    // const base64Payload = req.header('token').split('.')[1];
+    // const payload = Buffer.from(base64Payload, 'base64');
+    // const nickname = JSON.parse(payload.toString()).nickname;
     const pageNumber = req.params.pageNumber;
 
-    const orderType = req.query.orderType === "desc" ? -1 : 1;
-    const commentOrder = req.query.commentOrder === "desc" ? -1 : 1;
+    const userId = req.currentUserId;
 
-    const posts = await postService.getMyPosts(pageNumber, nickname, orderType, commentOrder);
+    const orderType = req.query.orderType === "desc" ? -1 : 1;
+    const comment = req.query.comment === "desc" ? -1 : 1;
+
+    const posts = await postService.getMyPosts(pageNumber, userId, orderType, comment);
 
     res.status(200).json(posts);
   }
@@ -91,10 +94,11 @@ postRouter.get("/mypage", loginRequired, async (req, res, next) => {
   const base64Payload = req.header('token').split('.')[1];
   const payload = Buffer.from(base64Payload, 'base64');
   const nickname = JSON.parse(payload.toString()).nickname;
-
+ 
   const MonthlyReadings = await postService.getMonthlyReadings(nickname);
 
   res.status(200).json(MonthlyReadings);
+
 });
 
 export { postRouter };
