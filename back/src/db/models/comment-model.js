@@ -1,5 +1,6 @@
-import { model } from "mongoose";
+import mongoose, { model } from "mongoose";
 import { CommentSchema } from "../schemas/comment-schema.js";
+import { postModel } from "./postModel.js";
 
 const Comment = model("comments", CommentSchema);
 
@@ -13,12 +14,17 @@ export class CommentModel {
   // 미들웨어 추가필요함...! 삭제시 작성자 아니면 loginPage로!
 
   // 댓글 추가
-  async create(content, userId) {
+  async create(content, userId, postId) {
     console.log("모델도착");
+
     const comment = new Comment({
+      postId : postId,
       content: content,
       author: userId,
     });
+
+    await postModel.addCommentId(postId, comment._id);
+
     await comment.save();
   }
 

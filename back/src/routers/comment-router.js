@@ -4,15 +4,16 @@ import { commentService } from "../services/comment-service.js";
 const commentRouter = Router();
 
 //  댓글 추가
-commentRouter.post("/", async (req, res, next) => {
+commentRouter.post("/:postId", async (req, res, next) => {
   // TODO 미들웨어에서 user 받아서 author로 넘기기
   const base64Payload = req.header('token').split('.')[1];
   const payload = Buffer.from(base64Payload, 'base64');
   const nickname = JSON.parse(payload.toString()).nickname;
 
+  const postId = req.params.postId;
   const { content } = req.body;
 
-  await commentService.createComment(content, nickname);
+  await commentService.createComment(content, nickname, postId);
   res.status(201).end();
 });
 

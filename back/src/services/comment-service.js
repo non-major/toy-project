@@ -1,8 +1,8 @@
 import { commentModel } from "../db/index.js";
 
 export class CommentService {
-  async createComment(content, userId) {
-    await commentModel.create(content, userId);
+  async createComment(content, userId, postId) {
+    await commentModel.create(content, userId, postId);
   }
 
   async updateComment(commentId, editContent) {

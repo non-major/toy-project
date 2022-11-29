@@ -51,7 +51,9 @@ postRouter.get(
     const nickname = JSON.parse(payload.toString()).nickname;
     const pageNumber = req.params.pageNumber;
 
-    const posts = await postService.getMyPosts(pageNumber, nickname);
+    const orderType = req.query.orderType === "desc" ? -1 : 1;
+
+    const posts = await postService.getMyPosts(pageNumber, nickname, orderType);
 
     res.status(200).json(posts);
   }
@@ -93,6 +95,5 @@ postRouter.get("/mypage", loginRequired, async (req, res, next) => {
 
   res.status(200).json(MonthlyReadings);
 });
-
 
 export { postRouter };
