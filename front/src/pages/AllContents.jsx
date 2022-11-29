@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
-import axios from "axios";
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import Pagination from "react-js-pagination";
+import getData from "../api/getContents";
+import ItemList from "../components/ItemList";
 
 // axios 경로 수정
 // pagination param 수정
-// fetchUser 컴포넌트로 빼기?
 // nav onClick 구현
 // 전체 기록 보기 > 내 기록 보기 세션스토리지로 체크?
 
@@ -14,34 +14,29 @@ const AllContents = () => {
   const [page, setPage] = useState(1);
   const [contents, setContents] = useState([]);
   const [all, setAll] = useState(true);
+  const [sort, setSort] = useState("desc");
+  const [commentSort, setCommentSort] = useState("desc");
   const location = useLocation();
 
-  const getData = async ({ page, count }) => {
-    try {
-      const response = await axios
-        .get(`https://randomuser.me/api/?page=${page}&results=${count}`)
-        .then((res) => {
-          return res.data.results.slice(0, 9);
-        });
-
-      return setContents(response);
-    } catch (err) {
-      alert(`문제가 발생했습니다. 다시 시도해 주세요. ${err.message}`);
-    }
-  };
-
   const setAllState = () => {
-    return location.pathname === "/mydiary" ? setAll(false) : false;
+    return location.pathname === "/mydiary" ? setAll(false) : setAll(true);
   };
+
+  if (
+    location.pathname === "/mydiary" &&
+    !sessionStorage.getItem("userToken")
+  ) {
+    window.location.href = "/login";
+  }
 
   useEffect(() => {
-    getData({ page: 1, count: 9 });
+    getData(1, 9, setContents);
     setAllState();
   }, []);
 
   const handlePageChange = (page) => {
     setPage(page);
-    getData({ page, count: 9 });
+    getData(page, 9, setContents);
   };
 
   return (
@@ -61,21 +56,7 @@ const AllContents = () => {
         </ul>
       </Nav>
 
-      <ItemList className="itemList">
-        {contents.map((content, idx) => {
-          return (
-            <div className="item" key={idx}>
-              <span>@{content.name.last}</span>
-              <Link to="/">
-                <div className="img">
-                  <img src="https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788936438890.jpg" />
-                </div>
-                <div className="title">{content.email}</div>
-              </Link>
-            </div>
-          );
-        })}
-      </ItemList>
+      <ItemList contents={contents} />
 
       <Paging>
         <Pagination
@@ -91,38 +72,6 @@ const AllContents = () => {
     </>
   );
 };
-
-const ItemList = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-
-  .item {
-    width: 30%;
-    height: 100%;
-    overflow: hidden;
-    float: left;
-    margin: 40px 1.5% 0 1.5%;
-  }
-
-  .img {
-    width: 100%;
-    height: 20vw;
-    margin: 5px 0 5px 0;
-  }
-
-  .img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .title {
-    height: 45px;
-    line-height: 22px;
-    word-break: break-all;
-  }
-`;
 
 const Paging = styled.div`
   margin: 50px 0 50px 0;
