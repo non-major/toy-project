@@ -42,7 +42,10 @@ const Home = () => {
               <span>@{content.name.last}</span>
               <Link to="/">
                 <div className="img">
-                  <img src="https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788936438890.jpg" />
+                  <img
+                    src="https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788936438890.jpg"
+                    alt="책 이미지"
+                  />
                 </div>
                 <div className="title">{content.email}</div>
               </Link>

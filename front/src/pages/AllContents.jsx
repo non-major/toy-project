@@ -16,7 +16,7 @@ const AllContents = () => {
   const [all, setAll] = useState(true);
   const location = useLocation();
 
-  const fetchUsers = async ({ page, count }) => {
+  const getData = async ({ page, count }) => {
     try {
       const response = await axios
         .get(`https://randomuser.me/api/?page=${page}&results=${count}`)
@@ -35,13 +35,13 @@ const AllContents = () => {
   };
 
   useEffect(() => {
-    fetchUsers({ page: 1, count: 9 });
+    getData({ page: 1, count: 9 });
     setAllState();
   }, []);
 
   const handlePageChange = (page) => {
     setPage(page);
-    fetchUsers({ page, count: 9 });
+    getData({ page, count: 9 });
   };
 
   return (
