@@ -120,7 +120,8 @@ userRouter.get("/readingRank", nextError(async (req, res, next)=>{
   })
 );
 
-userRouter.get('/user',loginRequired, nextError(async (req, res, next)=>{
+// 내 정보 조회
+userRouter.get('/myInfo',loginRequired, nextError(async (req, res, next)=>{
     const userId = req.currentUserId;
     const user = await userService.getUserInfo(userId);
     res.status(200).json(user);
