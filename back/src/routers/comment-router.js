@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { commentService } from "../services/comment-service.js";
-import { loginRequired } from "../middlewares/login-reqired.js";
+import { loginRequired } from "../middlewares/login-required.js";
 import nextError from "../utils/nextError.js";
 const commentRouter = Router();
 
