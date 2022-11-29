@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { userService } from "../services/user-service.js";
-import {loginRequired} from "../middlewares/login-reqired.js"
+import {loginRequired} from "../middlewares/login-required.js"
 
 const userRouter = Router()
 
@@ -63,7 +63,15 @@ res.status(200).json(updatedUSerInfo)
       }
 })
 
-
+userRouter.delete("/users/:userId",loginRequired,async(req,res,next)=>{
+  try{
+     const userId = req.params.userId
+     const userDelete = await userService.deleteUser(userId)
+     res.json(userDelete)
+  }catch(error){
+    next(error)
+  }
+})
 
 
 
