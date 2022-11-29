@@ -1,7 +1,7 @@
 import { model } from "mongoose";
 import { UserSchema } from "../schemas/user-schema.js";
 
-const User =model("user",UserSchema);
+const User =model("users",UserSchema);
 
 export class UserModel{
 
@@ -26,6 +26,10 @@ export class UserModel{
     const option = {returnOriginal:false};
 
    return await User.findByIdAndUpdate(filter, update, option)
+   }
+
+   async delete(userId){
+return await User.findByIdAndDelete({_id:userId})
    }
 
 
