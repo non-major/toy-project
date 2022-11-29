@@ -1,33 +1,43 @@
 import { Router } from "express";
 import { commentService } from "../services/comment-service.js";
-
+import { loginRequired } from "../middlewares/login-reqired.js";
+import nextError from "../utils/nextError.js";
 const commentRouter = Router();
 
 //  댓글 추가
-commentRouter.post("/", async (req, res, next) => {
-  // TODO 미들웨어에서 user 받아서 author로 넘기기
-  // const userId = req.currentUserId; // 미들웨어에서 로그인된 유저의 oid 들고오기
-  const userId = "6383449e0402ce95e608c312"; // 임시 데이터
-  const { content } = req.body;
+commentRouter.post(
+  "/comment",
+  loginRequired,
+  nextError(async (req, res, next) => {
+    const userId1 = req.currentUserId;
+    const { content } = req.body;
 
-  await commentService.createComment(content, userId);
-  res.status(201).end();
-});
+    await commentService.createComment(content, userId1);
+    res.status(201).end();
+  })
+);
 
 // 댓글 수정
-commentRouter.patch("/:commentId", async (req, res, next) => {
-  // TODO 미들웨어 (글쓴이 == 현재 유저) but, 프론트에서 아예 버튼이 안나오지 않을까?
-  const { commentId } = req.params;
-  const { content } = req.body;
-  await commentService.updateComment(commentId, content);
-  res.status(201).end();
-});
+commentRouter.patch(
+  "/comment/:commentId",
+  nextError(async (req, res, next) => {
+    // TODO 미들웨어 (글쓴이 == 현재 유저) but, 프론트에서 아예 버튼이 안나오지 않을까?
+    const { commentId } = req.params;
+    const { content } = req.body;
+    await commentService.updateComment(commentId, content);
+    res.status(201).end();
+  })
+);
 
 // 댓글 삭제
-commentRouter.delete("/:commentId", async (req, res, next) => {
-  // TODO 미들웨어 (글쓴이 == 현재 유저) but, 프론트에서 아예 버튼이 안나오지 않을까?
-  const { commentId } = req.params;
-  await commentService.deleteComment(commentId);
-  res.status(201).end();
-});
+commentRouter.delete(
+  "/comment/:commentId",
+  nextError(async (req, res, next) => {
+    // TODO 미들웨어 (글쓴이 == 현재 유저) but, 프론트에서 아예 버튼이 안나오지 않을까?
+    const { commentId } = req.params;
+    await commentService.deleteComment(commentId);
+    res.status(201).end();
+  })
+);
+
 export { commentRouter };
