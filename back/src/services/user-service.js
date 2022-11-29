@@ -51,15 +51,13 @@ class UserService {
       throw new Error("비밀번호가 일치하지 않습니다.다시 한번 확인해 주세요.");
     }
 
-    //로그인 성공=>jwt 웹 토큰 생성
-    const secretKey = process.env.JWT_SECRET_KEY || "secret-key";
-    const token = jwt.sign(
-      { userId: user._id, userEmail: user.email, nickname: user.nickname },
-      secretKey,
-      { expiresIn: 900 }
-    );
+//로그인 성공=>jwt 웹 토큰 생성
+const secretKey = process.env.JWT_SECRET_KEY || "secret-key";
+const token = jwt.sign(
+    { userId: user._id, userEmail: user.email, nickname: user.nickname }, 
+    secretKey,
 
-    return { token };
+    return { token });
   }
 
   //회원정보 수정

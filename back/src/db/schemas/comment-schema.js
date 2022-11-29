@@ -2,6 +2,9 @@ import { Schema } from "mongoose";
 
 const CommentSchema = new Schema(
   {
+    postId: {
+      type: Number,
+    },
     content: {
       type: String,
       required: true,
