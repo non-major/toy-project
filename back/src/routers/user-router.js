@@ -4,6 +4,33 @@ import { loginRequired } from "../middlewares/login-required.js";
 import nextError from "../utils/nextError.js";
 const userRouter = Router();
 
+//유저 조회
+userRouter.get(
+  "/user/:userId",
+  nextError(async (req, res, next) => {
+    try {
+      const userId = req.params.userId;
+      const user = await userService.getUser(userId);
+      res.json(user);
+    } catch (error) {
+      next(error);
+    }
+  })
+);
+
+// 유저 전체조회
+userRouter.get(
+  "/user",
+  nextError(async (req, res, next) => {
+    try {
+      const users = await userService.getUsers();
+      res.json(users);
+    } catch (error) {
+      next(error);
+    }
+  })
+);
+
 //회원가입
 userRouter.post(
   "/register",

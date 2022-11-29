@@ -6,6 +6,14 @@ class UserService {
     this.userModel = userModel;
   }
 
+  async getUser(userId) {
+    return await userModel.findById(userId);
+  }
+
+  async getUsers() {
+    return await userModel.findAll();
+  }
+
   async addUser(userInfo) {
     const { email, password, nickname } = userInfo;
 
