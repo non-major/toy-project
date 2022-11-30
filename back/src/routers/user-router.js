@@ -6,7 +6,7 @@ const userRouter = Router();
 
 // 유저 전체조회
 userRouter.get(
-  "/user",
+  "/users",
   nextError(async (req, res, next) => {
     try {
       const users = await userService.getUsers();
