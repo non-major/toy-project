@@ -29,7 +29,7 @@ function NewContent() {
     }
 
     const handleSubmit = async () => {
-            await axios.post("/api/post", {
+            await axios.post("/api/post/add", {
             title: state.title,
             content: state.content,
             image: state.img,

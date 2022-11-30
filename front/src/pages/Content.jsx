@@ -29,7 +29,7 @@ function Content(props) {
 
         useEffect(()=> {
             const getOnePost = async() => {
-                await axios.get(`/api/postList/post/${id}`).then((response) => 
+                await axios.get(`/api/post/postList/details/${id}`).then((response) => 
                 {
                     console.log(response);
                     const postData = response.data[0];
