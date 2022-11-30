@@ -6,7 +6,6 @@ import AllContents from "./pages/AllContents";
 import Content from "./pages/Content";
 import NewContent from "./pages/NewContent";
 import EditContent from "./pages/EditContent";
-import MyDiaryList from "./pages/MyDiaryList";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import MyPage from "./pages/MyPage";
@@ -19,6 +18,7 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route path="" element={<Home />} />
             <Route path="all" element={<AllContents />} />
+            <Route path="mydiary" element={<AllContents />} />
             <Route path="new" element={<NewContent />} />
             <Route path="content" element={<Content />} />
             <Route path="edit" element={<EditContent />} />

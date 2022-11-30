@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 // import Input from '../components/Input.jsx'
 import MyButton from '../components/MyButton.jsx';
+import axios from 'axios';
 
 function NewContent() {
 
@@ -14,6 +15,12 @@ function NewContent() {
         content:"",
     })
 
+    const token = sessionStorage.getItem('userToken');
+
+    const config = {
+        headers: { Authorization: `Bearer ${token}` }
+    };
+
     const handleChangeState = (e) => {
         setState({...state,
             [e.target.name]: e.target.value}
@@ -21,8 +28,15 @@ function NewContent() {
     }
 
     const handleSubmit = () => {
-        console.log(state);
-        console.log("저장 성공!")
+            axios.post("/api/post", {
+            title: state.title,
+            content: state.content,
+        }, config).then((response)=> {
+            console.log({title: response.data.title, content: response.data.content, date: response.data.createdAt, postId: response.data.postId});
+            
+        }).catch((error)=> {
+            console.log(error.response.data);
+        })
     }
 
     const handleQuit = () => {
@@ -38,7 +52,7 @@ function NewContent() {
             <p><label htmlFor='search'>책 이미지 검색하기</label></p>
             <div>
             <ImgSearchInput name="img" id="img" placeholder="어떤 책을 읽으셨나요?" value={state.img} onChange={handleChangeState}/>
-            <MyButton text="검색" type="basic" onClick={handleSubmit}/>
+            <MyButton text="검색" type="basic"/>
             </div>
             <p>내용</p>
             <ContentInput name="content" placeholder='내용을 적어주세요.' value={state.content} onChange={handleChangeState} />
