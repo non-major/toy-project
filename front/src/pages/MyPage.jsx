@@ -1,23 +1,49 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Register, { MyTitle } from "./Register";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import Chart from "../components/Chart";
+import getUsersInfo from "../api/getUserInfo";
 
 const MyPage = ({ isMain }) => {
-  const onUserRemove = (data) => {
+  const [nickname, setNickname] = useState("");
+  const [level, setLevel] = useState("");
+  const navigate = useNavigate();
+  // 레벨 구분
+  const levelDivision = (level) => {
+    if (level < 2) {
+      return 1;
+    } else if (2 <= level && level < 5) {
+      return 2;
+    } else if (5 <= level && level < 10) {
+      return 3;
+    } else if (10 <= level && level < 15) {
+      return 4;
+    } else if (15 <= level && level < 20) {
+      return 5;
+    }
+  };
+  // 회원탈퇴
+  const onUserRemove = () => {
     if (window.confirm("정말 탈퇴하시겠어요?😭")) {
       alert("회원정보가 안전하게 삭제되었습니다.");
     }
   };
-  const navigate = useNavigate();
+  // 유저 정보 가져오기
+  useEffect(() => {
+    getUsersInfo().then((user) => {
+      setNickname(user.data.nickname);
+      setLevel(levelDivision(user.data.postCount));
+    });
+  }, []);
+  // 통계보기
   const Statistics = () => {
     return (
       <>
         <LevelBox>
           <Level>
             <div className="box1">✨</div>
-            <div className="box2">1 lv</div>
+            <div className="box2">Lv.{level}</div>
             <div className="box3">✨</div>
           </Level>
         </LevelBox>
@@ -28,6 +54,7 @@ const MyPage = ({ isMain }) => {
       </>
     );
   };
+  // 회원정보수정
   const EditRegister = () => {
     return (
       <>
@@ -48,7 +75,7 @@ const MyPage = ({ isMain }) => {
         </ul>
       </Sidebar>
       <Content>
-        {isMain ? <MyTitle title="000님의 레벨은?" /> : null}
+        {isMain ? <MyTitle title={`${nickname} 님의 레벨은?`} /> : null}
         {isMain ? <Statistics /> : <EditRegister />}
       </Content>
     </MypageBox>
