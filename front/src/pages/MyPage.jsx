@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import Chart from "../components/Chart";
 import getUsersInfo from "../api/getUserInfo";
+import axios from "axios";
 
 const MyPage = ({ isMain }) => {
   const [nickname, setNickname] = useState("");
@@ -24,9 +25,18 @@ const MyPage = ({ isMain }) => {
     }
   };
   // 회원탈퇴
-  const onUserRemove = () => {
+  const onUserRemove = async () => {
+    const userToken = sessionStorage.getItem("userToken");
     if (window.confirm("정말 탈퇴하시겠어요?😭")) {
+      await axios.delete("/api/user/delete", {
+        headers: {
+          authorization: `Bearer ${userToken}`,
+        },
+      });
       alert("회원정보가 안전하게 삭제되었습니다.");
+      navigate("/", { replace: true });
+    } else {
+      alert("회원탈퇴가 취소되었습니다.");
     }
   };
   // 유저 정보 가져오기
