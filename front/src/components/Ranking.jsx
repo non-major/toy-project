@@ -1,35 +1,21 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import getUserRank from "../api/getUserRank";
 import styled from "styled-components";
 
 const Ranking = () => {
   const [users, setUsers] = useState([]);
 
-  const getUsers = async () => {
-    try {
-      const response = await axios
-        .get(`https://jsonplaceholder.typicode.com/users`)
-        .then((res) => {
-          return res.data.slice(0, 5);
-        });
-
-      return setUsers(response);
-    } catch (err) {
-      alert(`문제가 발생했습니다. 다시 시도해 주세요. ${err.message}`);
-    }
-  };
-
   useEffect(() => {
-    getUsers();
+    getUserRank(setUsers);
   }, []);
 
   return (
     <Rank>
       {users.map((user, idx) => {
         return (
-          <div className="rank" key={idx}>
+          <div className="rank" key={user._id}>
             <span>{idx + 1}</span>
-            <div>{user.company.name}</div>
+            <div>{user.nickname}</div>
           </div>
         );
       })}
