@@ -21,20 +21,35 @@ const Register = ({ isEdit }) => {
   } = useForm();
   const navigate = useNavigate();
   useEffect(() => {
-    getUsersInfo().then((user) => {
-      setEmail(user.data.email);
-      setNickname(user.data.nickname);
-    });
+    if (isEdit) {
+      getUsersInfo().then((user) => {
+        setEmail(user.data.email);
+        setNickname(user.data.nickname);
+      });
+    }
   }, []);
   const onSubmit = (data) => {
     if (isEdit) {
-      window.confirm("수정하시겠습니까?");
-      console.log(data);
-      window.location.reload();
+      const userToken = sessionStorage.getItem("userToken");
+      if (window.confirm("수정하시겠습니까?")) {
+        axios.patch(`/api/user/update`, {
+          headers: {
+            authorization: `Bearer ${userToken}`,
+          },
+          body: {
+            nickname: data.nickname,
+            currentPassword: data.password,
+          },
+        });
+      } else {
+        alert("수정이 취소되었습니다.");
+        console.log(data);
+        window.location.reload();
+      }
     } else {
       alert("회원가입이 완료되었습니다.");
       try {
-        axios.post("/api/register", {
+        axios.post("/api/user/register", {
           email: data.email,
           password: data.password,
           nickname: data.nickname,
@@ -55,23 +70,23 @@ const Register = ({ isEdit }) => {
           <label>
             <p>이메일</p>
             <Input
-              value={isEdit ? email : ""}
+              value={isEdit ? email : null}
               disabled={isEdit ? true : false}
               type="email"
               placeholder="이메일"
               id="email"
-              {...register("email", {
-                required: "이메일을 입력해주세요",
-                pattern: {
-                  value: Regex.email,
-                  message: "이메일 형식을 입력해주세요",
-                },
-              })}
+              {...(isEdit
+                ? null
+                : register("email", {
+                    required: "이메일을 입력해주세요",
+                    pattern: {
+                      value: Regex.email,
+                      message: "이메일 형식을 입력해주세요",
+                    },
+                  }))}
             />
           </label>
-          {isEdit
-            ? ""
-            : errors.email && <Errors>{errors.email.message}</Errors>}
+          {errors.email && <Errors>{errors.email.message}</Errors>}
           <label>
             <p>비밀번호</p>
             <Input

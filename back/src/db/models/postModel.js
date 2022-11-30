@@ -17,7 +17,7 @@ export class PostModel {
       image : image,
     });
   
-    await userModel.increaseCount(userId);
+    await userModel.increaseCount({_id:userId});
     return createdPost;
   }
 
@@ -35,9 +35,9 @@ export class PostModel {
 
     const comments = (await Post.findOne({postId})).comments
     comments.forEach(x=>commentModel.delete(x));
+    await userModel.decreaseCount(postId);
     const deletedPost = await Post.deleteOne(filter);
 
-    await userModel.decreaseCount(postId);
     return deletedPost;
   }
 
@@ -53,7 +53,8 @@ export class PostModel {
     const posts = await Post.find({}, ['postId','nickname', 'title', 'image'])
     .populate({path : "userId", select:'nickname'})
     .sort({"postId":orderType}).limit(postsNumberPerPage).skip((pageNumber-1)*postsNumberPerPage);
-    const totalCount = posts.length;
+    
+    const totalCount = (await Post.find({})).length;
     posts.push({totalCount});
     return posts;
   }
@@ -71,21 +72,23 @@ export class PostModel {
   async findByNickName(pageNumber, userId, orderType, conmmentOrder){
     const postsNumberPerPage = 9;
     const posts = await Post.find({userId : userId},['postId','userId', 'title', 'image', 'commentCount']).populate({path:"userId", select:"nickname"}).sort({"commentCount":conmmentOrder,"postId":orderType}).limit(postsNumberPerPage).skip((pageNumber-1)*postsNumberPerPage);
-    const totalCount = posts.length;
+
+    const totalCount = (await Post.find({userId : userId})).length;
     posts.push({totalCount});
     return posts;
   }
   // 월별 독서량 조회
-  async findMonthlyReadings(nickname){
+  async findMonthlyReadings(userId){
     const currentYear = new Date().getFullYear();
-    const monthlyReadings = await Post.find({nickname : nickname, createdAt : {$gte : new Date(`${currentYear}`)}}, ['createdAt']);
-    console.log(monthlyReadings);
+    const monthlyReadings = await Post.find({userId : userId, createdAt : {$gte : new Date(`${currentYear}`)}}, ['createdAt']);
     
-    const Months = {};
-    for (let i=0;i<12;i++) Months[i+1] = 0;
-
-    monthlyReadings.forEach(x=>Months[x.createdAt.getMonth()+1]++);
+    // const Months = {};
+    // for (let i=0;i<12;i++) Months[i+1] = 0;
+    const Months = [];
+    for (let i=0;i<12;i++) Months.push({month:`${i+1}`, amt:0})
     console.log(Months);
+    // monthlyReadings.forEach(x=>Months[x.createdAt.getMonth()+1]++);
+    monthlyReadings.forEach(x=>Months[x.createdAt.getMonth()].amt+=1);
     return Months;
   }
 
@@ -130,8 +133,9 @@ export class PostModel {
     )
   }
 
-  async getUserName(postId){
-    return await Post.find({postId},['nickname']);
+  async getUserId(postId){
+    const userId = (await Post.findOne({postId : postId}).populate({path: 'userId', select:'_id'})).userId._id.toString();
+    return userId;
   }
 
 };
