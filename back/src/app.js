@@ -1,7 +1,12 @@
 import cors from "cors";
 import express from "express";
 import { errorHandler } from "./middlewares/error-handler.js";
-import { postRouter, userRouter, commentRouter } from "./routers/index.js";
+import {
+  postRouter,
+  userRouter,
+  commentRouter,
+  kakaoRouter,
+} from "./routers/index.js";
 
 const app = express();
 
@@ -17,6 +22,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/api", postRouter);
 app.use("/api", userRouter);
 app.use("/api", commentRouter);
+app.use("api", kakaoRouter);
 app.use(errorHandler);
 
 export { app };
