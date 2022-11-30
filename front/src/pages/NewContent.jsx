@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 // import Input from '../components/Input.jsx'
 import MyButton from '../components/MyButton.jsx';
+import { Title } from './Register.jsx';
 import axios from 'axios';
 
 function NewContent() {
@@ -33,7 +34,7 @@ function NewContent() {
             content: state.content,
         }, config).then((response)=> {
             console.log({title: response.data.title, content: response.data.content, date: response.data.createdAt, postId: response.data.postId});
-            
+            alert("독서 기록 등록이 완료되었습니다.")
         }).catch((error)=> {
             console.log(error.response.data);
         })
@@ -47,6 +48,9 @@ function NewContent() {
 
     return (
         <div>
+            <TitleWrap>
+            <Title>독서 기록 작성하기</Title>
+            </TitleWrap>
             <p><label htmlFor='title'>제목</label></p>
             <TitleInput name="title" id="title" placeholder="제목을 적어주세요." value={state.title} onChange={handleChangeState}/>
             <p><label htmlFor='search'>책 이미지 검색하기</label></p>
@@ -64,6 +68,10 @@ function NewContent() {
     );
 }
 
+const TitleWrap = styled.div`
+display:flex;
+justify-content: center;
+`
 
 const TitleInput = styled.input`
 width: 500px;
