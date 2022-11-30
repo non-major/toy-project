@@ -18,6 +18,7 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route path="" element={<Home />} />
             <Route path="all" element={<AllContents />} />
+            <Route path="mydiary" element={<AllContents />} />
             <Route path="new" element={<NewContent />} />
             <Route path="content" element={<Content />} />
             <Route path="edit" element={<EditContent />} />

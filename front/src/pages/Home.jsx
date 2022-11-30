@@ -9,7 +9,9 @@ const Home = () => {
   const [contents, setContents] = useState([]);
 
   useEffect(() => {
-    getData(1, 6, setContents);
+    getData(1, "desc", "").then((res) => {
+      setContents(res.response.slice(0, 6));
+    });
   }, []);
 
   return (

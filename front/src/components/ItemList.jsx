@@ -5,18 +5,15 @@ import styled from "styled-components";
 const ItemList = ({ contents }) => {
   return (
     <ItemListStyle className="itemList">
-      {contents.map((content, idx) => {
+      {contents.map((content) => {
         return (
-          <div className="item" key={idx}>
-            <span>@{content.name.last}</span>
+          <div className="item" key={content.postId}>
+            <span>@{content.userId.nickname}</span>
             <Link to="/">
               <div className="img">
-                <img
-                  src="https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788936438890.jpg"
-                  alt="책 이미지"
-                />
+                <img src={content.image} alt="책 이미지" />
               </div>
-              <div className="title">가나다라마바사아자차카타파하</div>
+              <div className="title">{content.title}</div>
             </Link>
           </div>
         );
