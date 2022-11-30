@@ -41,6 +41,7 @@ const Rank = styled.div`
   width: 100%;
   text-align: center;
   cursor: default;
+  margin-bottom: 50px;
 
   & :nth-child(1) span {
     color: gold;
