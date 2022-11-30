@@ -3,14 +3,49 @@ import styled from "styled-components";
 import {ButtonWrap} from "./NewContent.jsx"
 import MyButton from '../components/MyButton.jsx';
 import CommentList from '../components/CommentList.jsx';
-
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 
 
 function Content(props) {
-    
-    // 1개의 게시글 get 해오기
-    // params..?
-    // 받은 게시글의 comment 배열 Comment 컴포넌트에 prop으로 전달해주기
+    const [post, setPost] = useState({
+        title: '',
+        date: '',
+        author: '',
+        content: '',
+        img: '',
+        })
+
+        function formatDate(dateString) {
+            const newDate = new Date(dateString);
+            let formattedDate = `${newDate.getFullYear()}.`;
+            formattedDate += `${`0${newDate.getMonth() + 1}`.slice(-2)}.`;
+            formattedDate += `${`0${newDate.getDate()}`.slice(-2)}`;
+            return formattedDate;
+          }
+
+    const {id} = useParams();
+
+        useEffect(()=> {
+            const getOnePost = async() => {
+                await axios.get(`/api/postList/post/${id}`).then((response) => 
+                {
+                    console.log(response);
+                    const postData = response.data[0];
+                    setPost({
+                        ...post,
+                        title: postData.title,
+                        date: (formatDate(postData.createdAt)),
+                        author: postData.userId.nickname,
+                        content: postData.content,
+                        img: postData.image,
+                    })
+                }).catch((err)=> console.log(err));
+            }
+            getOnePost();
+        }, [])
+
     let comments = [{id:1, author: "sjko", content: "감사합니다."}, {id:2, author: "hailee", content: "재미써용"}];
 
 
@@ -36,17 +71,17 @@ function Content(props) {
     return (
         <ContentWrap>
             <ContentTitle>
-                <span className="contentTitle">게시글 제목</span>
-                <span className="contentDate">2022.10.22</span>
+                <span className="contentTitle">{post.title}</span>
+                <span className="contentDate">{post.date}</span>
             </ContentTitle>
             <div className='contentAuthor'>
-                <span>@SUJEONGKO</span>
+                <span>@{post.author}</span>
             </div>
             <ContentImg>
-                <img src="https://picsum.photos/300/400" />
+                <img src={post.img} />
             </ContentImg>
             <ContentSubstance>
-                <p>내용입니다.내용입니다.내용입니다.내용입니다.내용입니다.내용입니다.내용입니다.내용입니다.내용입니다.내용입니다.내용입니다.</p>
+                <p>{post.content}</p>
             </ContentSubstance>
             {/*해당 게시글 작성자인 경우 ButtonWrap show(.active 추가?) 그럼 NewContent 페이지에서도 똑같이 바꿔줘야함?*/}
             <ButtonWrap>
@@ -95,6 +130,10 @@ align-items: center;
 const ContentImg = styled.div`
 display: flex;
 justify-content: center;
+>img{
+    width: 100%;
+    height: 100%;
+}
 `
 
 const ContentSubstance = styled.div`
