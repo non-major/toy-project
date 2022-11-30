@@ -19,23 +19,18 @@ const Login = () => {
     formState: { errors },
   } = useForm();
   const navigate = useNavigate();
-  const onSubmit = (data) => {
-    axios
-      .post("/api/user/login", data)
-      .then((res) => {
-        console.log(res);
-        const userToken = res.data.token;
-        alert("로그인이 완료되었습니다.");
-        sessionStorage.setItem("userToken", userToken);
-        navigate("/", { replace: true });
-        window.location.replace("/");
-      })
-      .catch((err) => {
-        const errCode = err.response.status;
-        if (errCode == 500) {
-          alert("가입되지 않은 이메일이거나, 비밀번호가 일치하지 않습니다.");
-        }
-      });
+  const onSubmit = async (data) => {
+    try {
+      const res = await axios.post("/api/user/login", data);
+      console.log(res);
+      const userToken = res.data.token;
+      alert("로그인이 완료되었습니다.");
+      sessionStorage.setItem("userToken", userToken);
+      navigate("/", { replace: true });
+      window.location.replace("/");
+    } catch (err) {
+      alert(`${err.response.data.reason}`);
+    }
   };
   const Regex = { email: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g };
   return (

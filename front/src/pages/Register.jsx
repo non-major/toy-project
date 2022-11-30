@@ -12,7 +12,6 @@ export const MyTitle = ({ title }) => {
 
 const Register = ({ isEdit }) => {
   const [email, setEmail] = useState("");
-  const [nickname, setNickname] = useState("");
   const {
     register,
     handleSubmit,
@@ -24,26 +23,34 @@ const Register = ({ isEdit }) => {
     if (isEdit) {
       getUsersInfo().then((user) => {
         setEmail(user.data.email);
-        setNickname(user.data.nickname);
       });
     }
   }, []);
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     if (isEdit) {
-      const userToken = sessionStorage.getItem("userToken");
       if (window.confirm("수정하시겠습니까?")) {
-        axios.patch(`/api/user/update`, {
-          headers: {
-            authorization: `Bearer ${userToken}`,
-          },
-          body: {
-            nickname: data.nickname,
-            currentPassword: data.password,
-          },
-        });
+        const userToken = sessionStorage.getItem("userToken");
+        console.log(userToken);
+        try {
+          await axios.patch(
+            `/api/user/update`,
+            {
+              nickname: data.nickname,
+              currentPassword: data.password,
+            },
+            {
+              headers: {
+                authorization: `Bearer ${userToken}`,
+              },
+            },
+          );
+          navigate("/mypage", { replace: true });
+          window.location.reload();
+        } catch (err) {
+          alert(`${err.response.data.reason}`);
+        }
       } else {
         alert("수정이 취소되었습니다.");
-        console.log(data);
         window.location.reload();
       }
     } else {

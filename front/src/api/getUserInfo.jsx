@@ -10,7 +10,7 @@ const getUsersInfo = async () => {
     });
     return user;
   } catch (err) {
-    alert(`회원정보를 불러오지 못했습니다. 다시 시도해주세요. ${err.message}`);
+    alert(`${err.response.data.reason}`);
   }
 };
 
