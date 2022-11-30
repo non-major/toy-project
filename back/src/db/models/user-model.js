@@ -54,7 +54,7 @@ export class UserModel {
   }
 
   async decreaseCount(postId) {
-    const userId = await postModel.getUserName(postId);
+    const userId = await postModel.getUserId(postId);
 
     const user = await User.findOneAndUpdate(
       { _id: userId },

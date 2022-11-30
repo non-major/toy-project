@@ -6,8 +6,8 @@ export class PostService { // 기능 로직 구현?
   }
   // 게시글 작성
   async createPost(data){
-    const {userId, title, content, image, comments} = {...data};
-    const newData = {userId, title, content, image, comments};
+    const {userId, title, content, image} = {...data};
+    const newData = {userId, title, content, image};
 
     const newPost = await this.postModel.create(newData);
     return newPost;
@@ -57,8 +57,8 @@ export class PostService { // 기능 로직 구현?
   }
 
   // 월별 독서량 조회
-  async getMonthlyReadings(nickname){
-    const MonthlyReadings = await this.postModel.findMonthlyReadings(nickname);
+  async getMonthlyReadings(userId){
+    const MonthlyReadings = await this.postModel.findMonthlyReadings(userId);
     return MonthlyReadings;
   }
 

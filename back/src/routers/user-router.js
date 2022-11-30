@@ -6,7 +6,7 @@ const userRouter = Router();
 
 // 유저 전체조회
 userRouter.get(
-  "/users",
+  "/user/total",
   nextError(async (req, res, next) => {
     try {
       const users = await userService.getUsers();
@@ -19,7 +19,7 @@ userRouter.get(
 
 //회원가입
 userRouter.post(
-  "/register",
+  "/user/register",
   nextError(async (req, res, next) => {
     try {
       const { email, password, nickname } = req.body;
@@ -38,7 +38,7 @@ userRouter.post(
 
 //로그인
 userRouter.post(
-  "/login",
+  "/user/login",
   nextError(async (req, res, next) => {
     try {
       const { email, password } = req.body;
@@ -54,11 +54,11 @@ userRouter.post(
 
 //정보수정
 userRouter.patch(
-  "/users/:userId",
+  "/user/update",
   loginRequired,
   nextError(async (req, res, next) => {
     try {
-      const userId = req.params.userId;
+      const userId = req.currentUserId;
       const { password, nickname } = req.body;
 
       const currentPassword = req.body.currentPassword;
@@ -85,11 +85,11 @@ userRouter.patch(
 );
 
 userRouter.delete(
-  "/users/:userId",
+  "/user/delete",
   loginRequired,
   nextError(async (req, res, next) => {
     try {
-      const userId = req.params.userId;
+      const userId = req.currentUserId;
       const userDelete = await userService.deleteUser(userId);
       res.json(userDelete);
     } catch (error) {
@@ -100,7 +100,7 @@ userRouter.delete(
 
 // 독서왕 top 5 조회
 userRouter.get(
-  "/readingRank",
+  "/user/rank",
   nextError(async (req, res, next) => {
     const ranks = await userService.findTopFive();
 
@@ -110,7 +110,7 @@ userRouter.get(
 
 // 내 정보 조회
 userRouter.get(
-  "/myInfo",
+  "/user/myInfo",
   loginRequired,
   nextError(async (req, res, next) => {
     const userId = req.currentUserId;

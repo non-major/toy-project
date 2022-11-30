@@ -8,13 +8,13 @@ const postRouter = Router();
 
 // 게시글 추가
 postRouter.post(
-  "/post",
+  "/post/add",
   loginRequired,
   nextError(async (req, res, next) => {
     // 미들웨어
     const userId = req.currentUserId;
-    const { title, content, image, comments } = { ...req.body };
-    const newData = { userId, title, content, image, comments };
+    const { title, content, image} = { ...req.body };
+    const newData = { userId, title, content, image};
 
     const post = await postService.createPost(newData);
 
@@ -24,7 +24,7 @@ postRouter.post(
 
 // 전체 게시글 조회
 postRouter.get(
-  "/postList",
+  "/post/postList",
   nextError(async (req, res, next) => {
     const posts = await postService.getPosts();
 
@@ -34,10 +34,10 @@ postRouter.get(
 
 // 전체 게시글 조회 (page nation)
 postRouter.get(
-  "/postList/:page",
+  "/post/postList/:page",
   nextError(async (req, res, next) => {
     const page = req.params.page;
-    const orderType = req.query.orderType === "desc" ? -1 : 1;
+    const orderType = req.query.order === "desc" ? -1 : 1;
 
     const posts = await postService.getPostsByPage(page, orderType);
 
@@ -47,7 +47,7 @@ postRouter.get(
 
 // 상세 게시글 조회
 postRouter.get(
-  "/postList/post/:postId",
+  "/post/postList/details/:postId",
   nextError(async (req, res, next) => {
     const postId = req.params.postId;
 
@@ -59,17 +59,17 @@ postRouter.get(
 
 // 내 게시글 조회
 postRouter.get(
-  "/myPostList/:pageNumber",
+  "/post/myPostList/:page",
   loginRequired,
   nextError(async (req, res, next) => {
     // const base64Payload = req.header('token').split('.')[1];
     // const payload = Buffer.from(base64Payload, 'base64');
     // const nickname = JSON.parse(payload.toString()).nickname;
-    const pageNumber = req.params.pageNumber;
+    const pageNumber = req.params.page;
 
     const userId = req.currentUserId;
 
-    const orderType = req.query.orderType === "desc" ? -1 : 1;
+    const orderType = req.query.order === "desc" ? -1 : 1;
     const comment = req.query.comment === "desc" ? -1 : 1;
 
     const posts = await postService.getMyPosts(
@@ -85,7 +85,7 @@ postRouter.get(
 
 // 게시글 수정
 postRouter.patch(
-  "/posts/:postId",
+  "/post/update/:postId",
   loginRequired,
   nextError(async (req, res, next) => {
     const postId = req.params.postId;
@@ -106,7 +106,7 @@ postRouter.patch(
 
 // 게시글 삭제
 postRouter.delete(
-  "/posts/:postId",
+  "/post/delete/:postId",
   loginRequired,
   nextError(async (req, res, next) => {
     const postId = req.params.postId;
@@ -119,13 +119,13 @@ postRouter.delete(
 
 // 유저 월별 독서량
 postRouter.get(
-  "/mypage",
+  "/post/chart",
   loginRequired,
   nextError(async (req, res, next) => {
     const userId = req.currentUserId;
-    const nickname = userService.getUserInfo(userId);
+    // const nickname = userService.getUserInfo(userId);
 
-    const MonthlyReadings = await postService.getMonthlyReadings(nickname);
+    const MonthlyReadings = await postService.getMonthlyReadings(userId);
 
     res.status(200).json(MonthlyReadings);
   })
