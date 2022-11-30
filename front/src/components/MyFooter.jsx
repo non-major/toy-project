@@ -18,6 +18,8 @@ const MyFooter = () => {
 const Footer = styled.footer`
   width: 100vw;
   height: 10vh;
+  position: absolute;
+  bottom: 0;
   padding: 25px 0;
   background-color: #e3f2fd;
 `;

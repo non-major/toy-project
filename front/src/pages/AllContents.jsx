@@ -4,24 +4,23 @@ import styled from "styled-components";
 import Pagination from "react-js-pagination";
 import getData from "../api/getContents";
 import ItemList from "../components/ItemList";
-
-// axios 경로 수정
-// pagination param 수정
-// nav onClick 구현
-// 전체 기록 보기 > 내 기록 보기 세션스토리지로 체크?
+import SortNav from "../components/SortNav";
 
 const AllContents = () => {
   const [page, setPage] = useState(1);
   const [contents, setContents] = useState([]);
   const [all, setAll] = useState(true);
-  const [sort, setSort] = useState("desc");
-  const [commentSort, setCommentSort] = useState("desc");
+  const [dateSort, setDateSort] = useState("desc");
+  const [commentSort, setCommentSort] = useState("");
+  const [totalCount, setTotal] = useState(0);
   const location = useLocation();
 
   const setAllState = () => {
     return location.pathname === "/mydiary" ? setAll(false) : setAll(true);
   };
 
+  /*헤더 네비바에서 비회원은 내 기록 보기 버튼이 노출되지 않지만 
+  /mydiary 경로를 직접 입력하여 들어오는 경우 블락하고 로그인 페이지로 이동하는 조건문 */
   if (
     location.pathname === "/mydiary" &&
     !sessionStorage.getItem("userToken")
@@ -30,13 +29,20 @@ const AllContents = () => {
   }
 
   useEffect(() => {
-    getData(1, 9, setContents);
     setAllState();
   }, []);
 
+  useEffect(() => {
+    getData(page, dateSort, commentSort).then((res) => {
+      setContents(res.response);
+    });
+  }, [dateSort, commentSort]);
+
   const handlePageChange = (page) => {
     setPage(page);
-    getData(page, 9, setContents);
+    getData(page, dateSort, commentSort).then((res) => {
+      setContents(res.response);
+    });
   };
 
   return (
@@ -47,13 +53,11 @@ const AllContents = () => {
       </Division>
 
       <Nav>
-        <ul>
-          <li className="point">최신순</li>
-          <li>|</li>
-          <li className="point">오래된 순</li>
-          <li>|</li>
-          <li className="point">댓글 많은 순</li>
-        </ul>
+        <SortNav
+          all={all}
+          setDateSort={setDateSort}
+          setCommentSort={setCommentSort}
+        />
       </Nav>
 
       <ItemList contents={contents} />
@@ -62,7 +66,7 @@ const AllContents = () => {
         <Pagination
           activePage={page}
           itemsCountPerPage={9}
-          totalItemsCount={82}
+          totalItemsCount={18}
           pageRangeDisplayed={5}
           prevPageText={"‹"}
           nextPageText={"›"}
