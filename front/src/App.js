@@ -22,7 +22,6 @@ function App() {
             <Route path="new" element={<NewContent />} />
             <Route path="content" element={<Content />} />
             <Route path="edit" element={<EditContent />} />
-            <Route path="mydiary" element={<MyDiaryList />} />
             <Route path="register" element={<Register />} />
             <Route path="login" element={<Login />} />
             <Route path="mypage" element={<MyPage isMain={true} />} />

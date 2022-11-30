@@ -1,7 +1,7 @@
 import cors from "cors";
 import express from "express";
-
-import {postRouter, userRouter,commentRouter} from './routers/index.js';
+import { errorHandler } from "./middlewares/error-handler.js";
+import { postRouter, userRouter, commentRouter } from "./routers/index.js";
 
 const app = express();
 
@@ -15,8 +15,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use("/api", postRouter);
-app.use("/api",userRouter)
-
-app.use("/api/comment", commentRouter);
+app.use("/api", userRouter);
+app.use("/api", commentRouter);
+app.use(errorHandler);
 
 export { app };

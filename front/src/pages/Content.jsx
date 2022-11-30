@@ -18,6 +18,10 @@ function Content(props) {
         console.log("수정하기")
     }
 
+    const handleDelete = () => {
+        alert("이 게시물을 삭제하시겠습니까?")
+    }
+
     const onCreate = (author, content, id=3) => {
         // comment db에 create 요청 보내는 로직으로 변경 필요
         comments.push({id: id, author: author, content: content});
@@ -35,6 +39,9 @@ function Content(props) {
                 <span className="contentTitle">게시글 제목</span>
                 <span className="contentDate">2022.10.22</span>
             </ContentTitle>
+            <div className='contentAuthor'>
+                <span>@SUJEONGKO</span>
+            </div>
             <ContentImg>
                 <img src="https://picsum.photos/300/400" />
             </ContentImg>
@@ -44,7 +51,7 @@ function Content(props) {
             {/*해당 게시글 작성자인 경우 ButtonWrap show(.active 추가?) 그럼 NewContent 페이지에서도 똑같이 바꿔줘야함?*/}
             <ButtonWrap>
             <MyButton text="수정하기" type="basic" onClick={handleSubmit}/>
-            <MyButton text="삭제하기" type="remove"/>
+            <MyButton text="삭제하기" type="remove" onClick={handleDelete}/>
             </ButtonWrap>
             <CommentList comments={comments} onCreate={onCreate} onEdit={onEdit}/>
         </ContentWrap>
@@ -60,6 +67,12 @@ flex-direction: column;
 justify-content: center;
 > div {
     margin-bottom : 15px;
+}
+
+.contentAuthor {
+    color: grey;
+    font-weight: bolder;
+    margin: 10px;
 }
 `
 
