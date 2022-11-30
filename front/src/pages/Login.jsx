@@ -21,13 +21,14 @@ const Login = () => {
   const navigate = useNavigate();
   const onSubmit = (data) => {
     axios
-      .post("/api/login", data)
+      .post("/api/user/login", data)
       .then((res) => {
         console.log(res);
         const userToken = res.data.token;
         alert("로그인이 완료되었습니다.");
         sessionStorage.setItem("userToken", userToken);
         navigate("/", { replace: true });
+        window.location.replace("/");
       })
       .catch((err) => {
         const errCode = err.response.status;

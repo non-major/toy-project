@@ -3,7 +3,7 @@ import axios from "axios";
 const getUsersInfo = async () => {
   const userToken = sessionStorage.getItem("userToken");
   try {
-    const user = await axios.get(`/api/myInfo`, {
+    const user = await axios.get(`/api/user/myInfo`, {
       headers: {
         authorization: `Bearer ${userToken}`,
       },
