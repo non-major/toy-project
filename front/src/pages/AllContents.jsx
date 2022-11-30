@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Pagination from "react-js-pagination";
 import getData from "../api/getContents";
 import ItemList from "../components/ItemList";
+import SortNav from "../components/SortNav";
 
 // axios 경로 수정
 // pagination param 수정
@@ -47,13 +48,7 @@ const AllContents = () => {
       </Division>
 
       <Nav>
-        <ul>
-          <li className="point">최신순</li>
-          <li>|</li>
-          <li className="point">오래된 순</li>
-          <li>|</li>
-          <li className="point">댓글 많은 순</li>
-        </ul>
+        <SortNav all={all} setSort={setSort} setCommentSort={setCommentSort} />
       </Nav>
 
       <ItemList contents={contents} />

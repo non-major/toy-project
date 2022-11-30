@@ -1,15 +1,27 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 const MyHeader = () => {
+  const [user, setUser] = useState(false);
+
+  useEffect(() => {
+    sessionStorage.getItem("userToken") ? setUser(true) : setUser(false);
+  }, []);
+
   const MemberNav = () => {
     return (
       <div className="nav">
         <ul>
           <Link to="/mydiary">내 독서 기록</Link>
           <Link to="/mypage">마이페이지</Link>
-          <Link to="/" onClick={() => sessionStorage.removeItem("userToken")}>
+          <Link
+            to="/"
+            onClick={() => {
+              sessionStorage.removeItem("userToken");
+              alert("로그아웃 되셨습니다.");
+              setUser(false);
+            }}>
             로그아웃
           </Link>
         </ul>
@@ -36,9 +48,7 @@ const MyHeader = () => {
         </Link>
       </div>
 
-      <Nav>
-        {sessionStorage.getItem("userToken") ? <MemberNav /> : <GuestNav />}
-      </Nav>
+      <Nav>{user ? <MemberNav /> : <GuestNav />}</Nav>
     </Header>
   );
 };
