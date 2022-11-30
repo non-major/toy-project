@@ -6,7 +6,6 @@ import AllContents from "./pages/AllContents";
 import Content from "./pages/Content";
 import NewContent from "./pages/NewContent";
 import EditContent from "./pages/EditContent";
-import MyDiaryList from "./pages/MyDiaryList";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import MyPage from "./pages/MyPage";
