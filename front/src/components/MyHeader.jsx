@@ -1,45 +1,44 @@
 import React from "react";
 import styled from "styled-components";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const MyHeader = () => {
-  // const MemberNav = () => {
-  //   return (
-  //     <div className="nav">
-  //       <ul>
-  //         <Link to="/mydiary">내 독서 기록</Link>
-  //         <Link to="/mypage">마이페이지</Link>
-  //         <Link to="/" onClick={() => sessionStorage.removeItem("userToken")}>
-  //           로그아웃
-  //         </Link>
-  //       </ul>
-  //     </div>
-  //   );
-  // };
+  const MemberNav = () => {
+    return (
+      <div className="nav">
+        <ul>
+          <Link to="/mydiary">내 독서 기록</Link>
+          <Link to="/mypage">마이페이지</Link>
+          <Link to="/" onClick={() => sessionStorage.removeItem("userToken")}>
+            로그아웃
+          </Link>
+        </ul>
+      </div>
+    );
+  };
 
-  // const GuestNav = () => {
-  //   return (
-  //     <div className="nav">
-  //       <ul>
-  //         <Link to="/login">로그인</Link>
-  //         <Link to="/register">회원가입</Link>
-  //       </ul>
-  //     </div>
-  //   );
-  // };
+  const GuestNav = () => {
+    return (
+      <div className="nav">
+        <ul>
+          <Link to="/login">로그인</Link>
+          <Link to="/register">회원가입</Link>
+        </ul>
+      </div>
+    );
+  };
 
   return (
     <Header>
       <div className="logo">
-        <img src="https://picsum.photos/100/100" alt="Book극곰" />
+        <Link to="/">
+          <img src="https://picsum.photos/100/100" alt="Book극곰" />
+        </Link>
       </div>
+
       <Nav>
-        <ul>
-          <li>로그인</li>
-          <li>회원가입</li>
-        </ul>
+        {sessionStorage.getItem("userToken") ? <MemberNav /> : <GuestNav />}
       </Nav>
-      {/* {sessionStorage.getItem("userToken") ? <MemberNav /> : <GuestNav />} */}
     </Header>
   );
 };
@@ -59,9 +58,11 @@ const Nav = styled.div`
     display: flex;
   }
 
-  ul li {
+  ul a {
     margin: 0 10px;
     list-style: none;
+    color: black;
+    text-decoration: none;
   }
 `;
 

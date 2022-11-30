@@ -27,7 +27,7 @@ const Ranking = () => {
     <Rank>
       {users.map((user, idx) => {
         return (
-          <div className="rank">
+          <div className="rank" key={idx}>
             <span>{idx + 1}</span>
             <div>{user.company.name}</div>
           </div>
