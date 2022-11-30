@@ -4,20 +4,6 @@ import { loginRequired } from "../middlewares/login-required.js";
 import nextError from "../utils/nextError.js";
 const userRouter = Router();
 
-//유저 조회
-userRouter.get(
-  "/user/:userId",
-  nextError(async (req, res, next) => {
-    try {
-      const userId = req.params.userId;
-      const user = await userService.getUser(userId);
-      res.json(user);
-    } catch (error) {
-      next(error);
-    }
-  })
-);
-
 // 유저 전체조회
 userRouter.get(
   "/user",
@@ -113,7 +99,9 @@ userRouter.delete(
 );
 
 // 독서왕 top 5 조회
-userRouter.get("/readingRank", nextError(async (req, res, next)=>{
+userRouter.get(
+  "/readingRank",
+  nextError(async (req, res, next) => {
     const ranks = await userService.findTopFive();
 
     res.status(200).json(ranks);
@@ -121,11 +109,14 @@ userRouter.get("/readingRank", nextError(async (req, res, next)=>{
 );
 
 // 내 정보 조회
-userRouter.get('/myInfo',loginRequired, nextError(async (req, res, next)=>{
+userRouter.get(
+  "/myInfo",
+  loginRequired,
+  nextError(async (req, res, next) => {
     const userId = req.currentUserId;
     const user = await userService.getUserInfo(userId);
     res.status(200).json(user);
   })
-)
+);
 
 export { userRouter };
