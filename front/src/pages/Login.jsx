@@ -23,6 +23,7 @@ const Login = () => {
     axios
       .post("/api/login", data)
       .then((res) => {
+        console.log(res);
         const userToken = res.data.token;
         alert("로그인이 완료되었습니다.");
         sessionStorage.setItem("userToken", userToken);

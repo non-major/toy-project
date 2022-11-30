@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import MyButton from "../components/MyButton";
 import { useNavigate } from "react-router-dom";
+import getUsersInfo from "../api/getUserInfo";
 import axios from "axios";
 
 export const MyTitle = ({ title }) => {
@@ -10,6 +11,8 @@ export const MyTitle = ({ title }) => {
 };
 
 const Register = ({ isEdit }) => {
+  const [email, setEmail] = useState("");
+  const [nickname, setNickname] = useState("");
   const {
     register,
     handleSubmit,
@@ -17,6 +20,12 @@ const Register = ({ isEdit }) => {
     getValues,
   } = useForm();
   const navigate = useNavigate();
+  useEffect(() => {
+    getUsersInfo().then((user) => {
+      setEmail(user.data.email);
+      setNickname(user.data.nickname);
+    });
+  }, []);
   const onSubmit = (data) => {
     if (isEdit) {
       window.confirm("수정하시겠습니까?");
@@ -46,6 +55,7 @@ const Register = ({ isEdit }) => {
           <label>
             <p>이메일</p>
             <Input
+              value={isEdit ? email : ""}
               disabled={isEdit ? true : false}
               type="email"
               placeholder="이메일"
