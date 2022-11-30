@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styled from "styled-components";
 import {ButtonWrap} from "./NewContent.jsx"
 import MyButton from '../components/MyButton.jsx';
@@ -16,6 +16,10 @@ function Content(props) {
         content: '',
         img: '',
         })
+    const [userNickname, setUserNickname] = useState('');
+    const [isAuthor, setIsAuthor] = useState(false);
+
+    // const isAuthor = useRef(false);
 
         function formatDate(dateString) {
             const newDate = new Date(dateString);
@@ -28,10 +32,9 @@ function Content(props) {
     const {id} = useParams();
 
         useEffect(()=> {
-            const getOnePost = async() => {
+            const getOnePost = async () => {
                 await axios.get(`/api/post/postList/details/${id}`).then((response) => 
                 {
-                    console.log(response);
                     const postData = response.data[0];
                     setPost({
                         ...post,
@@ -41,15 +44,55 @@ function Content(props) {
                         content: postData.content,
                         img: postData.image,
                     })
-                }).catch((err)=> console.log(err));
+                }).catch((err)=> console.log("게시글 가져오기 오류"));
             }
             getOnePost();
+        }, []) 
+        // 게시글 불러와서 post 세팅해줌
+
+        useEffect(()=> {
+            const verifyAuthor = async () => {
+                const userToken = sessionStorage.getItem("userToken");
+                try {
+                const user = await axios.get(`/api/user/myInfo`, {
+                headers: {
+                authorization: `Bearer ${userToken}`,
+                },
+                });
+                setUserNickname(user.data.nickname);
+                return;
+                } catch(err){
+                    setIsAuthor(false);
+                    console.log("로그인 되지 않음 혹은 작성자가 아님")
+                }
+            }
+                verifyAuthor();
+        },[])
+        // 현재 로그인 한 유저의 정보에서 nickname 빼옴
+
+        useEffect(()=> {
+            if(userNickname === post.author){
+                setIsAuthor(true)
+                return;
+            } else {
+                return;
+            }
         }, [])
+    // 로그인 한 유저와 현재 보고있는 post의 작성자가 같으면 isAuthor = true
+
+        // useEffect(()=> {
+        //     if(userNickname === post.author){
+        //         isAuthor.current = true;
+        //     } else {
+        //         return;
+        //     }
+        // })
+
 
     let comments = [{id:1, author: "sjko", content: "감사합니다."}, {id:2, author: "hailee", content: "재미써용"}];
 
 
-    const handleSubmit = () => {
+    const handleEdit = () => {
         console.log("수정하기")
     }
 
@@ -83,10 +126,10 @@ function Content(props) {
             <ContentSubstance>
                 <p>{post.content}</p>
             </ContentSubstance>
-            {/*해당 게시글 작성자인 경우 ButtonWrap show(.active 추가?) 그럼 NewContent 페이지에서도 똑같이 바꿔줘야함?*/}
-            <ButtonWrap>
-            <MyButton text="수정하기" type="basic" onClick={handleSubmit}/>
-            <MyButton text="삭제하기" type="remove" onClick={handleDelete}/>
+            <ButtonWrap>{ isAuthor ? <>
+                <MyButton text="수정하기" type="basic" onClick={handleEdit}/>
+                <MyButton text="삭제하기" type="remove" onClick={handleDelete}/>
+            </> : null}
             </ButtonWrap>
             <CommentList comments={comments} onCreate={onCreate} onEdit={onEdit}/>
         </ContentWrap>
