@@ -35,8 +35,6 @@ const MyPage = ({ isMain }) => {
       });
       alert("회원정보가 안전하게 삭제되었습니다.");
       navigate("/", { replace: true });
-    } else {
-      alert("회원탈퇴가 취소되었습니다.");
     }
   };
   // 유저 정보 가져오기
