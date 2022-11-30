@@ -6,8 +6,8 @@ export class PostService { // 기능 로직 구현?
   }
   // 게시글 작성
   async createPost(data){
-    const {nickname, title, content, image, comments} = {...data};
-    const newData = {nickname, title, content, image, comments};
+    const {userId, title, content, image, comments} = {...data};
+    const newData = {userId, title, content, image, comments};
 
     const newPost = await this.postModel.create(newData);
     return newPost;
@@ -35,8 +35,8 @@ export class PostService { // 기능 로직 구현?
   }
 
   // 내 게시글 조회
-  async getMyPosts(pageNumber, nickname, orderType){
-    const posts = await this.postModel.findByNickName(pageNumber, nickname, orderType);
+  async getMyPosts(pageNumber, userId, orderType, commentOrder){
+    const posts = await this.postModel.findByNickName(pageNumber, userId, orderType, commentOrder);
     return posts;
   }
 
@@ -57,10 +57,13 @@ export class PostService { // 기능 로직 구현?
   }
 
   // 월별 독서량 조회
-  // async getMonthlyReadings(nickname){
-  //   const MonthlyReadings = await this.postModel.findMonthlyReadings(nickname);
-  //   return MonthlyReadings;
-  // }
+  async getMonthlyReadings(nickname){
+    const MonthlyReadings = await this.postModel.findMonthlyReadings(nickname);
+    return MonthlyReadings;
+  }
+
+ 
+
 }
 
 const postService = new PostService(postModel);

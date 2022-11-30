@@ -2,9 +2,10 @@ import mongoose from 'mongoose';
 import {setAutoIncrementId} from '../../utils/autoIncrement.js';
 
 const postSchema = new mongoose.Schema({
-  _id : Number,
-  nickname : {
-    type : String,
+  postId : Number,
+  userId : {
+    type : mongoose.Schema.Types.ObjectId,
+    ref : "users",
     required : true,
   },
   title : {
@@ -18,20 +19,21 @@ const postSchema = new mongoose.Schema({
   image : {
     type : String,
   },
-  comments : [
-    {
-      type : mongoose.Schema.Types.ObjectId,
-      ref : "comments",
-    }
-  ]
-  },
-  {
-    collection : "posts",
-    timestamps : true,
-    _id : false,
+  comments : [{
+    type : mongoose.Schema.Types.ObjectId,
+    ref : "comments",
+  }],
+  commentCount : {
+    type : Number,
+    default : 0,
   }
+},
+{
+  collection : "posts",
+  timestamps : true,
+}
 );
 
-setAutoIncrementId(postSchema, mongoose, 'post', '_id');
+setAutoIncrementId(postSchema, mongoose, 'post', 'postId');
 
 export {postSchema};
