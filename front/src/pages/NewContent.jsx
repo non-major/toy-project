@@ -28,12 +28,13 @@ function NewContent() {
         )
     }
 
-    const handleSubmit = () => {
-            axios.post("/api/post", {
+    const handleSubmit = async () => {
+            await axios.post("/api/post", {
             title: state.title,
             content: state.content,
+            image: state.img,
         }, config).then((response)=> {
-            console.log({title: response.data.title, content: response.data.content, date: response.data.createdAt, postId: response.data.postId});
+            console.log({title: response.data.title, content: response.data.content, image: response.data.image, date: response.data.createdAt, postId: response.data.postId});
             alert("독서 기록 등록이 완료되었습니다.")
         }).catch((error)=> {
             console.log(error.response.data);
