@@ -5,6 +5,7 @@ import Pagination from "react-js-pagination";
 import getData from "../api/getContents";
 import ItemList from "../components/ItemList";
 import SortNav from "../components/SortNav";
+import CreateBtn from "../components/CreateBtn";
 
 const AllContents = () => {
   const [page, setPage] = useState(1);
@@ -73,6 +74,7 @@ const AllContents = () => {
           onChange={handlePageChange}
         />
       </Paging>
+      <CreateBtn />
     </>
   );
 };

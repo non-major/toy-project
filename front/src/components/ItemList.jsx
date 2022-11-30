@@ -9,9 +9,9 @@ const ItemList = ({ contents }) => {
         return (
           <div className="item" key={content.postId}>
             <span>@{content.userId.nickname}</span>
-            <Link to="/">
+            <Link to={"/" + content.postId}>
               <div className="img">
-                <img src={content.image} alt="책 이미지" />
+                <img src={content.image} alt={content.title} />
               </div>
               <div className="title">{content.title}</div>
             </Link>
@@ -46,7 +46,7 @@ const ItemListStyle = styled.div`
 
   .img {
     width: 100%;
-    height: 20vw;
+    height: 22vw;
     margin: 5px 0 5px 0;
   }
 

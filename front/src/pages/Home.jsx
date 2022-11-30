@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Ranking from "../components/Ranking";
 import getData from "../api/getContents";
 import ItemList from "../components/ItemList";
+import CreateBtn from "../components/CreateBtn";
 
 const Home = () => {
   const [contents, setContents] = useState([]);
@@ -32,9 +33,12 @@ const Home = () => {
       </Division2>
 
       <Ranking />
+      <CreateBtn />
     </>
   );
 };
+
+const Btn = styled.div``;
 
 const Division = styled.div`
   display: flex;

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import logo from "../asset/mainlogo.png";
 
 const MyHeader = () => {
   const [user, setUser] = useState(false);
@@ -13,7 +14,13 @@ const MyHeader = () => {
     return (
       <div className="nav">
         <ul>
-          <Link to="/mydiary">내 독서 기록</Link>
+          <Link
+            to="/mydiary"
+            onClick={() => {
+              window.location.replace("/mydiary");
+            }}>
+            내 독서 기록
+          </Link>
           <Link to="/mypage">마이페이지</Link>
           <Link
             to="/"
@@ -44,7 +51,7 @@ const MyHeader = () => {
     <Header>
       <div className="logo">
         <Link to="/">
-          <img src="https://picsum.photos/100/100" alt="Book극곰" />
+          <img src={logo} alt="Book극곰" />
         </Link>
       </div>
 
@@ -61,6 +68,11 @@ const Header = styled.header`
   align-items: center;
   padding: 10px 15vw;
   border-bottom: 1px solid black;
+
+  img {
+    height: 9vh;
+    margin-left: 20px;
+  }
 `;
 
 const Nav = styled.div`
