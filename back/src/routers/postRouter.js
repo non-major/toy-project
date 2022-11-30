@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { postService } from "../services/postService.js";
+import { userService } from "../services/user-service.js";
 import { loginRequired } from "../middlewares/login-required.js";
 import nextError from "../utils/nextError.js";
 
@@ -121,9 +122,8 @@ postRouter.get(
   "/mypage",
   loginRequired,
   nextError(async (req, res, next) => {
-    const base64Payload = req.header("token").split(".")[1];
-    const payload = Buffer.from(base64Payload, "base64");
-    const nickname = JSON.parse(payload.toString()).nickname;
+    const userId = req.currentUserId;
+    const nickname = userService.getUserInfo(userId);
 
     const MonthlyReadings = await postService.getMonthlyReadings(nickname);
 
