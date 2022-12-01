@@ -2,7 +2,7 @@ import axios from "axios";
 
 const getData = async (all, page, dateSort, commentSort) => {
   try {
-    const mySort = commentSort !== "" ? "comment=asc" : `order=${dateSort}`;
+    const mySort = commentSort !== "" ? "comment=desc" : `order=${dateSort}`;
 
     const headObj = all
       ? ""
