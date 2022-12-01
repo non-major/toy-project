@@ -101,9 +101,9 @@ function Content(props) {
                 console.log(isAuthor);
                 return;
             }
-        }, [userNickname])
+        }, [userNickname, post.author]);
     // 로그인 한 유저와 현재 보고있는 post의 작성자가 같으면 isAuthor = true
-    // 와 계속 안되다가 deps에 userNickname 값 넣으니까 됐다ㅠㅠㅠㅠ
+    // 와 계속 안되다가 deps에 userNickname이랑 post.author값 넣으니까 됐다ㅠㅠㅠㅠ
 
     const handleEdit = () => {
         console.log("수정하기")
