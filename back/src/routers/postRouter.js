@@ -69,8 +69,16 @@ postRouter.get(
 
     const userId = req.currentUserId;
 
-    const orderType = req.query.order === "desc" ? -1 : 1;
-    const comment = req.query.comment === "desc" ? -1 : 1;
+    const order = req.query.order;
+    const commentOrder = req.query.comment;
+
+    let orderType = 0;
+    let comment = 0;
+
+    if (order === 'asc') orderType = 1;
+    else if (order === 'desc') orderType = -1;
+    if (commentOrder === 'asc') comment = 1;
+    else if (order === 'desc') comment = -1;
 
     const posts = await postService.getMyPosts(
       pageNumber,
