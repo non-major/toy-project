@@ -22,7 +22,7 @@ export class CommentModel {
 
 // 댓글 조회 by PostId
   async findByPostId(postId) {
-    return await Comment.find({ postId });
+    return await Comment.find({ postId }).populate({path : 'author', select:"nickname"});
   }
 
   // 댓글 수정
