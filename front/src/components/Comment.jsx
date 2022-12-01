@@ -24,7 +24,7 @@ const Comment = ({postId, author, content, _id, onEdit, onDelete}) => {
 
     return (
         <div className="commentContent">
-            <span className="commentAuthor">{author}</span>
+            <span className="commentAuthor">{author.nickname}</span>
             <span className="commentContent">{isEdit ? <input value={localContent} onChange={(e) => setLocalContent(e.target.value)}/> : content}</span>
             {
                 isEdit ? <button onClick={handleCommentEdit}>수정 완료</button> : <div className='commentButton'>
