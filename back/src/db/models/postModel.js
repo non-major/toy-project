@@ -71,7 +71,10 @@ export class PostModel {
   // 내 게시글 조회 (page nation)
   async findByNickName(pageNumber, userId, orderType, conmmentOrder){
     const postsNumberPerPage = 9;
-    const posts = await Post.find({userId : userId},['postId','userId', 'title', 'image', 'commentCount']).populate({path:"userId", select:"nickname"}).sort({"commentCount":conmmentOrder,"postId":orderType}).limit(postsNumberPerPage).skip((pageNumber-1)*postsNumberPerPage);
+
+    let posts;
+    if (orderType) posts = await Post.find({userId : userId},['postId','userId', 'title', 'image', 'commentCount']).populate({path:"userId", select:"nickname"}).sort({"postId":orderType}).limit(postsNumberPerPage).skip((pageNumber-1)*postsNumberPerPage);
+    if (conmmentOrder) posts = await Post.find({userId : userId},['postId','userId', 'title', 'image', 'commentCount']).populate({path:"userId", select:"nickname"}).sort({"commentCount":conmmentOrder}).limit(postsNumberPerPage).skip((pageNumber-1)*postsNumberPerPage);
 
     const totalCount = (await Post.find({userId : userId})).length;
     posts.push({totalCount});
