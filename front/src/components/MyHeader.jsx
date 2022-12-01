@@ -70,7 +70,7 @@ const Header = styled.header`
   border-bottom: 1px solid black;
 
   img {
-    height: 9vh;
+    height: 10vh;
     margin-left: 20px;
   }
 `;
