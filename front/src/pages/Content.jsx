@@ -90,8 +90,6 @@ function Content(props) {
         // 현재 로그인 한 유저의 정보에서 nickname 빼옴
 
         useEffect(()=> {
-            console.log('userNickname', userNickname)
-            console.log('작성자', post.author)
             if(userNickname !== post.author){
                 setIsAuthor(false);
                 console.log(isAuthor);
@@ -122,6 +120,7 @@ function Content(props) {
             setComments([{author: newComment.data.author, content: newComment.data.content,},...comments])
             // 생성된 댓글 다시 api 요청해서 받아오고 싶은데 너무 힘들어서 일단 임시방편으로ㅠㅠㅠㅠ
             navigate(`/content/${id}`)
+            window.location.reload();
         } catch (err) {
             alert(err.response.data.reason)
             navigate('/login');
