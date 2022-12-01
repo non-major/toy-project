@@ -75,10 +75,10 @@ postRouter.get(
     let orderType = 0;
     let comment = 0;
 
-    if (order === 'asc') orderType = 1;
-    else if (order === 'desc') orderType = -1;
+    if (order === 'desc') orderType = -1;
+    else if (order === 'asc') orderType = 1;
     if (commentOrder === 'asc') comment = 1;
-    else if (order === 'desc') comment = -1;
+    else if (commentOrder === 'desc') comment = -1;
 
     const posts = await postService.getMyPosts(
       pageNumber,
