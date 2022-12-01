@@ -61,6 +61,7 @@ function Content(props) {
         useEffect(()=> {
 
         }, [])
+        // comments 배열 세팅해주기
 
         useEffect(()=> {
             const verifyAuthor = async () => {

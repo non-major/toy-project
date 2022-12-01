@@ -5,6 +5,10 @@ export class CommentService {
     return await commentModel.create(content, userId, postId);
   }
 
+  async findCommentByPostId(postId) {
+    return await commentModel.findByPostId(postId);
+  }
+  
   async updateComment(commentId, editContent) {
     return await commentModel.update(commentId, editContent);
   }
