@@ -1,11 +1,10 @@
-import React, { useRef } from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from "styled-components";
 import {ButtonWrap} from "./NewContent.jsx"
 import MyButton from '../components/MyButton.jsx';
 import CommentList from '../components/CommentList.jsx';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
 
 
 function Content(props) {
@@ -15,6 +14,7 @@ function Content(props) {
         author: '',
         content: '',
         img: '',
+        comments:[],
         })
     const [userNickname, setUserNickname] = useState('');
     const [isAuthor, setIsAuthor] = useState(false);
@@ -31,11 +31,18 @@ function Content(props) {
 
     const {id} = useParams();
 
+    const userToken = sessionStorage.getItem('userToken');
+
+    const config = {
+        headers: { Authorization: `Bearer ${userToken}` }
+    };
+
         useEffect(()=> {
             const getOnePost = async () => {
                 await axios.get(`/api/post/postList/details/${id}`).then((response) => 
                 {
                     const postData = response.data[0];
+                    console.log(postData);
                     setPost({
                         ...post,
                         title: postData.title,
@@ -43,6 +50,7 @@ function Content(props) {
                         author: postData.userId.nickname,
                         content: postData.content,
                         img: postData.image,
+                        comments: [...postData.comments], // spread로 새 배열로 담아줘야함
                     })
                 }).catch((err)=> console.log("게시글 가져오기 오류"));
             }
@@ -52,13 +60,10 @@ function Content(props) {
 
         useEffect(()=> {
             const verifyAuthor = async () => {
-                const userToken = sessionStorage.getItem("userToken");
                 try {
-                const user = await axios.get(`/api/user/myInfo`, {
-                headers: {
-                authorization: `Bearer ${userToken}`,
-                },
-                });
+                const user = await axios.get(`/api/user/myInfo`, 
+                    config,
+                );
                 setUserNickname(user.data.nickname);
                 return;
                 } catch(err){
@@ -89,8 +94,8 @@ function Content(props) {
         // })
 
 
-    let comments = [{id:1, author: "sjko", content: "감사합니다."}, {id:2, author: "hailee", content: "재미써용"}];
-
+    let comments = [{_id:1, author: "sjko", content: "감사합니다.", postId: 1}, {_id:2, author: "hailee", content: "재미써용", postId: 1}];
+    console.log(post.comments);
 
     const handleEdit = () => {
         console.log("수정하기")
@@ -100,13 +105,17 @@ function Content(props) {
         alert("이 게시물을 삭제하시겠습니까?")
     }
 
-    const onCreate = (author, content, id=3) => {
-        // comment db에 create 요청 보내는 로직으로 변경 필요
-        comments.push({id: id, author: author, content: content});
+    const onCreate = async (content) => {
+        await axios.post(`/api/comment/add/${id}`, {
+            content: content,
+        }, config).then((response) => {
+            console.log(response);
+        }).catch(err => console.log(err.response.data.reason))
+        
     }
 
     const onEdit = (targetId, newContent) => {
-        comments = comments.map((item) => item.id === targetId? {...item, content: newContent} : item);
+        comments = comments.map((item) => item._id === targetId? {...item, content: newContent} : item);
         console.log(comments);
     } // 전달된 newContent에서 content 속성만 빼와서 targetId와 같은 id 가진 요소 content만 바꿔끼우기
     // api 요청 하면 patch로 해당 comment 업데이트 하고 새로 받아오는 걸로 로직 변경 필요
@@ -131,7 +140,7 @@ function Content(props) {
                 <MyButton text="삭제하기" type="remove" onClick={handleDelete}/>
             </> : null}
             </ButtonWrap>
-            <CommentList comments={comments} onCreate={onCreate} onEdit={onEdit}/>
+            <CommentList postId={id} comments={comments} onCreate={onCreate} onEdit={onEdit}/>
         </ContentWrap>
     );
 }

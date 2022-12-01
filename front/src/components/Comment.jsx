@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 
 
-const Comment = ({author, content, id, onEdit}) => {
+const Comment = ({postId, author, content, _id, onEdit}) => {
     const [isEdit, setIsEdit] = useState(false);
     const toggleIsEdit = (e) => {
         e.preventDefault();
@@ -10,7 +10,7 @@ const Comment = ({author, content, id, onEdit}) => {
     const [localContent, setLocalContent] = useState(content);
         const handleCommentEdit = (e) => {
         console.log(localContent);
-        onEdit(id, localContent);
+        onEdit(_id, localContent);
         toggleIsEdit(e);
         return;
     }

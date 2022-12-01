@@ -2,7 +2,9 @@ import React, {useState} from 'react';
 import styled from "styled-components";
 import Comment from './Comment';
 
-function CommentList({comments, onCreate, onEdit}) {
+function CommentList({postId, comments, onCreate, onEdit}) {
+
+    // console.log(comments); // db에서 생성된 comments들 갖고올 것 (나중에 기본값 세팅해주기?)
 
 // author는 현재 로그인 한 user token에서 id 빼오기
     const [comment, setComment] = useState({
@@ -15,9 +17,7 @@ function CommentList({comments, onCreate, onEdit}) {
     }
 
     const handleCommentSubmit = () => {
-        // token 확인 로직 필요
-        // 댓글 글자수 확인?
-        onCreate(comment.author, comment.body);
+        onCreate(comment.body);
         setComment({
             author: "winter",
             body: "",
@@ -36,9 +36,10 @@ function CommentList({comments, onCreate, onEdit}) {
         </div>
         {
             comments.map((item) => {
-                return <Comment {...item} onEdit={onEdit}/>
+                return <Comment key={item._id} {...item} onEdit={onEdit}/>
             })
         }
+        {/* item에는 author, content, postId, createdAt 들어있음 */}
     </CommentWrap>
     );
 }
