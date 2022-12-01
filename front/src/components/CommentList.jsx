@@ -2,13 +2,12 @@ import React, {useState} from 'react';
 import styled from "styled-components";
 import Comment from './Comment';
 
-function CommentList({postId, comments, onCreate, onEdit}) {
+function CommentList({postId, comments, onCreate, onEdit, onDelete}) {
 
     // console.log(comments); // db에서 생성된 comments들 갖고올 것 (나중에 기본값 세팅해주기?)
 
 // author는 현재 로그인 한 user token에서 id 빼오기
     const [comment, setComment] = useState({
-        author: "winter",
         body: "",
     });
 
@@ -19,7 +18,6 @@ function CommentList({postId, comments, onCreate, onEdit}) {
     const handleCommentSubmit = () => {
         onCreate(comment.body);
         setComment({
-            author: "winter",
             body: "",
         })
     }
@@ -36,7 +34,7 @@ function CommentList({postId, comments, onCreate, onEdit}) {
         </div>
         {
             comments.map((item) => {
-                return <Comment key={item._id} {...item} onEdit={onEdit}/>
+                return <Comment key={item._id} {...item} onEdit={onEdit} onDelete={onDelete}/>
             })
         }
         {/* item에는 author, content, postId, createdAt 들어있음 */}
