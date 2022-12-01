@@ -27,10 +27,14 @@ const Chart = () => {
 
   return (
     <div>
-      <BarChart width={600} height={350} data={data}>
+      <BarChart
+        width={600}
+        height={350}
+        data={data}
+        margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="month" unit="월" />
-        <YAxis unit="권" />
+        <YAxis unit="권" domain={[0, 10]} tickCount={8} />
         <Bar
           dataKey="amt"
           fill="#5e92f3"

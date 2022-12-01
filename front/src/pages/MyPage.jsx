@@ -12,15 +12,15 @@ const MyPage = ({ isMain }) => {
   const navigate = useNavigate();
   // 레벨 구분
   const levelDivision = (level) => {
-    if (level < 2) {
+    if (level < 3) {
       return 1;
-    } else if (2 <= level && level < 5) {
+    } else if (3 <= level && level < 8) {
       return 2;
-    } else if (5 <= level && level < 10) {
+    } else if (8 <= level && level < 15) {
       return 3;
-    } else if (10 <= level && level < 15) {
+    } else if (15 <= level && level < 24) {
       return 4;
-    } else if (15 <= level && level < 20) {
+    } else if (24 <= level && level < 33) {
       return 5;
     }
   };
@@ -41,6 +41,7 @@ const MyPage = ({ isMain }) => {
   useEffect(() => {
     getUsersInfo().then((user) => {
       setNickname(user.data.nickname);
+      console.log(user.data);
       setLevel(levelDivision(user.data.postCount));
     });
   }, []);
