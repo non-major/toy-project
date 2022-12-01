@@ -1,14 +1,15 @@
-import React, { useRef } from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from "styled-components";
 import {ButtonWrap} from "./NewContent.jsx"
 import MyButton from '../components/MyButton.jsx';
 import CommentList from '../components/CommentList.jsx';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
 
 
 function Content(props) {
+    const navigate = useNavigate();
+
     const [post, setPost] = useState({
         title: '',
         date: '',
@@ -16,7 +17,9 @@ function Content(props) {
         content: '',
         img: '',
         })
-    const [userNickname, setUserNickname] = useState('');
+    const [comments, setComments] = useState([]);
+
+    const [userNickname, setUserNickname] = useState('기본');
     const [isAuthor, setIsAuthor] = useState(false);
 
     // const isAuthor = useRef(false);
@@ -31,11 +34,18 @@ function Content(props) {
 
     const {id} = useParams();
 
+    const userToken = sessionStorage.getItem('userToken');
+
+    const config = {
+        headers: { Authorization: `Bearer ${userToken}` }
+    };
+
         useEffect(()=> {
             const getOnePost = async () => {
                 await axios.get(`/api/post/postList/details/${id}`).then((response) => 
                 {
                     const postData = response.data[0];
+                    console.log(postData);
                     setPost({
                         ...post,
                         title: postData.title,
@@ -51,14 +61,23 @@ function Content(props) {
         // 게시글 불러와서 post 세팅해줌
 
         useEffect(()=> {
+            const getComments = async () => {
+                await axios.get(`/api/comment/get/${id}`)
+                .then((response)=> {
+                    setComments([...response.data, ...comments])
+                })
+                .catch(err => console.log(err.response.data.reason));
+            }
+            getComments();
+        }, [])
+        // comments 배열 세팅해주기
+
+        useEffect(()=> {
             const verifyAuthor = async () => {
-                const userToken = sessionStorage.getItem("userToken");
                 try {
-                const user = await axios.get(`/api/user/myInfo`, {
-                headers: {
-                authorization: `Bearer ${userToken}`,
-                },
-                });
+                const user = await axios.get(`/api/user/myInfo`, 
+                    config,
+                );
                 setUserNickname(user.data.nickname);
                 return;
                 } catch(err){
@@ -71,26 +90,20 @@ function Content(props) {
         // 현재 로그인 한 유저의 정보에서 nickname 빼옴
 
         useEffect(()=> {
-            if(userNickname === post.author){
-                setIsAuthor(true)
+            console.log('userNickname', userNickname)
+            console.log('작성자', post.author)
+            if(userNickname !== post.author){
+                setIsAuthor(false);
+                console.log(isAuthor);
                 return;
             } else {
+                setIsAuthor(true);
+                console.log(isAuthor);
                 return;
             }
-        }, [])
+        }, [userNickname])
     // 로그인 한 유저와 현재 보고있는 post의 작성자가 같으면 isAuthor = true
-
-        // useEffect(()=> {
-        //     if(userNickname === post.author){
-        //         isAuthor.current = true;
-        //     } else {
-        //         return;
-        //     }
-        // })
-
-
-    let comments = [{id:1, author: "sjko", content: "감사합니다."}, {id:2, author: "hailee", content: "재미써용"}];
-
+    // 와 계속 안되다가 deps에 userNickname 값 넣으니까 됐다ㅠㅠㅠㅠ
 
     const handleEdit = () => {
         console.log("수정하기")
@@ -100,16 +113,32 @@ function Content(props) {
         alert("이 게시물을 삭제하시겠습니까?")
     }
 
-    const onCreate = (author, content, id=3) => {
-        // comment db에 create 요청 보내는 로직으로 변경 필요
-        comments.push({id: id, author: author, content: content});
+    const onCreate = async (content) => {
+        try{
+          const newComment = await axios.post(`/api/comment/add/${id}`, {
+                content: content,
+            }, config)
+            console.log(newComment.data.content);
+            setComments([{author: newComment.data.author, content: newComment.data.content,},...comments])
+            // 생성된 댓글 다시 api 요청해서 받아오고 싶은데 너무 힘들어서 일단 임시방편으로ㅠㅠㅠㅠ
+            navigate(`/content/${id}`)
+        } catch (err) {
+            alert(err.response.data.reason)
+            navigate('/login');
+        }
     }
 
-    const onEdit = (targetId, newContent) => {
-        comments = comments.map((item) => item.id === targetId? {...item, content: newContent} : item);
+    const onEdit = async (targetId, newContent) => {
+        await axios.patch(`/comment/update/${targetId}`, {
+            content: newContent
+        }, config);
         console.log(comments);
-    } // 전달된 newContent에서 content 속성만 빼와서 targetId와 같은 id 가진 요소 content만 바꿔끼우기
+    } 
     // api 요청 하면 patch로 해당 comment 업데이트 하고 새로 받아오는 걸로 로직 변경 필요
+
+    const onDelete = () => {
+        alert('이 댓글을 삭제하시겠습니까?');
+    }
 
     return (
         <ContentWrap>
@@ -126,12 +155,13 @@ function Content(props) {
             <ContentSubstance>
                 <p>{post.content}</p>
             </ContentSubstance>
-            <ButtonWrap>{ isAuthor ? <>
+            <ButtonWrap>
+                { isAuthor ? <>
                 <MyButton text="수정하기" type="basic" onClick={handleEdit}/>
                 <MyButton text="삭제하기" type="remove" onClick={handleDelete}/>
             </> : null}
             </ButtonWrap>
-            <CommentList comments={comments} onCreate={onCreate} onEdit={onEdit}/>
+            <CommentList postId={id} comments={comments} onCreate={onCreate} onEdit={onEdit} onDelete={onDelete}/>
         </ContentWrap>
     );
 }
