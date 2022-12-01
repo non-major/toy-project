@@ -11,7 +11,7 @@ export const MyTitle = ({ title }) => {
 };
 
 const Register = ({ isEdit }) => {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState();
   const {
     register,
     handleSubmit,
@@ -54,17 +54,17 @@ const Register = ({ isEdit }) => {
         window.location.reload();
       }
     } else {
-      alert("회원가입이 완료되었습니다.");
       try {
-        axios.post("/api/user/register", {
+        await axios.post("/api/user/register", {
           email: data.email,
           password: data.password,
           nickname: data.nickname,
         });
-      } catch (error) {
-        console.error(error);
+        alert("회원가입이 완료되었습니다.");
+        navigate("/login", { replace: true });
+      } catch (err) {
+        alert(`${err.response.data.reason}`);
       }
-      navigate("/login", { replace: true });
     }
   };
   const Regex = { email: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g };
@@ -77,7 +77,7 @@ const Register = ({ isEdit }) => {
           <label>
             <p>이메일</p>
             <Input
-              value={isEdit ? email : null}
+              value={email}
               disabled={isEdit ? true : false}
               type="email"
               placeholder="이메일"
