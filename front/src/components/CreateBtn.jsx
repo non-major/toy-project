@@ -1,7 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import pencil from "../asset/pencil.png";
 
 const CreateBtn = () => {
   const navigate = useNavigate();
@@ -12,15 +11,18 @@ const CreateBtn = () => {
 
   return (
     <Btn onClick={auth}>
-      <img src={pencil} />
+      <div>새 기록 쓰기</div>
     </Btn>
   );
 };
 
 const Btn = styled.div`
-  width: 45px;
-  height: 45px;
+  width: 7vw;
+  height: 6vh;
   border-radius: 100px;
+  text-align: center;
+  line-height: 6vh;
+  color: white;
   background-color: #003c8f;
   cursor: pointer;
   &:hover {
