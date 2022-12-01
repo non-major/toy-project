@@ -8,7 +8,7 @@ export class CommentService {
   async findCommentByPostId(postId) {
     return await commentModel.findByPostId(postId);
   }
-  
+
   async updateComment(commentId, editContent) {
     return await commentModel.update(commentId, editContent);
   }

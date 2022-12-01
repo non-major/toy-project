@@ -19,6 +19,7 @@ export class CommentModel {
     return comment;
   }
 
+
 // 댓글 조회 by PostId
   async findByPostId(postId) {
     return await Comment.find({ postId });
