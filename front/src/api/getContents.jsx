@@ -1,23 +1,37 @@
 import axios from "axios";
 
-const getData = async (page, dateSort, commentSort) => {
+const getData = async (all, page, dateSort, commentSort) => {
   try {
-    const comment = commentSort !== "";
-    const response = await axios
-      .get(
-        `/api/postList/${page}?${
-          comment ? "comment=desc" : ""
-        }&orderType=${dateSort}`,
-      )
-      .then((res) => {
-        return {
-          response: res.data.slice(0, 9),
-          total: res.data[9].totalCount,
+    const mySort = commentSort !== "" ? "comment=asc" : `order=${dateSort}`;
+
+    const headObj = all
+      ? ""
+      : {
+          headers: {
+            authorization: `Bearer ${sessionStorage.getItem("userToken")}`,
+          },
         };
-      });
+
+    const url = all
+      ? `/api/post/postList/${page}?order=${dateSort}`
+      : `/api/post/myPostList/${page}?${mySort}`;
+
+    const response = await axios.get(url, headObj).then((res) => {
+      if (res.length === 1) {
+        return {
+          response: [],
+        };
+      } else {
+        return {
+          response: res.data.slice(0, -1),
+          totalCount: res.data.slice(-1)[0].totalCount,
+        };
+      }
+    });
 
     return response;
   } catch (err) {
+    console.log(err);
     alert(`문제가 발생했습니다. 다시 시도해 주세요. ${err.message}`);
   }
 };

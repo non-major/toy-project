@@ -2,7 +2,7 @@ import axios from "axios";
 
 const getUserRank = async (setUsers) => {
   try {
-    const response = await axios.get(`/api/readingRank`);
+    const response = await axios.get(`/api/user/rank`);
 
     return setUsers(response.data);
   } catch (err) {
