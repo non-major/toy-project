@@ -14,8 +14,9 @@ function Content(props) {
         author: '',
         content: '',
         img: '',
-        comments:[],
         })
+    const [comments, setComments] = useState([]);
+
     const [userNickname, setUserNickname] = useState('');
     const [isAuthor, setIsAuthor] = useState(false);
 
@@ -50,13 +51,16 @@ function Content(props) {
                         author: postData.userId.nickname,
                         content: postData.content,
                         img: postData.image,
-                        comments: [...postData.comments], // spread로 새 배열로 담아줘야함
                     })
                 }).catch((err)=> console.log("게시글 가져오기 오류"));
             }
             getOnePost();
         }, []) 
         // 게시글 불러와서 post 세팅해줌
+
+        useEffect(()=> {
+
+        }, [])
 
         useEffect(()=> {
             const verifyAuthor = async () => {
@@ -94,8 +98,8 @@ function Content(props) {
         // })
 
 
-    let comments = [{_id:1, author: "sjko", content: "감사합니다.", postId: 1}, {_id:2, author: "hailee", content: "재미써용", postId: 1}];
-    console.log(post.comments);
+    // let comments = [{_id:1, author: "sjko", content: "감사합니다.", postId: 1}, {_id:2, author: "hailee", content: "재미써용", postId: 1}];
+    // console.log(post.comments);
 
     const handleEdit = () => {
         console.log("수정하기")
@@ -109,13 +113,16 @@ function Content(props) {
         await axios.post(`/api/comment/add/${id}`, {
             content: content,
         }, config).then((response) => {
-            console.log(response);
+        console.log(response.status);
+        // 댓글만 GET해서 postData.comments 업데이트?
         }).catch(err => console.log(err.response.data.reason))
         
     }
 
-    const onEdit = (targetId, newContent) => {
-        comments = comments.map((item) => item._id === targetId? {...item, content: newContent} : item);
+    const onEdit = async (targetId, newContent) => {
+        await axios.patch(`/comment/update/${targetId}`, {
+            content: newContent
+        }, config);
         console.log(comments);
     } // 전달된 newContent에서 content 속성만 빼와서 targetId와 같은 id 가진 요소 content만 바꿔끼우기
     // api 요청 하면 patch로 해당 comment 업데이트 하고 새로 받아오는 걸로 로직 변경 필요
