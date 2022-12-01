@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 
 
 const Comment = ({postId, author, content, _id, onEdit, onDelete}) => {
+    // 인자로 nickname 넘어오면 추가로 받아서 commentAuthor span에 넣어주기
     const [isEdit, setIsEdit] = useState(false);
     const toggleIsEdit = (e) => {
         e.preventDefault();
