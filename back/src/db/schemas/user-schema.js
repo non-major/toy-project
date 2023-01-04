@@ -14,10 +14,10 @@ const UserSchema = new Schema(
       type: String,
       required: true,
     },
-    postCount : {
-      type : Number,
-      default : 0,
-    }
+    postCount: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     collection: "users",

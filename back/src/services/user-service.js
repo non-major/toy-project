@@ -115,12 +115,12 @@ class UserService {
   }
 
   // 독서왕 top5 조회
-  async findTopFive(){
+  async findTopFive() {
     return await this.userModel.findTopFive();
   }
 
   // 회원정보 조회
-  async getUserInfo(userId){
+  async getUserInfo(userId) {
     return await this.userModel.getUserInfo(userId);
   }
 }
