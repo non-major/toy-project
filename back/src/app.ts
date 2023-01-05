@@ -1,28 +1,21 @@
-import cors from "cors";
 import express from "express";
-import { errorHandler } from "./middlewares/error-handler.js";
-import {
-  postRouter,
-  userRouter,
-  commentRouter,
-  kakaoRouter,
-} from "./routers/index";
+import cors from "cors";
+import { config } from "./config";
+import { db } from "./db/database";
+import { userRouter } from "./routers";
+import { endPoint } from "./constants";
+import bodyParser from "body-parser";
 
 const app = express();
 
-// CORS 에러 방지
 app.use(cors());
+app.use(bodyParser.json());
 
-// Content-Type: application/json 형태의 데이터를 인식하고 핸들링할 수 있게 함.
-app.use(express.json());
+app.use(endPoint.user, userRouter);
+db.getConnection().then(() => console.log(`db연결`));
 
-// Content-Type: application/x-www-form-urlencoded 형태의 데이터를 인식하고 핸들링할 수 있게 함.
-app.use(express.urlencoded({ extended: false }));
-
-app.use("/api", postRouter);
-app.use("/api", userRouter);
-app.use("/api", commentRouter);
-app.use("/api", kakaoRouter);
-app.use(errorHandler);
-
-export { app };
+app.listen(config.host.port, () => {
+  console.log(
+    `정상적으로 서버를 시작하였습니다.http://localhost:${config.host.port}`
+  );
+});
