@@ -2,8 +2,14 @@ import React, { useState, useEffect } from "react";
 import getUserRank from "../api/getUserRank";
 import styled from "styled-components";
 
+export interface RankingUser {
+  _id: string;
+  postCount: number;
+  nickname: string;
+}
+
 const Ranking = () => {
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState<RankingUser[]>([]);
 
   useEffect(() => {
     getUserRank(setUsers);

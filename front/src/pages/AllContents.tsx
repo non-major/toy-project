@@ -26,27 +26,26 @@ const AllContents = () => {
   }
 
   useEffect(() => {
-    console.log(all, page, dateSort, commentSort);
     getData(all, page, dateSort, commentSort).then((res) => {
-      if (res.response === 0) {
+      if (res?.response === 0) {
         setTotal(0);
         return;
       } else {
-        setContents(res.response);
-        setTotal(res.totalCount);
+        setContents(res?.response);
+        setTotal(res?.totalCount);
       }
     });
   }, [dateSort, commentSort]);
 
-  const handlePageChange = (page) => {
+  const handlePageChange = (page: number) => {
     setPage(page);
     getData(all, page, dateSort, commentSort).then((res) => {
-      if (res.response === 0) {
+      if (res?.response === 0) {
         setTotal(0);
         return;
       } else {
-        setContents(res.response);
-        setTotal(res.totalCount);
+        setContents(res?.response);
+        setTotal(res?.totalCount);
       }
     });
   };
