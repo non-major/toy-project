@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 
-const DB_URI = dotenv.config().parsed.DB_URI;
+const DB_URI: string = dotenv.config().parsed.DB_URI;
 // const DB_URI ="mongodb://localhost:27017"
 
 try {
@@ -16,6 +16,6 @@ try {
 }
 
 export * from "./models/postModel.js";
-export * from "./models/user-model.js";
+export * from "./models/user-model";
 export * from "./models/comment-model.js";
 export * from "./models/kakaoStrategy.js";

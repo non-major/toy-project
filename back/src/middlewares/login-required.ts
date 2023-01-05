@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
+import { Request, Response, NextFunction } from "express";
 
-function loginRequired(req, res, next) {
+function loginRequired(req: Request, res: Response, next: NextFunction) {
   // request 헤더로부터 authorization bearer 토큰을 받음.
   const userToken = req.headers["authorization"]?.split(" ")[1];
   // 이 토큰은 jwt 토큰 문자열이거나, 혹은 "null" 문자열이거나, undefined임.
@@ -19,11 +20,10 @@ function loginRequired(req, res, next) {
   try {
     const secretKey = process.env.JWT_SECRET_KEY || "secret-key";
     const jwtDecoded = jwt.verify(userToken, secretKey);
-
-    const userId = jwtDecoded.userId;
+    const userId = (<{ userId: string }>jwtDecoded).userId;
 
     // 라우터에서 req.currentUserId를 통해 유저의 id에 접근 가능하게 됨
-    req.currentUserId = userId;
+    req.body.userId = userId;
 
     next();
   } catch (error) {

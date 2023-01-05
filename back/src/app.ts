@@ -6,7 +6,7 @@ import {
   userRouter,
   commentRouter,
   kakaoRouter,
-} from "./routers/index.js";
+} from "./routers/index";
 
 const app = express();
 
@@ -22,7 +22,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/api", postRouter);
 app.use("/api", userRouter);
 app.use("/api", commentRouter);
-app.use("api", kakaoRouter);
+app.use("/api", kakaoRouter);
 app.use(errorHandler);
 
 export { app };
