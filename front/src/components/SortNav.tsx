@@ -1,6 +1,12 @@
 import React from "react";
 
-const SortNav = ({ all, setDateSort, setCommentSort }) => {
+interface SortNavProps {
+  all: boolean;
+  setDateSort: React.Dispatch<React.SetStateAction<string>>;
+  setCommentSort: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const SortNav = ({ all, setDateSort, setCommentSort }: SortNavProps) => {
   const MemberNav = () => {
     return (
       <ul>

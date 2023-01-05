@@ -11,7 +11,7 @@ const Home = () => {
 
   useEffect(() => {
     getData(true, 1, "desc", "").then((res) => {
-      setContents(res.response.slice(0, 6));
+      setContents(res?.response.slice(0, 6));
     });
   }, []);
 

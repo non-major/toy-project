@@ -2,7 +2,21 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-const ItemList = ({ contents }) => {
+interface Item {
+  postId: string;
+  userId: {
+    nickname: string;
+  };
+  nickname: string;
+  image: string;
+  title: string;
+}
+
+interface ContentProps {
+  contents: Item[];
+}
+
+const ItemList = ({ contents }: ContentProps) => {
   if (contents.length === 0) {
     return (
       <div style={{ margin: "40px 0 20px 0" }}>작성한 게시물이 없습니다.</div>
