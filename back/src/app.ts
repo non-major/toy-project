@@ -1,18 +1,23 @@
 import express from "express";
 import cors from "cors";
 import { config } from "./config";
-import { db } from "./db/database";
-import { userRouter } from "./routers";
+import { pg } from "./db/database";
+import { guestRouter, userRouter } from "./routers";
 import { endPoint } from "./constants";
 import bodyParser from "body-parser";
+import { loginRequired } from "./middlewares";
 
 const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
 
-app.use(endPoint.user, userRouter);
-db.getConnection().then(() => console.log(`db연결`));
+app.use(endPoint.guest, guestRouter);
+app.use(endPoint.user, loginRequired, userRouter);
+
+pg.connect().then(() => {
+  console.log(`DB connect`);
+});
 
 app.listen(config.host.port, () => {
   console.log(

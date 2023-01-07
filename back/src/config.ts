@@ -2,6 +2,9 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export const config = {
+  jwt: {
+    secretKey: process.env.JWT_SECRET_KEY,
+  },
   host: {
     port: process.env.PORT,
   },

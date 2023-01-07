@@ -1,11 +1,27 @@
 interface user {
-  email: string;
+  id?: number;
+  email?: string;
   password: string;
-  nickname: string;
+  nickname?: string;
 }
 
-interface IUserModel {
+interface userToken {
+  userId: number;
+  userEmail?: string;
+  userPassword: string;
+  userNickname: string;
+}
+
+interface IGuestModel {
   create(user: user): Promise<user>;
 }
 
-export { user, IUserModel };
+interface IUserModel {
+  findAll(): Promise<user[]>;
+  findByEmail(email: string): Promise<user>;
+  findByNickname(nickname: string): Promise<user>;
+  findById(id: number): Promise<user>;
+  update(id: number, toUpdate: user): Promise<user>;
+}
+
+export { user, userToken, IGuestModel, IUserModel };

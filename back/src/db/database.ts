@@ -1,11 +1,9 @@
-import mysql from "mysql2";
+import { Pool } from "pg";
 import { config } from "../config";
 
-const pool = mysql.createPool({
+export const pg = new Pool({
   host: config.db.host,
   user: config.db.user,
   database: config.db.database,
   password: config.db.password,
 });
-
-export const db = pool.promise();

@@ -1,22 +1,34 @@
-import { user } from "../interface";
+import { userToken, user } from "../interface";
 import { userService } from "../services";
 import { AsyncRequestHandler } from "../types";
 
 interface userControllerInterface {
-  createUser: AsyncRequestHandler;
+  findAll: AsyncRequestHandler;
+  update: AsyncRequestHandler;
 }
 
 export class UserController implements userControllerInterface {
-  createUser: AsyncRequestHandler = async (req, res) => {
-    const { email, password, nickname } = req.body;
+  findAll: AsyncRequestHandler = async (req, res) => {
+    const users = await userService.findAll();
+    res.json(users);
+  };
+
+  update: AsyncRequestHandler = async (req, res) => {
+    const { userId, userPassword, userNickname, password, nickname } = req.body;
+
+    const userToken: userToken = {
+      userId: userId,
+      userPassword: userPassword,
+      userNickname: userNickname,
+    };
 
     const user: user = {
-      email: email,
       password: password,
       nickname: nickname,
     };
-    const createUser = await userService.create(user);
-    res.json(createUser);
+
+    const userUpdate = await userService.update(userToken, user);
+    res.json(userUpdate);
   };
 }
 
