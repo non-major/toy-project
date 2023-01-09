@@ -5,6 +5,12 @@ import MyButton from "../../components/MyButton";
 import CommentList from "../../components/Comment/CommentList";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import {
+  ContentWrap,
+  ContentTitle,
+  ContentImg,
+  ContentSubstance,
+} from "./Content.styles";
 
 function Content() {
   const navigate = useNavigate();
@@ -131,51 +137,3 @@ function Content() {
 }
 
 export default Content;
-
-const ContentWrap = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  > div {
-    margin-bottom: 15px;
-  }
-
-  .contentAuthor {
-    color: grey;
-    font-weight: bolder;
-    margin: 10px;
-  }
-`;
-
-const ContentTitle = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  > span {
-    display: block;
-  }
-  .contentTitle {
-    font-size: 2em;
-    font-weight: bold;
-  }
-  .contentDate {
-    color: grey;
-  }
-`;
-
-const ContentImg = styled.div`
-  display: flex;
-  justify-content: center;
-  > img {
-    width: 100%;
-    height: 100%;
-  }
-`;
-
-const ContentSubstance = styled.div`
-  display: flex;
-  justify-content: center;
-  padding: 20px;
-  background-color: #e2e2e2;
-`;
