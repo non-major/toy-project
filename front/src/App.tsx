@@ -5,7 +5,7 @@ import Home from "./pages/Home";
 import AllContents from "./pages/AllContents";
 import Content from "./pages/Content";
 import NewContent from "./pages/NewContent";
-import EditContent from "./pages/EditContent";
+// import EditContent from "./pages/EditContent";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import MyPage from "./pages/MyPage";
@@ -21,7 +21,7 @@ function App() {
             <Route path="mydiary" element={<AllContents />} />
             <Route path="new" element={<NewContent />} />
             <Route path="content/:id" element={<Content />} />
-            <Route path="edit" element={<EditContent />} />
+            {/* <Route path="edit" element={<EditContent />} /> */}
             <Route path="register" element={<Register />} />
             <Route path="login" element={<Login />} />
             <Route path="mypage" element={<MyPage isMain={true} />} />
