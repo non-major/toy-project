@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { ButtonWrap } from "./NewContent";
-import MyButton from "../components/MyButton";
-import CommentList from "../components/Comment/CommentList";
+import { ButtonWrap } from "../NewContent/NewContent.styles";
+import MyButton from "../../components/MyButton";
+import CommentList from "../../components/Comment/CommentList";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
