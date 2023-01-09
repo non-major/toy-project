@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import logo from "../asset/mainlogo.png";
 
 const MyHeader = () => {
   const [user, setUser] = useState(false);
@@ -51,7 +50,10 @@ const MyHeader = () => {
     <Header>
       <div className="logo">
         <Link to="/">
-          <img src={logo} alt="Book극곰" />
+          <img
+            src="https://res.cloudinary.com/dk9scwone/image/upload/v1672905634/rvbfbaqvqlpaxxgh2opb.png"
+            alt="Book극곰"
+          />
         </Link>
       </div>
 
