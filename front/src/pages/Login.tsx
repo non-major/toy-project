@@ -11,31 +11,34 @@ import {
 import MyButton from "../components/MyButton";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { userLogin } from "../api/userInfo";
+
+interface FormData {
+  errors: {
+    email: {
+      message: string;
+    };
+  };
+  password: string;
+  email: string;
+}
 
 const Login = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<FormData>();
   const navigate = useNavigate();
-  const onSubmit = async (data) => {
-    try {
-      const res = await axios.post("/api/user/login", data);
-      console.log(res);
-      const userToken = res.data.token;
-      alert("로그인이 완료되었습니다.");
-      sessionStorage.setItem("userToken", userToken);
-      navigate("/", { replace: true });
-      window.location.replace("/");
-    } catch (err) {
-      alert(`${err.response.data.reason}`);
-    }
+  const onSubmit = (data: FormData) => {
+    userLogin(data);
+    navigate("/", { replace: true });
+    window.location.replace("/");
   };
   const Regex = { email: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g };
   return (
     <RegisterBox>
-      <MyTitle title="로그인" />
+      <MyTitle>{"로그인"}</MyTitle>
       <Formbox>
         <MyForm onSubmit={handleSubmit(onSubmit)}>
           <label>
@@ -53,12 +56,12 @@ const Login = () => {
               })}
             />
           </label>
-          {errors.email && <Errors>{errors.email.message}</Errors>}
+          {errors.email && <Errors>{errors?.email?.message}</Errors>}
           <label>
             <p>비밀번호</p>
             <Input
               type="password"
-              name="password"
+              // name="password"
               placeholder="비밀번호"
               {...register("password", {
                 required: "비밀번호를 입력해주세요",
@@ -69,8 +72,8 @@ const Login = () => {
               })}
             />
           </label>
-          {errors.password && <Errors>{errors.password.message}</Errors>}
-          <MyButton text={"로그인"} type={"submit"} />
+          {errors.password && <Errors>{errors?.password?.message}</Errors>}
+          <MyButton btntype={"submit"}>{"로그인"}</MyButton>
         </MyForm>
       </Formbox>
     </RegisterBox>

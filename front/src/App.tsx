@@ -22,10 +22,10 @@ function App() {
             <Route path="new" element={<NewContent />} />
             <Route path="content/:id" element={<Content />} />
             {/* <Route path="edit" element={<EditContent />} /> */}
-            {/* <Route path="register" element={<Register />} /> */}
+            <Route path="register" element={<Register />} />
             <Route path="login" element={<Login />} />
             <Route path="mypage" element={<MyPage isMain={true} />} />
-            {/* <Route path="mypage/edit" element={<MyPage />} /> */}
+            <Route path="mypage/edit" element={<MyPage />} />
           </Route>
         </Routes>
       </div>

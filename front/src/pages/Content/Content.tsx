@@ -126,8 +126,12 @@ function Content() {
       <ButtonWrap>
         {isAuthor ? (
           <>
-            <MyButton text="수정하기" type="basic" onClick={handleEdit} />
-            <MyButton text="삭제하기" type="remove" onClick={handleDelete} />
+            <MyButton btntype="basic" onClick={handleEdit}>
+              {"수정하기"}
+            </MyButton>
+            <MyButton btntype="remove" onClick={handleDelete}>
+              {"삭제하기"}
+            </MyButton>
           </>
         ) : null}
       </ButtonWrap>

@@ -3,21 +3,40 @@ import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import MyButton from "../components/MyButton";
 import { useNavigate } from "react-router-dom";
-import getUsersInfo from "../api/getUserInfo";
-import axios from "axios";
+import { createUserInfo, getUsersInfo, updateUserInfo } from "../api/userInfo";
 
-export const MyTitle = ({ title }) => {
-  return <Title>{title}</Title>;
+interface Props {
+  children: React.ReactNode;
+}
+
+interface RegisterProps {
+  isEdit?: boolean;
+}
+
+interface FormData {
+  errors: {
+    email: {
+      message: string;
+    };
+  };
+  password: string;
+  passwordConfirm: string;
+  nickname: string;
+  email: string;
+}
+
+export const MyTitle = ({ children }: Props) => {
+  return <Title>{children}</Title>;
 };
 
-const Register = ({ isEdit }) => {
+const Register = ({ isEdit }: RegisterProps) => {
   const [email, setEmail] = useState();
   const {
     register,
     handleSubmit,
     formState: { errors },
     getValues,
-  } = useForm();
+  } = useForm<FormData>();
   const navigate = useNavigate();
   useEffect(() => {
     if (isEdit) {
@@ -26,52 +45,28 @@ const Register = ({ isEdit }) => {
       });
     }
   }, []);
-  const onSubmit = async (data) => {
+
+  const onSubmit = (data: FormData) => {
     if (isEdit) {
       if (window.confirm("수정하시겠습니까?")) {
-        const userToken = sessionStorage.getItem("userToken");
-        console.log(userToken);
-        try {
-          await axios.patch(
-            `/api/user/update`,
-            {
-              nickname: data.nickname,
-              currentPassword: data.password,
-            },
-            {
-              headers: {
-                authorization: `Bearer ${userToken}`,
-              },
-            },
-          );
-          navigate("/mypage", { replace: true });
-          window.location.reload();
-        } catch (err) {
-          alert(`${err.response.data.reason}`);
-        }
+        updateUserInfo(data);
+        navigate("/mypage", { replace: true });
+        window.location.reload();
       } else {
         alert("수정이 취소되었습니다.");
         window.location.reload();
       }
     } else {
-      try {
-        await axios.post("/api/user/register", {
-          email: data.email,
-          password: data.password,
-          nickname: data.nickname,
-        });
-        alert("회원가입이 완료되었습니다.");
-        navigate("/login", { replace: true });
-      } catch (err) {
-        alert(`${err.response.data.reason}`);
-      }
+      createUserInfo(data);
+      alert("회원가입이 완료되었습니다.");
+      navigate("/login", { replace: true });
     }
   };
   const Regex = { email: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g };
 
   return (
     <RegisterBox>
-      <MyTitle title={isEdit ? "회원정보수정" : "회원가입"} />
+      <MyTitle>{isEdit ? "회원정보수정" : "회원가입"}</MyTitle>
       <Formbox>
         <MyForm onSubmit={handleSubmit(onSubmit)}>
           <label>
@@ -93,12 +88,12 @@ const Register = ({ isEdit }) => {
                   }))}
             />
           </label>
-          {errors.email && <Errors>{errors.email.message}</Errors>}
+          {errors.email && <Errors>{errors?.email?.message}</Errors>}
           <label>
             <p>비밀번호</p>
             <Input
               type="password"
-              name="password"
+              // name="password"
               placeholder="비밀번호"
               {...register("password", {
                 required: "비밀번호를 입력해주세요",
@@ -114,7 +109,7 @@ const Register = ({ isEdit }) => {
             <p>비밀번호확인</p>
             <Input
               type="password"
-              name="passwordConfirm"
+              // name="passwordConfirm"
               placeholder="비밀번호 확인"
               {...register("passwordConfirm", {
                 required: "비밀번호를 다시 입력해주세요",
@@ -126,13 +121,13 @@ const Register = ({ isEdit }) => {
             />
           </label>
           {errors.passwordConfirm && (
-            <Errors>{errors.passwordConfirm.message}</Errors>
+            <Errors>{errors?.passwordConfirm?.message}</Errors>
           )}
           <label>
             <p>닉네임</p>
             <Input
               type="nickname"
-              name="nickname"
+              // name="nickname"
               placeholder="닉네임"
               {...register("nickname", {
                 required: "닉네임을 입력해주세요",
@@ -144,10 +139,9 @@ const Register = ({ isEdit }) => {
             />
           </label>
           {errors.nickname && <Errors>{errors.nickname.message}</Errors>}
-          <MyButton
-            text={isEdit ? "수정하기" : "회원가입"}
-            type={isEdit ? "remove" : "submit"}
-          />
+          <MyButton btntype={isEdit ? "remove" : "submit"}>
+            {isEdit ? "수정하기" : "회원가입"}
+          </MyButton>
         </MyForm>
       </Formbox>
     </RegisterBox>

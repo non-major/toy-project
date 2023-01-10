@@ -101,8 +101,12 @@ function NewContent() {
         // onChange={handleChangeState}
       />
       <ButtonWrap>
-        <MyButton text="저장하기" type="submit" onClick={handleSubmit} />
-        <MyButton text="작성취소" type="basic" onClick={handleQuit} />
+        <MyButton btntype="submit" onClick={handleSubmit}>
+          {"저장하기"}
+        </MyButton>
+        <MyButton btntype="basic" onClick={handleQuit}>
+          {"작성취소"}
+        </MyButton>
       </ButtonWrap>
     </div>
   );
