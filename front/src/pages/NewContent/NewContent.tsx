@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 // import Input from '../components/Input.jsx'
 import MyButton from "../../components/MyButton";
-import { Title } from "../Register";
 import axios from "axios";
 import {
   TitleInput,
@@ -12,6 +11,7 @@ import {
   ImgSearchInput,
   ButtonWrap,
 } from "./NewContent.styles";
+import { MyTitle } from "../User/Register";
 
 function NewContent() {
   const navigate = useNavigate();
@@ -68,7 +68,7 @@ function NewContent() {
   return (
     <div>
       <TitleWrap>
-        <Title>독서 기록 작성하기</Title>
+        <MyTitle>독서 기록 작성하기</MyTitle>
       </TitleWrap>
       <p>
         <label htmlFor="title">제목</label>

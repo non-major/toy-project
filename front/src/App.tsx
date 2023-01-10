@@ -5,10 +5,10 @@ import Home from "./pages/Home/Home";
 import AllContents from "./pages/AllContents/AllContents";
 import Content from "./pages/Content/Content";
 import NewContent from "./pages/NewContent/NewContent";
+import Register from "./pages/User/Register";
+import Login from "./pages/User/Login";
+import MyPage from "./pages/MyPage/MyPage";
 // import EditContent from "./pages/EditContent";
-import Register from "./pages/Register";
-import Login from "./pages/Login";
-import MyPage from "./pages/MyPage";
 
 function App() {
   return (

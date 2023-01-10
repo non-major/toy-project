@@ -1,15 +1,9 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import {
-  Formbox,
-  MyForm,
-  Input,
-  Errors,
-  RegisterBox,
-  MyTitle,
-} from "./Register";
-import MyButton from "../components/MyButton";
-import { userLogin } from "../api/userInfo";
+import MyButton from "../../components/MyButton";
+import { userLogin } from "../../api/userInfo";
+import { Errors, Formbox, Input, MyForm, RegisterBox } from "./User.styles";
+import { MyTitle } from "./Register";
 
 interface FormData {
   errors: {

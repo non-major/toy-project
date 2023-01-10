@@ -9,11 +9,11 @@ class CustomError_Class extends Error {
   };
 }
 
-type Data = {
+interface Data {
   email?: string;
   nickname?: string;
   password: string;
-};
+}
 
 const getUsersInfo = async () => {
   try {
