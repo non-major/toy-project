@@ -35,7 +35,7 @@ const AllContents = () => {
         setTotal(res?.totalCount);
       }
     });
-  }, [dateSort, commentSort]);
+  }, [all, page, dateSort, commentSort]);
 
   const handlePageChange = (page: number) => {
     setPage(page);
