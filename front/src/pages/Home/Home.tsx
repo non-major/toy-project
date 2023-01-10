@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
-import Ranking from "../components/Ranking";
-import getData from "../api/getContents";
-import ItemList from "../components/ItemList";
-import CreateBtn from "../components/CreateBtn";
+import Ranking from "../../components/Ranking/Ranking";
+import getData from "../../api/getContents";
+import ItemList from "../../components/ItemList/ItemList";
+import CreateBtn from "../../components/CreateBtn/CreateBtn";
+import { Division, Division2 } from "./Home.styles";
 
 const Home = () => {
   const [contents, setContents] = useState([]);
@@ -37,37 +37,5 @@ const Home = () => {
     </>
   );
 };
-
-const Btn = styled.div``;
-
-const Division = styled.div`
-  display: flex;
-  width: 100%;
-  height: 20px;
-  margin-top: 30px;
-  cursor: default;
-
-  p {
-    margin-right: 10px;
-  }
-
-  .line {
-    height: 8px;
-    flex-grow: 1;
-    border-bottom: 2px solid black;
-  }
-
-  .more {
-    color: gray;
-    font-size: 0.8rem;
-    text-decoration: none;
-    line-height: 16px;
-    margin-left: 10px;
-  }
-`;
-
-const Division2 = styled(Division)`
-  margin-top: 60px;
-`;
 
 export default Home;

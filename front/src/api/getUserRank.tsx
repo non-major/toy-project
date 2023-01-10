@@ -1,5 +1,5 @@
 import axios from "axios";
-import { RankingUser } from "../components/Ranking";
+import { RankingUser } from "../components/Ranking/Ranking";
 
 const getUserRank = async (
   setUsers: React.Dispatch<React.SetStateAction<RankingUser[]>>,
