@@ -35,6 +35,8 @@ const createUserInfo = async (data: Data) => {
       password: data.password,
       nickname: data.nickname,
     });
+    alert("회원가입이 완료되었습니다.");
+    window.location.replace("/login");
   } catch (err: unknown) {
     if (err instanceof CustomError_Class) {
       alert(`${err.response?.data.reason}`);
@@ -56,6 +58,7 @@ const updateUserInfo = async (data: Data) => {
         },
       },
     );
+    window.location.replace("/mypage");
   } catch (err: unknown) {
     if (err instanceof CustomError_Class) {
       alert(`${err.response?.data.reason}`);
@@ -69,15 +72,17 @@ const deleteUserInfo = async () => {
       authorization: `Bearer ${userToken}`,
     },
   });
+  alert("회원정보가 안전하게 삭제되었습니다.");
+  window.location.replace("/");
 };
 
 const userLogin = async (data: Data) => {
   try {
     const res = await axios.post("/api/user/login", data);
-    console.log(res);
     const userToken = res.data.token;
     sessionStorage.setItem("userToken", userToken);
     alert("로그인이 완료되었습니다.");
+    window.location.replace("/");
   } catch (err: unknown) {
     if (err instanceof CustomError_Class) {
       alert(`${err?.response?.data.reason}`);

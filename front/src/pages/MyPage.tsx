@@ -9,40 +9,39 @@ interface MyPageProps {
   isMain?: boolean;
 }
 
+// 레벨 구분
+const levelDivision = (level: number) => {
+  if (level < 3) {
+    return 1;
+  } else if (3 <= level && level < 8) {
+    return 2;
+  } else if (8 <= level && level < 15) {
+    return 3;
+  } else if (15 <= level && level < 24) {
+    return 4;
+  } else if (24 <= level && level < 33) {
+    return 5;
+  }
+};
+
 const MyPage = ({ isMain }: MyPageProps) => {
   const [nickname, setNickname] = useState("");
   const [level, setLevel] = useState<number>();
   const navigate = useNavigate();
-  // 레벨 구분
-  const levelDivision = (level: number) => {
-    if (level < 3) {
-      return 1;
-    } else if (3 <= level && level < 8) {
-      return 2;
-    } else if (8 <= level && level < 15) {
-      return 3;
-    } else if (15 <= level && level < 24) {
-      return 4;
-    } else if (24 <= level && level < 33) {
-      return 5;
-    }
-  };
-  // 회원탈퇴
+
   const onUserRemove = async () => {
     if (window.confirm("정말 탈퇴하시겠어요?😭")) {
       deleteUserInfo();
-      alert("회원정보가 안전하게 삭제되었습니다.");
-      navigate("/", { replace: true });
     }
   };
-  // 유저 정보 가져오기
+
   useEffect(() => {
     getUsersInfo().then((user) => {
       setNickname(user.nickname);
       setLevel(levelDivision(user.postCount));
     });
   }, []);
-  // 통계보기
+
   const Statistics = () => {
     return (
       <>
@@ -60,7 +59,7 @@ const MyPage = ({ isMain }: MyPageProps) => {
       </>
     );
   };
-  // 회원정보수정
+
   const EditRegister = () => {
     return (
       <>

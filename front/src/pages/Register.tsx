@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import MyButton from "../components/MyButton";
-import { useNavigate } from "react-router-dom";
 import { createUserInfo, getUsersInfo, updateUserInfo } from "../api/userInfo";
 
 interface Props {
@@ -37,29 +36,22 @@ const Register = ({ isEdit }: RegisterProps) => {
     formState: { errors },
     getValues,
   } = useForm<FormData>();
-  const navigate = useNavigate();
+
   useEffect(() => {
     if (isEdit) {
       getUsersInfo().then((user) => {
-        setEmail(user.data.email);
+        setEmail(user.email);
       });
     }
-  }, []);
+  }, [isEdit]);
 
   const onSubmit = (data: FormData) => {
     if (isEdit) {
       if (window.confirm("수정하시겠습니까?")) {
         updateUserInfo(data);
-        navigate("/mypage", { replace: true });
-        window.location.reload();
-      } else {
-        alert("수정이 취소되었습니다.");
-        window.location.reload();
       }
     } else {
       createUserInfo(data);
-      alert("회원가입이 완료되었습니다.");
-      navigate("/login", { replace: true });
     }
   };
   const Regex = { email: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g };
@@ -93,7 +85,6 @@ const Register = ({ isEdit }: RegisterProps) => {
             <p>비밀번호</p>
             <Input
               type="password"
-              // name="password"
               placeholder="비밀번호"
               {...register("password", {
                 required: "비밀번호를 입력해주세요",
@@ -109,7 +100,6 @@ const Register = ({ isEdit }: RegisterProps) => {
             <p>비밀번호확인</p>
             <Input
               type="password"
-              // name="passwordConfirm"
               placeholder="비밀번호 확인"
               {...register("passwordConfirm", {
                 required: "비밀번호를 다시 입력해주세요",
@@ -127,7 +117,6 @@ const Register = ({ isEdit }: RegisterProps) => {
             <p>닉네임</p>
             <Input
               type="nickname"
-              // name="nickname"
               placeholder="닉네임"
               {...register("nickname", {
                 required: "닉네임을 입력해주세요",

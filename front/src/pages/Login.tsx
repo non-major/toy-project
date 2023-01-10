@@ -9,8 +9,6 @@ import {
   MyTitle,
 } from "./Register";
 import MyButton from "../components/MyButton";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { userLogin } from "../api/userInfo";
 
 interface FormData {
@@ -29,13 +27,13 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>();
-  const navigate = useNavigate();
+
   const onSubmit = (data: FormData) => {
     userLogin(data);
-    navigate("/", { replace: true });
-    window.location.replace("/");
   };
+
   const Regex = { email: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g };
+
   return (
     <RegisterBox>
       <MyTitle>{"로그인"}</MyTitle>
@@ -61,7 +59,6 @@ const Login = () => {
             <p>비밀번호</p>
             <Input
               type="password"
-              // name="password"
               placeholder="비밀번호"
               {...register("password", {
                 required: "비밀번호를 입력해주세요",
