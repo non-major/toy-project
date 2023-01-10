@@ -21,7 +21,7 @@ const ItemList = ({ contents }: ContentProps) => {
     return (
       <div style={{ margin: "40px 0 20px 0" }}>작성한 게시물이 없습니다.</div>
     );
-  } else
+  } else {
     return (
       <ItemListStyle className="itemList">
         {contents.map((content) => {
@@ -39,6 +39,7 @@ const ItemList = ({ contents }: ContentProps) => {
         })}
       </ItemListStyle>
     );
+  }
 };
 
 const ItemListStyle = styled.div`
