@@ -41,10 +41,6 @@ function Content() {
 
   const userToken = sessionStorage.getItem("userToken");
 
-  const config = {
-    headers: { Authorization: `Bearer ${userToken}` },
-  };
-
   useEffect(() => {
     const getOnePost = async () => {
       await axios
@@ -64,23 +60,8 @@ function Content() {
         .catch((err) => console.log("게시글 가져오기 오류"));
     };
     getOnePost();
-  }, []);
+  }, [id, post]);
   // 게시글 불러와서 post 세팅해줌
-
-  useEffect(() => {
-    const verifyAuthor = async () => {
-      try {
-        const user = await axios.get(`/api/user/myInfo`, config);
-        setUserNickname(user.data.nickname);
-        return;
-      } catch (err) {
-        setIsAuthor(false);
-        console.log("로그인 되지 않음 혹은 작성자가 아님");
-      }
-    };
-    verifyAuthor();
-  }, []);
-  // 현재 로그인 한 유저의 정보에서 nickname 빼옴
 
   useEffect(() => {
     if (userNickname !== post.author) {
@@ -92,7 +73,7 @@ function Content() {
       console.log(isAuthor);
       return;
     }
-  }, [userNickname, post.author]);
+  }, [userNickname, post.author, isAuthor]);
   // 로그인 한 유저와 현재 보고있는 post의 작성자가 같으면 isAuthor = true
   // 와 계속 안되다가 deps에 userNickname이랑 post.author값 넣으니까 됐다ㅠㅠㅠㅠ
 
