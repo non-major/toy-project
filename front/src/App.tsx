@@ -1,8 +1,8 @@
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from "./components/Layout";
-import Home from "./pages/Home";
-import AllContents from "./pages/AllContents";
+import Home from "./pages/Home/Home";
+import AllContents from "./pages/AllContents/AllContents";
 import Content from "./pages/Content/Content";
 import NewContent from "./pages/NewContent/NewContent";
 // import EditContent from "./pages/EditContent";

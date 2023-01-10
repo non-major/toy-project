@@ -1,13 +1,24 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Header, Nav, SearchBar } from "./MyHeader.styles";
 
 const MyHeader = () => {
   const [user, setUser] = useState(false);
+  const searchRef = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     sessionStorage.getItem("userToken") ? setUser(true) : setUser(false);
   }, []);
+
+  const onSearch = () => {
+    if (!searchRef.current?.value) {
+      navigate("/");
+    } else {
+      navigate("/");
+      searchRef.current.value = "";
+    }
+  };
 
   const MemberNav = () => {
     return (
@@ -57,37 +68,28 @@ const MyHeader = () => {
         </Link>
       </div>
 
+      <SearchBar>
+        <input
+          type="text"
+          ref={searchRef}
+          placeholder="검색어를 입력해 주세요."
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              onSearch();
+            }
+          }}></input>
+        <img
+          src="https://res.cloudinary.com/dk9scwone/image/upload/v1671095050/freeIconMagnifyingglass_p7owop.png"
+          alt="검색"
+          onClick={() => {
+            onSearch();
+          }}
+        />
+      </SearchBar>
+
       <Nav>{user ? <MemberNav /> : <GuestNav />}</Nav>
     </Header>
   );
 };
-
-const Header = styled.header`
-  min-height: 100px;
-  height: 10vh;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 15vw;
-  border-bottom: 1px solid black;
-
-  img {
-    height: 10vh;
-    margin-left: 20px;
-  }
-`;
-
-const Nav = styled.div`
-  ul {
-    display: flex;
-  }
-
-  ul a {
-    margin: 0 10px;
-    list-style: none;
-    color: black;
-    text-decoration: none;
-  }
-`;
 
 export default MyHeader;
