@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const Division = styled.div`
+export const Division = styled.div`
   display: flex;
   width: 100%;
   height: 20px;
@@ -25,9 +25,3 @@ const Division = styled.div`
     margin-left: 10px;
   }
 `;
-
-const Division2 = styled(Division)`
-  margin-top: 60px;
-`;
-
-export { Division, Division2 };

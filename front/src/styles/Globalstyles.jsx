@@ -22,6 +22,7 @@ const GlobalStyles = createGlobalStyle`
     min-height: 100vh;
     position: relative;
     width: 100%;
+    overflow: hidden;
   }
 
   section {
@@ -30,10 +31,9 @@ const GlobalStyles = createGlobalStyle`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 50px auto 0 auto;
+    margin: 0 auto;
     padding-bottom: 200px;
   }
 `;
 
 export default GlobalStyles;
-// display: flex;

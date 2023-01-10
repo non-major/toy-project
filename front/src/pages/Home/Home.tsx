@@ -4,7 +4,8 @@ import Ranking from "../../components/Ranking/Ranking";
 import getData from "../../api/getContents";
 import ItemList from "../../components/ItemList/ItemList";
 import CreateBtn from "../../components/CreateBtn/CreateBtn";
-import { Division, Division2 } from "./Home.styles";
+import Carousel from "../../components/Carousel/Carousel";
+import { Division } from "./Home.styles";
 
 const Home = () => {
   const [contents, setContents] = useState([]);
@@ -17,6 +18,14 @@ const Home = () => {
 
   return (
     <>
+      <Carousel />
+
+      <Division>
+        <p>독서 왕 👑</p>
+        <div className="line"></div>
+      </Division>
+      <Ranking />
+
       <Division>
         <p>전체 기록 보기</p>
         <div className="line"></div>
@@ -24,15 +33,8 @@ const Home = () => {
           {"more >"}
         </Link>
       </Division>
-
       <ItemList contents={contents} />
 
-      <Division2>
-        <p>독서 왕 👑</p>
-        <div className="line"></div>
-      </Division2>
-
-      <Ranking />
       <CreateBtn />
     </>
   );
