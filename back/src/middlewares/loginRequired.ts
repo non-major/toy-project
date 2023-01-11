@@ -22,12 +22,43 @@ export function loginRequired(req: Request, res: Response, next: NextFunction) {
     const jwtDecoded = jwt.verify(userToken, secretKey);
     const userId = (<{ userId: string }>jwtDecoded).userId;
     const userEmail = (<{ userEmail: string }>jwtDecoded).userEmail;
-    const userPassword = (<{ userPassword: string }>jwtDecoded).userPassword;
+    const status = (<{ status: number }>jwtDecoded).status;
     const userNickname = (<{ userNickname: string }>jwtDecoded).userNickname;
     req.body.userId = userId;
     req.body.userEmail = userEmail;
-    req.body.userPassword = userPassword;
     req.body.userNickname = userNickname;
+    req.body.status = status;
+
+    next();
+  } catch (error) {
+    errorResponse(res, "FORBIDDEN", "정상적인 토큰이 아닙니다.");
+
+    return;
+  }
+}
+
+export function isAuthorRequired(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const userToken = req.headers.authorization?.split(" ")[1];
+
+  if (!userToken || userToken === "null" || userToken === "undefined") {
+    return next();
+  }
+
+  try {
+    const secretKey = config.jwt.secretKey || "secret-key";
+    const jwtDecoded = jwt.verify(userToken, secretKey);
+    const userId = (<{ userId: string }>jwtDecoded).userId;
+    const userEmail = (<{ userEmail: string }>jwtDecoded).userEmail;
+    const status = (<{ status: number }>jwtDecoded).status;
+    const userNickname = (<{ userNickname: string }>jwtDecoded).userNickname;
+    req.body.userId = userId;
+    req.body.userEmail = userEmail;
+    req.body.userNickname = userNickname;
+    req.body.status = status;
 
     next();
   } catch (error) {

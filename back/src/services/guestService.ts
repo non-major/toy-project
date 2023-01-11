@@ -56,8 +56,8 @@ export class GuestService {
       {
         userId: user.id,
         userEmail: user.email,
-        userPassword: user.password,
         nickname: user.nickname,
+        status: user.status,
       },
       secretKey
     );

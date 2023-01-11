@@ -1,10 +1,11 @@
-import { userToken, user } from "../interface";
+import { userInfo, user } from "../interface";
 import { userService } from "../services";
 import { AsyncRequestHandler } from "../types";
 
 interface userControllerInterface {
   findAll: AsyncRequestHandler;
   update: AsyncRequestHandler;
+  delete: AsyncRequestHandler;
 }
 
 export class UserController implements userControllerInterface {
@@ -14,21 +15,32 @@ export class UserController implements userControllerInterface {
   };
 
   update: AsyncRequestHandler = async (req, res) => {
-    const { userId, userPassword, userNickname, password, nickname } = req.body;
+    const { userId, userNickname, currentPassword, password, nickname } =
+      req.body;
 
-    const userToken: userToken = {
+    const userInfo: userInfo = {
       userId: userId,
-      userPassword: userPassword,
+      currentPassword: currentPassword,
       userNickname: userNickname,
     };
 
-    const user: user = {
+    if (!currentPassword) {
+      throw new Error("정보를 변경하려면,현재의 비밀번호가 필요합니다.");
+    }
+
+    const toUpdate: user = {
       password: password,
       nickname: nickname,
     };
 
-    const userUpdate = await userService.update(userToken, user);
+    const userUpdate = await userService.update(userInfo, toUpdate);
     res.json(userUpdate);
+  };
+
+  delete: AsyncRequestHandler = async (req, res) => {
+    const id = req.body.userId;
+    const userDelete = userService.delete(id);
+    res.json(userDelete);
   };
 }
 

@@ -1,6 +1,5 @@
 import { pg } from "../db/database";
 import { user, IUserModel } from "../interface";
-import { guestModel } from "./guestModel";
 export class UserModel implements IUserModel {
   async findAll(): Promise<user[]> {
     const users = await pg.query(`select * from users`);
@@ -28,10 +27,20 @@ export class UserModel implements IUserModel {
   }
 
   async update(id: number, toUpdate: user): Promise<user> {
-    const { nickname } = toUpdate;
+    const { nickname, password } = toUpdate;
     return await pg
-      .query(`UPDATE users SET nickname = ($1) WHERE id = ($2)`, [nickname, id])
+      .query(
+        `UPDATE users SET nickname = ($1),password =($2) WHERE id = ($3)`,
+        [nickname, password, id]
+      )
       .then(() => this.findById(id));
+  }
+
+  async delete(id: number): Promise<user[]> {
+    const deleteUser = await pg.query(`DELETE FROM users WHERE id = ($1)`, [
+      id,
+    ]);
+    return deleteUser.rows[0];
   }
 }
 

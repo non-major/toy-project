@@ -3,13 +3,24 @@ interface user {
   email?: string;
   password: string;
   nickname?: string;
+  status?: number;
 }
 
-interface userToken {
+interface userInfo {
   userId: number;
+  currentPassword: string;
   userEmail?: string;
-  userPassword: string;
   userNickname: string;
+  status?: number;
+}
+
+interface post {
+  userId: number;
+  title: string;
+  content: string;
+  image?: string;
+  commentCount?: number;
+  user_nickname?: string;
 }
 
 interface IGuestModel {
@@ -22,6 +33,12 @@ interface IUserModel {
   findByNickname(nickname: string): Promise<user>;
   findById(id: number): Promise<user>;
   update(id: number, toUpdate: user): Promise<user>;
+  delete(id: number): Promise<user[]>;
 }
 
-export { user, userToken, IGuestModel, IUserModel };
+interface IPostModel {
+  create(postInfo: post): Promise<post>;
+  findPost(postId: number): Promise<post>;
+}
+
+export { user, userInfo, IGuestModel, IUserModel, post, IPostModel };
