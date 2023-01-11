@@ -18,7 +18,7 @@ export const CarouselStyle = styled.div`
 
   .slick-slider > button:before {
     opacity: 1;
-    color: #e3f2fd;
+    color: ${(props) => props.theme.color.iceblue};
   }
 
   .slick-prev {
@@ -41,11 +41,11 @@ export const CarouselStyle = styled.div`
 
   .slick-dots li button:before {
     opacity: 1;
-    color: #e3f2fd;
+    color: ${(props) => props.theme.color.iceblue};
   }
 
   .slick-dots li.slick-active button:before {
     opacity: 1;
-    color: #003c8f;
+    color: ${(props) => props.theme.color.darkblue};
   }
 `;

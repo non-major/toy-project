@@ -7,7 +7,7 @@ const Header = styled.header`
   justify-content: space-between;
   align-items: center;
   padding: 10px 15vw;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid ${(props) => props.theme.color.gray};
 
   img {
     height: 10vh;
@@ -33,7 +33,7 @@ const SearchBar = styled.div`
   padding: 0 10px;
   display: flex;
   align-items: center;
-  border: 1px solid #b1b1b1;
+  border: 1px solid ${(props) => props.theme.color.gray};
   border-radius: 100px;
 
   input {
