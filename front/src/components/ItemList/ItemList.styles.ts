@@ -2,16 +2,11 @@ import styled from "styled-components";
 
 export const ItemListStyle = styled.div`
   width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
 
   .item {
-    width: 30%;
-    height: 100%;
-    overflow: hidden;
-    float: left;
-    margin: 40px 1.5% 0 1.5%;
+    margin: 40px 8px 0 8px;
   }
 
   .item span {
@@ -25,7 +20,8 @@ export const ItemListStyle = styled.div`
 
   .img {
     width: 100%;
-    height: 22vw;
+    height: 100%;
+    max-height: 350px;
     margin: 5px 0 5px 0;
   }
 
