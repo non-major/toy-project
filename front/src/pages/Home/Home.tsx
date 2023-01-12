@@ -9,9 +9,10 @@ import { Division } from "./Home.styles";
 
 const Home = () => {
   const [contents, setContents] = useState([]);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
-    getData(true, 1, "desc", "").then((res) => {
+    getData(true, page, "desc", "").then((res) => {
       setContents(res?.response.slice(0, 6));
     });
   }, []);
