@@ -5,6 +5,7 @@ export class PostModel implements IPostModel {
   async create(postInfo: post): Promise<post> {
     const { userId, title, content, image } = postInfo;
     const newPost = await pg.query(
+      //todo 현재시간 값 다르게 가져와짐
       `INSERT INTO posts ("userId", title, content, image) VALUES ($1,$2,$3,$4) RETURNING*`,
       [userId, title, content, image]
     );
@@ -22,6 +23,29 @@ export class PostModel implements IPostModel {
     );
 
     return findPost.rows[0];
+  }
+
+  async findAll(): Promise<any> {
+    const findAll = await pg.query(
+      `select * from posts order by id desc limit 9`
+    );
+    return findAll.rows;
+  }
+
+  async findMyPosts(userId: number): Promise<post[]> {
+    const myPosts = await pg.query(
+      `select * from posts where "userId" = ($1)`,
+      [userId]
+    );
+    return myPosts.rows;
+  }
+
+  async findMyPostsCount(userId: number): Promise<number> {
+    const findCount = await pg.query(
+      `select count(*) from posts where "userId" = ($1)`,
+      [userId]
+    );
+    return findCount.rows[0];
   }
 }
 

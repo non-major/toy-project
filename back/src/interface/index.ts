@@ -39,6 +39,14 @@ interface IUserModel {
 interface IPostModel {
   create(postInfo: post): Promise<post>;
   findPost(postId: number): Promise<post>;
+  findAll(): Promise<any>;
+  findMyPosts(userId: number): Promise<post[]>;
+  findMyPostsCount(userId: number): Promise<number>;
 }
 
-export { user, userInfo, IGuestModel, IUserModel, post, IPostModel };
+interface MyPosts {
+  MyPosts?: post[];
+  totalCount: number;
+}
+
+export { user, userInfo, IGuestModel, IUserModel, post, IPostModel, MyPosts };

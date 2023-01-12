@@ -6,6 +6,6 @@ interface EndPointInterface {
 
 export const endPoint: EndPointInterface = {
   guest: "/api/guest",
-  user: "/api/user",
-  post: "/api/post",
+  user: "/api/users",
+  post: "/api/posts",
 };

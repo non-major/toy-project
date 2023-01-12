@@ -5,8 +5,9 @@ import { AsyncRequestHandler } from "../types";
 interface postControllerInterface {
   create: AsyncRequestHandler;
   findPost: AsyncRequestHandler;
+  findAll: AsyncRequestHandler;
+  findMyPosts: AsyncRequestHandler;
 }
-
 export class PostController implements postControllerInterface {
   create: AsyncRequestHandler = async (req, res) => {
     const { userId, title, content, image } = req.body;
@@ -30,11 +31,22 @@ export class PostController implements postControllerInterface {
     const isAuthor = userId === findPost.userId ? "true" : "false";
 
     const post: {} = {
-      findPost: findPost,
+      post: findPost,
       isAuthor: isAuthor,
     };
 
     res.json(post);
+  };
+
+  findAll: AsyncRequestHandler = async (req, res) => {
+    const findAll = await postService.findAll();
+    res.json(findAll);
+  };
+  //todo
+  findMyPosts: AsyncRequestHandler = async (req, res) => {
+    const userId = req.body.userId;
+    const findMyPosts = await postService.findMyPosts(userId);
+    res.json(findMyPosts);
   };
 }
 
