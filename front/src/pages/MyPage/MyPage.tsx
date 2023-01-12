@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Register, { MyTitle } from "../User/Register";
-import { useNavigate } from "react-router-dom";
 import Chart from "../../components/Chart";
 import { deleteUserInfo, getUsersInfo } from "../../api/userInfo";
 import {
@@ -8,12 +7,12 @@ import {
   Content,
   Level,
   LevelBox,
-  Menu,
   MypageBox,
   RemoveUser,
   RemoveUserBox,
-  Sidebar,
 } from "./MyPage.styles";
+import Sidebar from "../../components/Sidebar/Sidebar";
+import SidebarText from "../../components/Sidebar/SidebarText";
 
 interface MyPageProps {
   isMain?: boolean;
@@ -37,7 +36,7 @@ const levelDivision = (level: number) => {
 const MyPage = ({ isMain }: MyPageProps) => {
   const [nickname, setNickname] = useState("");
   const [level, setLevel] = useState<number>();
-  const navigate = useNavigate();
+  const [postCount, setPostCount] = useState<number>();
 
   const onUserRemove = async () => {
     if (window.confirm("정말 탈퇴하시겠어요?😭")) {
@@ -49,6 +48,7 @@ const MyPage = ({ isMain }: MyPageProps) => {
     getUsersInfo().then((user) => {
       setNickname(user.nickname);
       setLevel(levelDivision(user.postCount));
+      setPostCount(user.postCount);
     });
   }, []);
 
@@ -56,10 +56,13 @@ const MyPage = ({ isMain }: MyPageProps) => {
     return (
       <>
         <LevelBox>
+          <div style={{ fontSize: "18px" }}>
+            누적 독서량 {postCount}권 달성!
+          </div>
           <Level>
-            <div className="box1">✨</div>
-            <div className="box2">Lv.{level}</div>
-            <div className="box3">✨</div>
+            <div style={{ transform: "rotateY(180deg)" }}>🎉</div>
+            <div>Lv.{level}</div>
+            <div>🎉</div>
           </Level>
         </LevelBox>
         <ChartBox>
@@ -86,13 +89,15 @@ const MyPage = ({ isMain }: MyPageProps) => {
   return (
     <MypageBox>
       <Sidebar>
-        <ul>
-          <Menu onClick={() => navigate("/mypage")}>통계보기</Menu>
-          <Menu onClick={() => navigate("/mypage/edit")}>회원정보수정</Menu>
-        </ul>
+        <SidebarText to="/mypage/statistics">통계보기</SidebarText>
+        <SidebarText to="/mypage/useredit">회원정보수정</SidebarText>
       </Sidebar>
       <Content>
-        {isMain ? <MyTitle>{`${nickname} 님의 레벨은?`}</MyTitle> : null}
+        {isMain && (
+          <div style={{ padding: "20px" }}>
+            <MyTitle>{`${nickname} 님의 레벨은?`}</MyTitle>
+          </div>
+        )}
         {isMain ? <Statistics /> : <EditRegister />}
       </Content>
     </MypageBox>
