@@ -8,8 +8,7 @@ import NewContent from "./pages/NewContent/NewContent";
 import Register from "./pages/User/Register";
 import Login from "./pages/User/Login";
 import MyPage from "./pages/MyPage/MyPage";
-import { QueryClientProvider } from "react-query";
-import { QueryClient } from "react-query/types/core";
+import { QueryClientProvider, QueryClient } from "react-query";
 // import EditContent from "./pages/EditContent";
 
 const queryClient = new QueryClient();
