@@ -24,8 +24,11 @@ function App() {
             {/* <Route path="edit" element={<EditContent />} /> */}
             <Route path="register" element={<Register />} />
             <Route path="login" element={<Login />} />
-            <Route path="mypage" element={<MyPage isMain={true} />} />
-            <Route path="mypage/edit" element={<MyPage />} />
+            <Route
+              path="mypage/statistics"
+              element={<MyPage isMain={true} />}
+            />
+            <Route path="mypage/useredit" element={<MyPage />} />
           </Route>
         </Routes>
       </div>
