@@ -1,8 +1,10 @@
 import { Router } from "express";
 import { asyncHandler } from "../utils/index";
 import { userController } from "../controller";
-
+import { loginRequired } from "../middlewares/loginRequired";
 export const userRouter = Router();
 userRouter.get("/", asyncHandler(userController.findAll));
-userRouter.patch("/update", asyncHandler(userController.update));
-userRouter.delete("/delete", asyncHandler(userController.delete));
+userRouter.get("/myInfo", loginRequired, asyncHandler(userController.findUser));
+userRouter.get("/rank", asyncHandler(userController.userRank));
+userRouter.patch("/", loginRequired, asyncHandler(userController.update));
+userRouter.delete("/", loginRequired, asyncHandler(userController.delete));

@@ -24,6 +24,12 @@ export class PostModel implements IPostModel {
 
     return findPost.rows[0];
   }
+  async findPostId(id: number): Promise<post> {
+    const findPostId = await pg.query(`select * from posts where id = ($1)`, [
+      id,
+    ]);
+    return findPostId.rows[0];
+  }
 
   async findAll(): Promise<any> {
     const findAll = await pg.query(
@@ -32,10 +38,10 @@ export class PostModel implements IPostModel {
     return findAll.rows;
   }
 
-  async findMyPosts(userId: number): Promise<post[]> {
+  async findMyPosts(userId: number, page: number): Promise<post[]> {
     const myPosts = await pg.query(
-      `select * from posts where "userId" = ($1)`,
-      [userId]
+      `select * from posts where "userId" = ($1) order by id desc limit 9 offset (($2)-1)*9`,
+      [userId, page]
     );
     return myPosts.rows;
   }
@@ -46,6 +52,28 @@ export class PostModel implements IPostModel {
       [userId]
     );
     return findCount.rows[0];
+  }
+
+  async updatePost(id: number, postInfo: post): Promise<post> {
+    const { title, content } = postInfo;
+    return await pg
+      .query(
+        `update posts set title = ($1),content = ($2),date =CURRENT_TIMESTAMP  where id = ($3)`,
+        [title, content, id]
+      )
+      .then(() => this.findPostId(id));
+  }
+
+  async delete(id: number, userId: number): Promise<number> {
+    const deletePost = await pg.query(`DELETE FROM posts WHERE id = ($1)`, [
+      id,
+    ]);
+
+    const postCountUpdate = await pg.query(
+      `UPDATE users SET post_count =(post_count - 1)WHERE id=($1)`,
+      [userId]
+    );
+    return deletePost.rowCount;
   }
 }
 

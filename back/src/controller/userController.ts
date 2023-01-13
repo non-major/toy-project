@@ -4,14 +4,22 @@ import { AsyncRequestHandler } from "../types";
 
 interface userControllerInterface {
   findAll: AsyncRequestHandler;
+  findUser: AsyncRequestHandler;
   update: AsyncRequestHandler;
   delete: AsyncRequestHandler;
+  userRank: AsyncRequestHandler;
 }
 
 export class UserController implements userControllerInterface {
   findAll: AsyncRequestHandler = async (req, res) => {
     const users = await userService.findAll();
     res.json(users);
+  };
+
+  findUser: AsyncRequestHandler = async (req, res) => {
+    const userId = req.body.userId;
+    const user = await userService.findUser(userId);
+    res.json(user);
   };
 
   update: AsyncRequestHandler = async (req, res) => {
@@ -41,6 +49,12 @@ export class UserController implements userControllerInterface {
     const id = req.body.userId;
     const userDelete = userService.delete(id);
     res.json(userDelete);
+  };
+
+  userRank: AsyncRequestHandler = async (req, res) => {
+    const userRank = await userService.userRank();
+
+    res.json(userRank);
   };
 }
 

@@ -13,7 +13,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use(endPoint.guest, guestRouter);
-app.use(endPoint.user, loginRequired, userRouter);
+app.use(endPoint.user, userRouter);
 app.use(endPoint.post, postRouter);
 
 pg.connect().then(() => {

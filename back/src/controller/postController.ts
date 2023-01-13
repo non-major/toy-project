@@ -7,6 +7,8 @@ interface postControllerInterface {
   findPost: AsyncRequestHandler;
   findAll: AsyncRequestHandler;
   findMyPosts: AsyncRequestHandler;
+  update: AsyncRequestHandler;
+  delete: AsyncRequestHandler;
 }
 export class PostController implements postControllerInterface {
   create: AsyncRequestHandler = async (req, res) => {
@@ -27,6 +29,7 @@ export class PostController implements postControllerInterface {
     const postId = parseInt(id);
     const postUserId = req.body.userId;
     const userId = parseInt(postUserId);
+
     const findPost = await postService.findPost(postId);
     const isAuthor = userId === findPost.userId ? "true" : "false";
 
@@ -42,11 +45,35 @@ export class PostController implements postControllerInterface {
     const findAll = await postService.findAll();
     res.json(findAll);
   };
-  //todo
+
   findMyPosts: AsyncRequestHandler = async (req, res) => {
     const userId = req.body.userId;
-    const findMyPosts = await postService.findMyPosts(userId);
+    const page = req.query.page as string;
+    const myPostPage = parseInt(page);
+    const findMyPosts = await postService.findMyPosts(userId, myPostPage);
     res.json(findMyPosts);
+  };
+
+  update: AsyncRequestHandler = async (req, res) => {
+    const id = req.params.id;
+    const postId = parseInt(id);
+    const { title, content } = req.body;
+    const postInfo: post = {
+      title: title,
+      content: content,
+    };
+
+    const updatePost = await postService.update(postId, postInfo);
+    res.json(updatePost);
+  };
+
+  delete: AsyncRequestHandler = async (req, res) => {
+    const id = req.params.id;
+    const postId = parseInt(id);
+    const userId = req.body.userId;
+
+    const deletePost = await postService.deletePost(postId, userId);
+    res.json(deletePost);
   };
 }
 

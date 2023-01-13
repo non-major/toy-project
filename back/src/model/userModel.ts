@@ -1,8 +1,10 @@
 import { pg } from "../db/database";
-import { user, IUserModel } from "../interface";
+import { user, IUserModel, rank } from "../interface";
 export class UserModel implements IUserModel {
   async findAll(): Promise<user[]> {
-    const users = await pg.query(`select * from users`);
+    const users = await pg.query(
+      `select id,email,nickname,post_count,status from users`
+    );
 
     return users.rows;
   }
@@ -22,7 +24,10 @@ export class UserModel implements IUserModel {
   }
 
   async findById(id: number): Promise<user> {
-    const users = await pg.query(`SELECT * FROM users WHERE id = ($1)`, [id]);
+    const users = await pg.query(
+      `SELECT id,email,nickname,post_count,status FROM users WHERE id = ($1)`,
+      [id]
+    );
     return users.rows[0];
   }
 
@@ -41,6 +46,14 @@ export class UserModel implements IUserModel {
       id,
     ]);
     return deleteUser.rows[0];
+  }
+
+  async rank(): Promise<rank[]> {
+    const userRank = await pg.query(
+      `select id,nickname,post_count from users order by post_count desc limit 5;`
+    );
+
+    return userRank.rows;
   }
 }
 

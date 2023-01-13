@@ -16,19 +16,22 @@ export class PostService {
     return await postModel.findAll();
   }
 
-  //   async findMyPosts(userId: number): Promise<any> {
-  //     const myPosts = await postModel.findMyPosts(userId);
-  //     // const totalCount = await postModel.findMyPostsCount(userId);
-  //     // const result = {
-  //     //   myPosts: myPosts,
-  //     //   totalCount: totalCount,
-  //     // };
-  //     // return result;
-  //     return myPosts;
-  //   }
+  async findMyPosts(userId: number, page: number): Promise<MyPosts> {
+    const myPosts = await postModel.findMyPosts(userId, page);
+    const totalCount = await postModel.findMyPostsCount(userId);
+    const result = {
+      myPosts: myPosts,
+      totalCount: totalCount,
+    };
+    return result;
+  }
 
-  async findMyPosts(userId: number): Promise<post[]> {
-    return await postModel.findMyPosts(userId);
+  async update(id: number, postInfo: post): Promise<post> {
+    return await postModel.updatePost(id, postInfo);
+  }
+
+  async deletePost(id: number, userId: number): Promise<number> {
+    return await postModel.delete(id, userId);
   }
 }
 

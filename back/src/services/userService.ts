@@ -1,4 +1,4 @@
-import { user, userInfo, IUserModel } from "../interface";
+import { user, userInfo, IUserModel, rank } from "../interface";
 import { userModel } from "../model/userModel";
 import bcrypt from "bcrypt";
 
@@ -7,6 +7,10 @@ export class UserService {
 
   async findAll(): Promise<user[]> {
     return await userModel.findAll();
+  }
+
+  async findUser(id: number): Promise<user> {
+    return await userModel.findById(id);
   }
 
   async update(userInfo: userInfo, toUpdate: user): Promise<user> {
@@ -60,6 +64,10 @@ export class UserService {
     const deleteUser = await userModel.delete(id);
 
     return deleteUser;
+  }
+
+  async userRank(): Promise<rank[]> {
+    return await userModel.rank();
   }
 }
 

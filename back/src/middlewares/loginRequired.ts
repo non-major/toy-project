@@ -20,7 +20,7 @@ export function loginRequired(req: Request, res: Response, next: NextFunction) {
   try {
     const secretKey = config.jwt.secretKey || "secret-key";
     const jwtDecoded = jwt.verify(userToken, secretKey);
-    const userId = (<{ userId: string }>jwtDecoded).userId;
+    const userId = (<{ userId: number }>jwtDecoded).userId;
     const userEmail = (<{ userEmail: string }>jwtDecoded).userEmail;
     const status = (<{ status: number }>jwtDecoded).status;
     const userNickname = (<{ userNickname: string }>jwtDecoded).userNickname;
@@ -51,7 +51,7 @@ export function isAuthorRequired(
   try {
     const secretKey = config.jwt.secretKey || "secret-key";
     const jwtDecoded = jwt.verify(userToken, secretKey);
-    const userId = (<{ userId: string }>jwtDecoded).userId;
+    const userId = (<{ userId: number }>jwtDecoded).userId;
     const userEmail = (<{ userEmail: string }>jwtDecoded).userEmail;
     const status = (<{ status: number }>jwtDecoded).status;
     const userNickname = (<{ userNickname: string }>jwtDecoded).userNickname;

@@ -15,12 +15,18 @@ interface userInfo {
 }
 
 interface post {
-  userId: number;
+  userId?: number;
   title: string;
   content: string;
   image?: string;
   commentCount?: number;
   user_nickname?: string;
+}
+
+interface rank {
+  id: number;
+  nickname: string;
+  post_count: number;
 }
 
 interface IGuestModel {
@@ -34,14 +40,17 @@ interface IUserModel {
   findById(id: number): Promise<user>;
   update(id: number, toUpdate: user): Promise<user>;
   delete(id: number): Promise<user[]>;
+  rank(): Promise<rank[]>;
 }
 
 interface IPostModel {
   create(postInfo: post): Promise<post>;
   findPost(postId: number): Promise<post>;
   findAll(): Promise<any>;
-  findMyPosts(userId: number): Promise<post[]>;
+  findMyPosts(userId: number, page: number): Promise<post[]>;
   findMyPostsCount(userId: number): Promise<number>;
+  updatePost(id: number, postInfo: post): Promise<post>;
+  delete(id: number, userId: number): Promise<number>;
 }
 
 interface MyPosts {
@@ -49,4 +58,13 @@ interface MyPosts {
   totalCount: number;
 }
 
-export { user, userInfo, IGuestModel, IUserModel, post, IPostModel, MyPosts };
+export {
+  user,
+  userInfo,
+  IGuestModel,
+  IUserModel,
+  post,
+  IPostModel,
+  MyPosts,
+  rank,
+};
