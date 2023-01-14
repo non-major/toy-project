@@ -5,14 +5,15 @@ const ContentWrap = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-top: 40px;
   > div {
     margin-bottom: 15px;
   }
 
   .contentAuthor {
-    color: grey;
+    color: ${(props) => props.theme.color.darkGray};
     font-weight: bolder;
-    margin: 10px;
+    margin: 10px 0 10px 0;
   }
 `;
 
@@ -28,7 +29,7 @@ const ContentTitle = styled.div`
     font-weight: bold;
   }
   .contentDate {
-    color: grey;
+    color: ${(props) => props.theme.color.darkGray};
   }
 `;
 
@@ -45,7 +46,32 @@ const ContentSubstance = styled.div`
   display: flex;
   justify-content: center;
   padding: 20px;
-  background-color: #e2e2e2;
+  background-color: ${(props) => props.theme.color.lightGray};
 `;
 
-export { ContentWrap, ContentTitle, ContentImg, ContentSubstance };
+const ContentReportWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  color: ${(props) => props.theme.color.gray};
+`;
+
+const ContentReportBtn = styled.button`
+  border: none;
+  background-color: white;
+  color: ${(props) => props.theme.color.darkGray};
+  &:hover {
+    cursor: pointer;
+  }
+  > span {
+    margin-right: 3px;
+  }
+`;
+
+export {
+  ContentWrap,
+  ContentTitle,
+  ContentImg,
+  ContentSubstance,
+  ContentReportWrapper,
+  ContentReportBtn,
+};
