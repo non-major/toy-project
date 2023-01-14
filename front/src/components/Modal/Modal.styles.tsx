@@ -33,7 +33,10 @@ const ModalCloseBtn = styled.button`
 `;
 
 const ModalTitle = styled.div`
+  display: flex;
+  justify-content: center;
   font-size: 2rem;
+  font-weight: bolder;
   color: black;
 `;
 

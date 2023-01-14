@@ -9,8 +9,8 @@ import {
   TitleWrap,
   ContentInput,
   ImgSearchInput,
-  ButtonWrap,
 } from "./NewContent.styles";
+import ButtonWrap from "../../styles/ButtonWrap";
 import { MyTitle } from "../User/Register";
 
 function NewContent() {

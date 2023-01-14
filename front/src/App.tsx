@@ -9,14 +9,17 @@ import NewContent from "./pages/NewContent/NewContent";
 import Register from "./pages/User/Register";
 import Login from "./pages/User/Login";
 import MyPage from "./pages/MyPage/MyPage";
-import Modal from "./components/Modal/Modal";
 import { modalReducer, ModalDispatch, ModalState } from "./redux/reducer";
 
+// state 컨텍스트와 dispatch 컨텍스트 생성
 export const StateContext = createContext<ModalState | null>(null);
 export const DispatchContext = createContext<ModalDispatch | null>(null);
 
+// 모든 페이지에 컨텍스트 전달
 export function Provider({ children }: { children: React.ReactNode }) {
-  const [state, dispatch] = useReducer(modalReducer, { isModalOpen: false });
+  const [state, dispatch] = useReducer(modalReducer, {
+    isReportModalOpen: false,
+  });
   return (
     <StateContext.Provider value={state}>
       <DispatchContext.Provider value={dispatch}>
@@ -48,7 +51,6 @@ function App() {
       <BrowserRouter>
         <div className="App">
           <Routes>
-            <Route path="/modal" element={<Modal />} />
             <Route path="/" element={<Layout />}>
               <Route path="" element={<Home />} />
               <Route path="all" element={<AllContents />} />

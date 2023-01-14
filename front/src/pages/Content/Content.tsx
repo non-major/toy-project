@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { ButtonWrap } from "../NewContent/NewContent.styles";
+import ButtonWrap from "../../styles/ButtonWrap";
 import MyButton from "../../components/MyButton";
 import CommentList from "../../components/Comment/CommentList";
+import ReportModal from "../../components/ReportModal/ReportModal";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import {
@@ -95,45 +96,44 @@ function Content() {
     alert("이 댓글을 삭제하시겠습니까?");
   };
 
-  useEffect(() => {
-    console.log(state);
-  }, [state]);
-
   return (
-    <ContentWrap>
-      <ContentReportWrapper>
-        <ContentReportBtn onClick={() => dispatch({ type: "MODAL TOGGLE" })}>
-          <span>신고하기</span>
-          <RiAlarmWarningFill />
-        </ContentReportBtn>
-      </ContentReportWrapper>
-      <ContentTitle>
-        <span className="contentTitle">{post.title}</span>
-        <span className="contentDate">{post.date}</span>
-      </ContentTitle>
-      <div className="contentAuthor">
-        <span>@{post.author}</span>
-      </div>
-      <ContentImg>
-        <img src={post.img} />
-      </ContentImg>
-      <ContentSubstance>
-        <p>{post.content}</p>
-      </ContentSubstance>
-      <ButtonWrap>
-        {isAuthor ? (
-          <>
-            <MyButton btntype="basic" onClick={handleEdit}>
-              {"수정하기"}
-            </MyButton>
-            <MyButton btntype="remove" onClick={handleDelete}>
-              {"삭제하기"}
-            </MyButton>
-          </>
-        ) : null}
-      </ButtonWrap>
-      <CommentList postId={id} />
-    </ContentWrap>
+    <>
+      {/* {state.isReportModalOpen && <ReportModal />} */}
+      <ContentWrap>
+        <ContentReportWrapper>
+          <ContentReportBtn onClick={() => dispatch({ type: "Report" })}>
+            <span>신고하기</span>
+            <RiAlarmWarningFill />
+          </ContentReportBtn>
+        </ContentReportWrapper>
+        <ContentTitle>
+          <span className="contentTitle">{post.title}</span>
+          <span className="contentDate">{post.date}</span>
+        </ContentTitle>
+        <div className="contentAuthor">
+          <span>@{post.author}</span>
+        </div>
+        <ContentImg>
+          <img src={post.img} />
+        </ContentImg>
+        <ContentSubstance>
+          <p>{post.content}</p>
+        </ContentSubstance>
+        <ButtonWrap>
+          {isAuthor ? (
+            <>
+              <MyButton btntype="basic" onClick={handleEdit}>
+                {"수정하기"}
+              </MyButton>
+              <MyButton btntype="remove" onClick={handleDelete}>
+                {"삭제하기"}
+              </MyButton>
+            </>
+          ) : null}
+        </ButtonWrap>
+        <CommentList postId={id} />
+      </ContentWrap>
+    </>
   );
 }
 
