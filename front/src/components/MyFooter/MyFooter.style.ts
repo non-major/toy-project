@@ -6,11 +6,11 @@ const Footer = styled.footer`
   position: absolute;
   bottom: 0;
   padding: 25px 0;
-  background-color: #e3f2fd;
+  background-color: ${(props) => props.theme.color.iceblue};
 `;
 
 const Info = styled.span`
-  color: lightgray;
+  color: ${(props) => props.theme.color.gray};
 
   div {
     text-align: center;

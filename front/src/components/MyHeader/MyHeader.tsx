@@ -31,7 +31,7 @@ const MyHeader = () => {
             }}>
             내 독서 기록
           </Link>
-          <Link to="/mypage">마이페이지</Link>
+          <Link to="/mypage/statistics">마이페이지</Link>
           <Link
             to="/"
             onClick={() => {

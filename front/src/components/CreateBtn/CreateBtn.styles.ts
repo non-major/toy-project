@@ -7,7 +7,7 @@ export const Btn = styled.div`
   text-align: center;
   line-height: 6vh;
   color: white;
-  background-color: #003c8f;
+  background-color: ${(props) => props.theme.color.darkblue};
   cursor: pointer;
   &:hover {
     opacity: 0.8;

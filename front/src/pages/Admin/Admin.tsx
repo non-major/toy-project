@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import UserList from "../../components/UserList/UserList";
-import { Container, Sidebar, Menu, Content } from "./Admin.styles";
+import { Container, Menu, Sidebar, Content } from "./Admin.styles";
 
 const menuList = ["report", "userlist"];
 
