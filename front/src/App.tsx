@@ -12,6 +12,7 @@ import MyPage from "./pages/MyPage/MyPage";
 import { modalReducer, ModalDispatch, ModalState } from "./redux/reducer";
 import { QueryClientProvider, QueryClient } from "react-query";
 
+import PrivateRoute from "./route/PrivateRoute";
 // state 컨텍스트와 dispatch 컨텍스트 생성
 export const StateContext = createContext<ModalState | null>(null);
 export const DispatchContext = createContext<ModalDispatch | null>(null);
@@ -66,9 +67,20 @@ const App = () => {
                 <Route path="login" element={<Login />} />
                 <Route
                   path="mypage/statistics"
-                  element={<MyPage isMain={true} />}
+                  element={
+                    <PrivateRoute>
+                      <MyPage isMain={true} />
+                    </PrivateRoute>
+                  }
                 />
-                <Route path="mypage/useredit" element={<MyPage />} />
+                <Route
+                  path="mypage/useredit"
+                  element={
+                    <PrivateRoute>
+                      <MyPage />
+                    </PrivateRoute>
+                  }
+                />
               </Route>
             </Routes>
           </div>

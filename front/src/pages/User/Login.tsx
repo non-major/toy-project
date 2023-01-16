@@ -4,6 +4,7 @@ import MyButton from "../../components/MyButton";
 import { userLogin } from "../../api/userInfo";
 import { Errors, Formbox, Input, MyForm, RegisterBox } from "./User.styles";
 import { MyTitle } from "./Register";
+import { useNavigate } from "react-router-dom";
 
 interface FormData {
   errors: {
@@ -14,7 +15,7 @@ interface FormData {
   password: string;
   email: string;
 }
-
+const navigate = useNavigate();
 const Login = () => {
   const {
     register,
@@ -24,6 +25,7 @@ const Login = () => {
 
   const onSubmit = (data: FormData) => {
     userLogin(data);
+    navigate("/");
   };
 
   const Regex = { email: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g };
