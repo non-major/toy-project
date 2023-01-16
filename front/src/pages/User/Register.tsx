@@ -14,6 +14,7 @@ import {
   RegisterBox,
   Title,
 } from "./User.styles";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   children: React.ReactNode;
@@ -41,6 +42,7 @@ export const MyTitle = ({ children }: Props) => {
 
 const Register = ({ isEdit }: RegisterProps) => {
   const [email, setEmail] = useState();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -60,9 +62,11 @@ const Register = ({ isEdit }: RegisterProps) => {
     if (isEdit) {
       if (window.confirm("수정하시겠습니까?")) {
         updateUserInfo(data);
+        navigate("/mypage/statistics");
       }
     } else {
       createUserInfo(data);
+      navigate("/login");
     }
   };
   const Regex = { email: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g };

@@ -9,6 +9,7 @@ import Register from "./pages/User/Register";
 import Login from "./pages/User/Login";
 import MyPage from "./pages/MyPage/MyPage";
 import { QueryClientProvider, QueryClient } from "react-query";
+import PrivateRoute from "./route/PrivateRoute";
 // import EditContent from "./pages/EditContent";
 
 const queryClient = new QueryClient();
@@ -30,9 +31,20 @@ const App = () => {
               <Route path="login" element={<Login />} />
               <Route
                 path="mypage/statistics"
-                element={<MyPage isMain={true} />}
+                element={
+                  <PrivateRoute>
+                    <MyPage isMain={true} />
+                  </PrivateRoute>
+                }
               />
-              <Route path="mypage/useredit" element={<MyPage />} />
+              <Route
+                path="mypage/useredit"
+                element={
+                  <PrivateRoute>
+                    <MyPage />
+                  </PrivateRoute>
+                }
+              />
             </Route>
           </Routes>
         </div>
