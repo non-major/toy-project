@@ -5,7 +5,7 @@ const getData = async (
   page: number,
   dateSort: string,
   commentSort: string,
-) => {
+): Promise<{ response: []; totalCount: number }> => {
   try {
     const mySort = commentSort !== "" ? "comment=desc" : `order=${dateSort}`;
 
@@ -25,6 +25,7 @@ const getData = async (
       if (res.data.length === 1) {
         return {
           response: [],
+          totalCount: 0,
         };
       } else {
         return {
@@ -38,6 +39,7 @@ const getData = async (
   } catch (err) {
     console.log(err);
     alert(`문제가 발생했습니다. 다시 시도해 주세요.`);
+    return { response: [], totalCount: 0 };
   }
 };
 

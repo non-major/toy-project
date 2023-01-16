@@ -11,37 +11,19 @@ const MypageBox = styled.div`
 
 const LevelBox = styled.div`
   width: 400px;
-  height: 150px;
+  height: 100px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
 `;
 const Level = styled.div`
-  width: 50%;
+  width: 70%;
   display: flex;
-  flex-direction: column;
-  font-size: 2rem;
+  justify-content: space-around;
+  align-items: center;
+  font-size: 2.3rem;
   font-weight: 700;
-  & .box1 {
-    align-self: flex-start;
-    font-size: 2.5rem;
-    animation: rotate_star 2s ease-in-out infinite;
-
-    @keyframes rotate_star {
-      100% {
-        transform: rotateY(360deg);
-      }
-    }
-  }
-  & .box2 {
-    align-self: center;
-  }
-  & .box3 {
-    align-self: flex-end;
-    font-size: 2rem;
-    animation: rotate_star 2s ease-in-out infinite;
-  }
 `;
 
 const ChartBox = styled.h2`
@@ -52,27 +34,28 @@ const ChartBox = styled.h2`
   align-items: center;
 `;
 
-const Sidebar = styled.div`
-  border-right: 1px solid gray;
-  padding-right: 5%;
-  white-space: nowrap;
+// const Sidebar = styled.div`
+//   padding-top: 5%;
+//   border-right: 1px solid gray;
+//   padding-right: 5%;
+//   white-space: nowrap;
 
-  @media (max-width: 768px) {
-    border: none;
-    padding-bottom: 5%;
-    border-bottom: 1px solid gray;
-  }
-`;
+//   @media (max-width: 768px) {
+//     border: none;
+//     padding-bottom: 5%;
+//     border-bottom: 1px solid gray;
+//   }
+// `;
 
-const Menu = styled.li`
-  font-size: 1.2rem;
-  margin-top: 20px;
-  cursor: pointer;
+// const Menu = styled.li`
+//   font-size: 1.2rem;
+//   margin-top: 20px;
+//   cursor: pointer;
 
-  &:hover {
-    font-weight: 700;
-  }
-`;
+//   &.activeMenu {
+//     font-weight: 800;
+//   }
+// `;
 
 const Content = styled.div`
   flex: 1;
@@ -98,8 +81,8 @@ export {
   LevelBox,
   Level,
   ChartBox,
-  Sidebar,
-  Menu,
+  // Sidebar,
+  // Menu,
   Content,
   RemoveUserBox,
   RemoveUser,

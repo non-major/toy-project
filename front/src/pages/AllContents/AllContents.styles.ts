@@ -1,31 +1,10 @@
 import styled from "styled-components";
 
-const Paging = styled.div`
-  margin: 50px 0 50px 0;
-
-  .pagination {
-    display: flex;
-    justify-content: center;
-  }
-
-  .pagination li {
-    width: 30px;
-  }
-
-  .pagination li a {
-    color: black;
-    text-decoration: none;
-  }
-
-  .active {
-    font-weight: bold;
-  }
-`;
-
 const Division = styled.div`
   display: flex;
   width: 100%;
   height: 20px;
+  margin-top: 50px;
 
   p {
     margin-right: 10px;
@@ -57,6 +36,28 @@ const Nav = styled.nav`
 
   ul > li {
     margin-left: 10px;
+  }
+`;
+
+const Paging = styled.div`
+  margin: 50px 0 50px 0;
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+  }
+
+  .pagination li {
+    width: 30px;
+  }
+
+  .pagination li a {
+    color: black;
+    text-decoration: none;
+  }
+
+  .active {
+    font-weight: bold;
   }
 `;
 

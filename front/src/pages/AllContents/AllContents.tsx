@@ -27,7 +27,7 @@ const AllContents = () => {
 
   useEffect(() => {
     getData(all, page, dateSort, commentSort).then((res) => {
-      if (res?.response === 0) {
+      if (res?.response.length === 0) {
         setTotal(0);
         return;
       } else {
@@ -40,7 +40,7 @@ const AllContents = () => {
   const handlePageChange = (page: number) => {
     setPage(page);
     getData(all, page, dateSort, commentSort).then((res) => {
-      if (res?.response === 0) {
+      if (res?.response.length === 0) {
         setTotal(0);
         return;
       } else {
