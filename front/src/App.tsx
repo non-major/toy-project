@@ -8,7 +8,14 @@ import NewContent from "./pages/NewContent/NewContent";
 import Register from "./pages/User/Register";
 import Login from "./pages/User/Login";
 import MyPage from "./pages/MyPage/MyPage";
+import Admin from "./pages/Admin/Admin";
 // import EditContent from "./pages/EditContent";
+
+import { worker } from "./mocks/browers";
+
+if (process.env.NODE_ENV === "development") {
+  worker.start();
+}
 
 function App() {
   return (
@@ -26,6 +33,7 @@ function App() {
             <Route path="login" element={<Login />} />
             <Route path="mypage" element={<MyPage isMain={true} />} />
             <Route path="mypage/edit" element={<MyPage />} />
+            <Route path="admin" element={<Admin />} />
           </Route>
         </Routes>
       </div>
