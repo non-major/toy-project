@@ -1,5 +1,10 @@
 import styled, { css } from "styled-components";
 
+interface Menu {
+  id: string;
+  menu: string;
+}
+
 const Container = styled.div`
   width: 100%;
   display: flex;
@@ -21,10 +26,16 @@ const Sidebar = styled.div`
   }
 `;
 
-const Menu = styled.li`
+const Menu = styled.li<Menu>`
   font-size: 1.2rem;
   margin-top: 20px;
   cursor: pointer;
+
+  ${({ menu, id }) =>
+    menu === id &&
+    css`
+      font-weight: bold;
+    `}
 
   &:hover {
     font-weight: 700;

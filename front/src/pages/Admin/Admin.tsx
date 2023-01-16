@@ -19,10 +19,10 @@ function Admin() {
     <Container>
       <Sidebar>
         <ul>
-          <Menu id={menuList[0]} onClick={handleMenu}>
+          <Menu id={menuList[0]} onClick={handleMenu} menu={menu}>
             신고내역
           </Menu>
-          <Menu id={menuList[1]} onClick={handleMenu}>
+          <Menu id={menuList[1]} onClick={handleMenu} menu={menu}>
             회원관리
           </Menu>
         </ul>
