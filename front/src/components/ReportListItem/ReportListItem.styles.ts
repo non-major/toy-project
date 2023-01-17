@@ -3,12 +3,12 @@ import styled from "styled-components";
 const Container = styled.div`
   display: grid;
   grid-template-columns: 1fr 3fr;
+  grid-template-rows: 200px;
+  min-width: 200px;
   background-color: pink;
   border-radius: 5px;
-  height: 200px;
   margin: 5px;
   padding: 20px;
-  overflow: hidden;
 `;
 
 const Section = styled.div`
@@ -34,7 +34,11 @@ const Nickname = styled.p`
 
 const Content = styled.div`
   line-height: 200%;
-  height: 100%;
+  overflow: hidden;
+  text-overflow: wrap;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 `;
 
 export { Container, BookImage, Title, Nickname, Content, Section };
