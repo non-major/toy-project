@@ -16,7 +16,6 @@ const Layout = () => {
 
   return (
     <>
-      {state.isReportModalOpen && <ReportModal />}
       <LayoutMain>
         <MyHeader />
         <section>

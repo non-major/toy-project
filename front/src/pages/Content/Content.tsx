@@ -98,7 +98,7 @@ function Content() {
 
   return (
     <>
-      {/* {state.isReportModalOpen && <ReportModal />} */}
+      {state.isReportModalOpen && <ReportModal />}
       <ContentWrap>
         <ContentReportWrapper>
           <ContentReportBtn onClick={() => dispatch({ type: "Report" })}>
