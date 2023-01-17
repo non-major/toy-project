@@ -8,6 +8,7 @@ const Container = styled.div`
   height: 200px;
   margin: 5px;
   padding: 20px;
+  overflow: hidden;
 `;
 
 const Section = styled.div`
