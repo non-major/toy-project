@@ -6,11 +6,22 @@ import { guestRouter, userRouter, postRouter } from "./routers";
 import { endPoint } from "./constants";
 import bodyParser from "body-parser";
 import { loginRequired } from "./middlewares";
+import swaggerJsdoc from "swagger-jsdoc";
+import swaggerUi from "swagger-ui-express";
+import yaml from "yamljs";
 
 const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
+
+const openApiDocument = yaml.load("src/api/swagger.yaml");
+
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(openApiDocument, { explorer: true })
+);
 
 app.use(endPoint.guest, guestRouter);
 app.use(endPoint.user, userRouter);

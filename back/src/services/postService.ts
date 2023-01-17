@@ -12,15 +12,21 @@ export class PostService {
     return await postModel.findPost(postId);
   }
 
-  async findAll(): Promise<post> {
-    return await postModel.findAll();
+  async findAll(): Promise<MyPosts> {
+    const findAll = await postModel.findAll();
+    const findAllCount = await postModel.findAllCount();
+    const result = {
+      post: findAll,
+      totalCount: findAllCount,
+    };
+    return result;
   }
 
   async findMyPosts(userId: number, page: number): Promise<MyPosts> {
     const myPosts = await postModel.findMyPosts(userId, page);
     const totalCount = await postModel.findMyPostsCount(userId);
-    const result = {
-      myPosts: myPosts,
+    const result: MyPosts = {
+      MyPosts: myPosts,
       totalCount: totalCount,
     };
     return result;

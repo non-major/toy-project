@@ -23,6 +23,14 @@ export class UserModel implements IUserModel {
     return users.rows[0];
   }
 
+  async findByPassword(id: number): Promise<user> {
+    const user = await pg.query(
+      `SELECT id,password FROM users WHERE id = ($1)`,
+      [id]
+    );
+    return user.rows[0];
+  }
+
   async findById(id: number): Promise<user> {
     const users = await pg.query(
       `SELECT id,email,nickname,post_count,status FROM users WHERE id = ($1)`,
@@ -32,12 +40,9 @@ export class UserModel implements IUserModel {
   }
 
   async update(id: number, toUpdate: user): Promise<user> {
-    const { nickname, password } = toUpdate;
+    const { nickname } = toUpdate;
     return await pg
-      .query(
-        `UPDATE users SET nickname = ($1),password =($2) WHERE id = ($3)`,
-        [nickname, password, id]
-      )
+      .query(`UPDATE users SET nickname = ($1) WHERE id = ($2)`, [nickname, id])
       .then(() => this.findById(id));
   }
 

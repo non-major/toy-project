@@ -15,9 +15,9 @@ export class UserService {
 
   async update(userInfo: userInfo, toUpdate: user): Promise<user> {
     const { userId, currentPassword, userNickname } = userInfo;
-    const { password, nickname } = toUpdate;
+    const { nickname } = toUpdate;
 
-    let user = await userModel.findById(userId);
+    let user = await userModel.findByPassword(userId);
     if (!user) {
       throw new Error("가입 내역이 없습니다. 다시 한 번 확인해 주세요.");
     }
@@ -28,18 +28,16 @@ export class UserService {
       currentPasswordHash
     );
 
-    console.log(isPasswordCorrect);
-
     if (!isPasswordCorrect) {
       throw new Error(
         "현재 비밀번호가 일치하지 않습니다. 다시 한 번 확인해 주세요."
       );
     }
 
-    if (password) {
-      const newPassWordHash = await bcrypt.hash(password, 10);
-      toUpdate.password = newPassWordHash;
-    }
+    // if (password) {
+    //   const newPassWordHash = await bcrypt.hash(password, 10);
+    //   toUpdate.password = newPassWordHash;
+    // }
 
     const newNickname = await userModel.findByNickname(userNickname);
 

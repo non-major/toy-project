@@ -13,6 +13,7 @@ export class PostModel implements IPostModel {
       `UPDATE users SET post_count =(post_count + 1)WHERE id=($1)`,
       [userId]
     );
+
     return newPost.rows[0];
   }
 
@@ -31,11 +32,17 @@ export class PostModel implements IPostModel {
     return findPostId.rows[0];
   }
 
+  // todo 커서페이징 query postId 받아오기
   async findAll(): Promise<any> {
     const findAll = await pg.query(
       `select * from posts order by id desc limit 9`
     );
     return findAll.rows;
+  }
+
+  async findAllCount(): Promise<number> {
+    const findAllCount = await pg.query(`select count(*) from posts`);
+    return findAllCount.rows[0];
   }
 
   async findMyPosts(userId: number, page: number): Promise<post[]> {
