@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { ReportList } from "../../components/ReportList/ReportList";
 import UserList from "../../components/UserList/UserList";
 import { Container, Menu, Sidebar, Content } from "./Admin.styles";
 
@@ -27,7 +28,7 @@ function Admin() {
           </Menu>
         </ul>
       </Sidebar>
-      <Content>{menu === "report" ? "신고내역" : <UserList />}</Content>
+      <Content>{menu === "report" ? <ReportList /> : <UserList />}</Content>
     </Container>
   );
 }
