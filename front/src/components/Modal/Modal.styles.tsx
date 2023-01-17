@@ -21,19 +21,6 @@ const ModalContent = styled.div`
   padding: 25px;
 `;
 
-const ModalCloseWrapper = styled.div`
-  display: flex;
-  justify-content: flex-end;
-`;
-
-const ModalCloseBtn = styled.button`
-  border: none;
-  background-color: white;
-  &:hover {
-    cursor: pointer;
-  }
-`;
-
 const ModalTitle = styled.div`
   display: flex;
   justify-content: center;
@@ -42,10 +29,4 @@ const ModalTitle = styled.div`
   color: black;
 `;
 
-export {
-  ModalBackground,
-  ModalContent,
-  ModalTitle,
-  ModalCloseWrapper,
-  ModalCloseBtn,
-};
+export { ModalBackground, ModalContent, ModalTitle };

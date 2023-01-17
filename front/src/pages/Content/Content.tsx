@@ -14,11 +14,10 @@ import {
   ContentReportBtn,
 } from "./Content.styles";
 import { RiAlarmWarningFill } from "react-icons/ri";
-import { useModalState, useModalDispatch } from "../../App";
+// import { useModalState, useModalDispatch } from "../../App";
 
 function Content() {
-  const state = useModalState();
-  const dispatch = useModalDispatch();
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const navigate = useNavigate();
   const [post, setPost] = useState({
     title: "",
@@ -98,10 +97,12 @@ function Content() {
 
   return (
     <>
-      {state.isReportModalOpen && <ReportModal />}
+      {isReportModalOpen && (
+        <ReportModal setIsReportModalOpen={setIsReportModalOpen} />
+      )}
       <ContentWrap>
         <ContentReportWrapper>
-          <ContentReportBtn onClick={() => dispatch({ type: "Report" })}>
+          <ContentReportBtn onClick={() => setIsReportModalOpen(true)}>
             <span>신고하기</span>
             <RiAlarmWarningFill />
           </ContentReportBtn>
