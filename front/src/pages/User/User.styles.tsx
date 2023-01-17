@@ -30,7 +30,6 @@ const MyForm = styled.form`
 
 const Errors = styled.p`
   color: red;
-  margin-left: 15px;
   margin-bottom: 10px;
   font-size: 12px;
 `;

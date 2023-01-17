@@ -2,13 +2,6 @@ import axios from "axios";
 
 const userToken = sessionStorage.getItem("userToken");
 
-class CustomError_Class extends Error {
-  response?: {
-    data: any;
-    status: number;
-  };
-}
-
 interface Data {
   email?: string;
   nickname?: string;
@@ -36,9 +29,8 @@ const createUserInfo = async (data: Data) => {
       nickname: data.nickname,
     });
     alert("회원가입이 완료되었습니다.");
-    window.location.replace("/login");
   } catch (err: unknown) {
-    if (err instanceof CustomError_Class) {
+    if (axios.isAxiosError(err) && err.response) {
       alert(`${err.response?.data.reason}`);
     }
   }
@@ -58,9 +50,8 @@ const updateUserInfo = async (data: Data) => {
         },
       },
     );
-    window.location.replace("/mypage");
   } catch (err: unknown) {
-    if (err instanceof CustomError_Class) {
+    if (axios.isAxiosError(err) && err.response) {
       alert(`${err.response?.data.reason}`);
     }
   }
@@ -73,7 +64,6 @@ const deleteUserInfo = async () => {
     },
   });
   alert("회원정보가 안전하게 삭제되었습니다.");
-  window.location.replace("/");
 };
 
 const userLogin = async (data: Data) => {
@@ -82,9 +72,8 @@ const userLogin = async (data: Data) => {
     const userToken = res.data.token;
     sessionStorage.setItem("userToken", userToken);
     alert("로그인이 완료되었습니다.");
-    window.location.replace("/");
   } catch (err: unknown) {
-    if (err instanceof CustomError_Class) {
+    if (axios.isAxiosError(err) && err.response) {
       alert(`${err?.response?.data.reason}`);
     }
   }
