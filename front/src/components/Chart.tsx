@@ -1,28 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { BarChart, XAxis, YAxis, CartesianGrid, Bar } from "recharts";
-import axios from "axios";
+import { getBookStatistics } from "../api/statistics";
 
 const Chart = () => {
   const [data, setData] = useState([]);
-  const getBookStatistics = async () => {
-    const userToken = sessionStorage.getItem("userToken");
-    try {
-      const res = await axios.get(`/api/post/chart`, {
-        headers: {
-          authorization: `Bearer ${userToken}`,
-        },
-      });
-      return res;
-    } catch (err) {
-      alert(
-        `회원정보를 불러오지 못했습니다. 다시 시도해주세요. ${err.message}`,
-      );
-    }
-  };
+
   useEffect(() => {
-    getBookStatistics().then((res) => {
-      setData(res.data);
-    });
+    getBookStatistics().then((data) => setData(data));
   }, []);
 
   return (

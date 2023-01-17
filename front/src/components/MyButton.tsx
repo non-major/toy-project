@@ -1,32 +1,31 @@
 import React from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
-const MyButton = ({ text, type, onClick }) => {
-  const btnType = ["submit", "remove"].includes(type) ? type : "basic";
+interface BtnProps {
+  children?: React.ReactNode;
+  btntype?: "basic" | "submit" | "remove";
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  disabled?: boolean;
+}
+
+const MyButton = ({ children, btntype, onClick, disabled }: BtnProps) => {
   return (
-    <Button type={btnType} onClick={onClick}>
-      {text}
+    <Button btntype={btntype} onClick={onClick} disabled={disabled}>
+      {children}
     </Button>
   );
 };
 
 MyButton.defaultProps = {
+  text: "버튼",
   type: "basic",
+  onClick: null,
+  disabled: false,
 };
 
 export default MyButton;
 
-const SubmitButton = css`
-  background-color: #1565e0;
-`;
-const RemoveButton = css`
-  background-color: #b1bfca;
-`;
-const BasicButton = css`
-  background-color: #003c8f;
-`;
-const Button = styled.button`
-  cursor: pointer;
+const Button = styled.button<BtnProps>`
   border: none;
   border-radius: 50px;
   padding: 10px 20px 10px 20px;
@@ -38,7 +37,7 @@ const Button = styled.button`
   }
 
   font-family: "S-CoreDream-4Regular";
-  ${({ type }) => type === "submit" && SubmitButton}
-  ${({ type }) => type === "remove" && RemoveButton}
-  ${({ type }) => type === "basic" && BasicButton}
+  ${(props) => props.btntype === "basic" && `background-color: #003c8f`}
+  ${(props) => props.btntype === "submit" && `background-color: #1565e0`}
+  ${(props) => props.btntype === "remove" && `background-color: #b1bfca`}
 `;
