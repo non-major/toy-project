@@ -60,43 +60,29 @@ const queryClient = new QueryClient();
 
 const App = () => {
   return (
-    <Provider>
-      <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          <div className="App">
-            <Routes>
-              <Route path="/" element={<Layout />}>
-                <Route path="" element={<Home />} />
-                <Route path="all" element={<AllContents />} />
-                <Route path="mydiary" element={<AllContents />} />
-                <Route path="new" element={<NewContent />} />
-                <Route path="content/:id" element={<Content />} />
-                {/* <Route path="edit" element={<EditContent />} /> */}
-                <Route path="register" element={<Register />} />
-                <Route path="login" element={<Login />} />
-                <Route
-                  path="mypage/statistics"
-                  element={
-                    <PrivateRoute>
-                      <MyPage isMain={true} />
-                    </PrivateRoute>
-                  }
-                />
-                <Route
-                  path="mypage/useredit"
-                  element={
-                    <PrivateRoute>
-                      <MyPage />
-                    </PrivateRoute>
-                  }
-                />
-                <Route path="admin" element={<Admin />} />
-              </Route>
-            </Routes>
-          </div>
-        </BrowserRouter>
-      </QueryClientProvider>
-    </Provider>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <div className="App">
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route path="" element={<Home />} />
+              <Route path="all" element={<AllContents />} />
+              <Route path="mydiary" element={<AllContents />} />
+              <Route path="new" element={<NewContent />} />
+              <Route path="content/:id" element={<Content />} />
+              {/* <Route path="edit" element={<EditContent />} /> */}
+              <Route path="register" element={<Register />} />
+              <Route path="login" element={<Login />} />
+              <Route
+                path="mypage/statistics"
+                element={<MyPage isMain={true} />}
+              />
+              <Route path="mypage/useredit" element={<MyPage />} />
+            </Route>
+          </Routes>
+        </div>
+      </BrowserRouter>
+    </QueryClientProvider>
   );
 };
 
