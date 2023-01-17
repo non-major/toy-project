@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Register, { MyTitle } from "../User/Register";
 import Chart from "../../components/Chart";
 import { deleteUserInfo, getUsersInfo } from "../../api/userInfo";
@@ -13,6 +13,7 @@ import {
 } from "./MyPage.styles";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import SidebarText from "../../components/Sidebar/SidebarText";
+import { useNavigate } from "react-router-dom";
 
 interface MyPageProps {
   isMain?: boolean;
@@ -33,22 +34,32 @@ const levelDivision = (level: number) => {
   }
 };
 
+interface User {
+  nickname: string;
+  postCount: number;
+}
+
 const MyPage = ({ isMain }: MyPageProps) => {
-  const [nickname, setNickname] = useState("");
-  const [level, setLevel] = useState<number>();
-  const [postCount, setPostCount] = useState<number>();
+  const [user, setUser] = useState<User>({
+    nickname: "",
+    postCount: 0,
+  });
+  const navigate = useNavigate();
+  const userLevel = useMemo(
+    () => levelDivision(user.postCount),
+    [user.postCount],
+  );
 
   const onUserRemove = async () => {
     if (window.confirm("정말 탈퇴하시겠어요?😭")) {
       deleteUserInfo();
+      navigate("/");
     }
   };
 
   useEffect(() => {
     getUsersInfo().then((user) => {
-      setNickname(user.nickname);
-      setLevel(levelDivision(user.postCount));
-      setPostCount(user.postCount);
+      setUser(user);
     });
   }, []);
 
@@ -57,11 +68,11 @@ const MyPage = ({ isMain }: MyPageProps) => {
       <>
         <LevelBox>
           <div style={{ fontSize: "18px" }}>
-            누적 독서량 {postCount}권 달성!
+            누적 독서량 {user.postCount}권 달성!
           </div>
           <Level>
             <div style={{ transform: "rotateY(180deg)" }}>🎉</div>
-            <div>Lv.{level}</div>
+            <div>Lv.{userLevel}</div>
             <div>🎉</div>
           </Level>
         </LevelBox>
@@ -95,7 +106,7 @@ const MyPage = ({ isMain }: MyPageProps) => {
       <Content>
         {isMain && (
           <div style={{ padding: "20px" }}>
-            <MyTitle>{`${nickname} 님의 레벨은?`}</MyTitle>
+            <MyTitle>{`${user.nickname} 님의 레벨은?`}</MyTitle>
           </div>
         )}
         {isMain ? <Statistics /> : <EditRegister />}

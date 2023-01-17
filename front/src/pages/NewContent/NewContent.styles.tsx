@@ -35,9 +35,4 @@ const ImgSearchInput = styled(TitleInput)`
   margin-right: 20px;
 `;
 
-const ButtonWrap = styled.div`
-  display: flex;
-  justify-content: flex-end;
-`;
-
-export { TitleInput, TitleWrap, ContentInput, ImgSearchInput, ButtonWrap };
+export { TitleInput, TitleWrap, ContentInput, ImgSearchInput };
