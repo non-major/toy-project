@@ -33,9 +33,10 @@ export class PostModel implements IPostModel {
   }
 
   // todo 커서페이징 query postId 받아오기
-  async findAll(): Promise<any> {
+  async findAll(postId: number): Promise<any> {
     const findAll = await pg.query(
-      `select * from posts order by id desc limit 9`
+      `select * from posts where id<=($1) order by id desc limit 9`,
+      [postId]
     );
     return findAll.rows;
   }
@@ -62,11 +63,11 @@ export class PostModel implements IPostModel {
   }
 
   async updatePost(id: number, postInfo: post): Promise<post> {
-    const { title, content } = postInfo;
+    const { title, content, image } = postInfo;
     return await pg
       .query(
-        `update posts set title = ($1),content = ($2),date =CURRENT_TIMESTAMP  where id = ($3)`,
-        [title, content, id]
+        `update posts set title = ($1),content = ($2),image = ($3),date =CURRENT_TIMESTAMP  where id = ($4)`,
+        [title, content, image, id]
       )
       .then(() => this.findPostId(id));
   }

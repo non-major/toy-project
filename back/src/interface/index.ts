@@ -46,7 +46,7 @@ interface IUserModel {
 interface IPostModel {
   create(postInfo: post): Promise<post>;
   findPost(postId: number): Promise<post>;
-  findAll(): Promise<any>;
+  findAll(postId: number): Promise<any>;
   findMyPosts(userId: number, page: number): Promise<post[]>;
   findMyPostsCount(userId: number): Promise<number>;
   updatePost(id: number, postInfo: post): Promise<post>;

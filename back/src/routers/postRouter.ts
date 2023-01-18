@@ -21,14 +21,14 @@ postRouter.get(
   asyncHandler(postController.findMyPosts)
 );
 postRouter.patch(
-  "/:id",
+  "/update/:id",
   loginRequired,
   checkPost,
   checkPostUser,
   asyncHandler(postController.update)
 );
 postRouter.delete(
-  "/:id",
+  "/delete/:id",
   loginRequired,
   checkPost,
   checkPostUser,

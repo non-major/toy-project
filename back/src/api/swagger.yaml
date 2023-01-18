@@ -167,11 +167,10 @@ paths:
           name: token
           schema:
             $ref: "#/components/schemas/securitySchemes"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/post"
+        - in: body
+          name: body
+          schema:
+            $ref: "#/components/schemas/post"
       responses:
         "200":
           description: Succeeded
@@ -180,13 +179,19 @@ paths:
               schema:
                 $ref: "#/components/schemas/postInfo"
 
-  /api/posts/:
+  /api/posts?id={id}:
     get:
       tags:
         - post
-      summary: 게시글 전체 조회
+      summary: 게시글 전체 조회 커서페이징
       description: postFindAll
       operationId: postFindAll
+      parameters:
+        - in: query
+          name: postId
+          schema:
+            type: string
+          required: true
       responses:
         "200":
           description: Succeeded
@@ -214,6 +219,7 @@ paths:
       parameters:
         - in: header
           name: token
+          required: true
           schema:
             type: string
         - in: path
@@ -228,6 +234,85 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/postInfo"
+
+  /api/posts/my/posts?page={page}:
+    get:
+      tags:
+        - post
+      summary: 내 게시글 조회
+      description: myPostFind
+      operationId: myPostFind
+      parameters:
+        - in: header
+          name: token
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: postId
+          schema:
+            type: string
+          required: true
+      responses:
+        "200":
+          description: Succeeded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/postInfo"
+
+  /api/posts/update/{postId}:
+    patch:
+      tags:
+        - post
+      summary: 게시물 수정
+      description: postUpdate
+      operationId: postUpdate
+      parameters:
+        - in: header
+          name: token
+          schema:
+            type: string
+          required: true
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/components/schemas/post"
+      responses:
+        "200":
+          description: Succeeded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/postInfo"
+
+  /api/posts/delete/{postId}:
+    delete:
+      tags:
+        - post
+      summary: 게시물 삭제
+      description: postDelete
+      operationId: postDelete
+      parameters:
+        - in: header
+          name: token
+          schema:
+            type: string
+          required: true
+        - in: path
+          name: postId
+          schema:
+            type: string
+          required: true
+      responses:
+        "200":
+          description: Succeeded
+          content:
+            application/json:
+              schema:
+                type: number
+                example: 1
 
 components:
   schemas:

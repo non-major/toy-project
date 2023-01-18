@@ -42,7 +42,9 @@ export class PostController implements postControllerInterface {
   };
 
   findAll: AsyncRequestHandler = async (req, res) => {
-    const findAll = await postService.findAll();
+    const id = req.query.id as string;
+    const postId = parseInt(id);
+    const findAll = await postService.findAll(postId);
     res.json(findAll);
   };
 
@@ -57,10 +59,11 @@ export class PostController implements postControllerInterface {
   update: AsyncRequestHandler = async (req, res) => {
     const id = req.params.id;
     const postId = parseInt(id);
-    const { title, content } = req.body;
+    const { title, content, image } = req.body;
     const postInfo: post = {
       title: title,
       content: content,
+      image: image,
     };
 
     const updatePost = await postService.update(postId, postInfo);
