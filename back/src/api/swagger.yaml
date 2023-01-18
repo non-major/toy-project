@@ -205,9 +205,7 @@ paths:
                     items:
                       $ref: "#/components/schemas/findAllPost"
                   totalCount:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/totalCount"
+                    $ref: "#/components/schemas/totalCount"
 
   /api/posts/{postId}:
     get:
@@ -233,7 +231,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/postInfo"
+                type: object
+                properties:
+                  post:
+                    $ref: "#/components/schemas/postInfo"
+                  isAuthor:
+                    $ref: "#/components/schemas/isAuthor"
 
   /api/posts/my/posts?page={page}:
     get:
@@ -402,6 +405,10 @@ components:
         id: 1
         nickname: polarBear
         postCount: 100
+    isAuthor:
+      type: string
+      examples:
+        - isAuthor: "true"
 
     post:
       type: object
