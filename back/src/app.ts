@@ -5,11 +5,9 @@ import { pg } from "./db/database";
 import { guestRouter, userRouter, postRouter } from "./routers";
 import { endPoint } from "./constants";
 import bodyParser from "body-parser";
-import { loginRequired } from "./middlewares";
 import swaggerJsdoc from "swagger-jsdoc";
-import swaggerUi from "swagger-ui-express";
 import yaml from "yamljs";
-
+import { swaggerUi } from "./swagger";
 const app = express();
 
 app.use(cors());

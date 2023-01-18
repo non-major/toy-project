@@ -1,10 +1,8 @@
 openapi: 3.0.0
 info:
-  description: This is Dwitter API service.
+  description: 북극곰
   version: 1.0.0
-  title: Dwitter - Dream Coding Nodejs Test Project
-  contact:
-    email: info@dream-coding.com
+  title: 북극곰
 servers:
   - url: "http://localhost:3000"
 tags:
@@ -16,19 +14,19 @@ tags:
     description: post
 
 paths:
-  /guest/register:
+  /api/guest/register:
     post:
       tags:
         - guest
       summary: 회원가입
       description: register
       operationId: register
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/register"
-        required: true
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/components/schemas/register"
       responses:
         "201":
           description: Created
@@ -37,19 +35,19 @@ paths:
               schema:
                 $ref: "#/components/schemas/register"
 
-  /guest/login:
+  /api/guest/login:
     post:
       tags:
         - guest
       summary: 로그인
       description: login
       operationId: login
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/login"
-        required: true
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/components/schemas/login"
       responses:
         "200":
           description: Succeeded
@@ -57,10 +55,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/LoginResponse"
-      security:
-        - jwt_auth: []
 
-  /users:
+  /api/users:
     get:
       tags:
         - user
@@ -75,7 +71,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/user"
 
-  /users/myInfo:
+  /api/users/myInfo:
     get:
       tags:
         - user
@@ -96,7 +92,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/user"
 
-  /users/rank:
+  /api/users/rank:
     get:
       tags:
         - user
@@ -111,7 +107,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/rank"
 
-  /users/update:
+  /api/users/update:
     patch:
       tags:
         - user
@@ -124,17 +120,11 @@ paths:
           schema:
             type: string
           required: true
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              propertise:
-                nickname:
-                  type: string
-                currentPassword:
-                  type: string
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/components/schemas/userUpdate"
 
       responses:
         "200":
@@ -144,7 +134,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/user"
 
-  /users/delete:
+  /api/users/delete:
     delete:
       tags:
         - user
@@ -165,7 +155,7 @@ paths:
               schema:
                 type: number
                 example: 1
-  /posts:
+  /api/posts:
     post:
       tags:
         - post
@@ -190,7 +180,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/postInfo"
 
-  /posts/:
+  /api/posts/:
     get:
       tags:
         - post
@@ -214,7 +204,7 @@ paths:
                     items:
                       $ref: "#/components/schemas/totalCount"
 
-  /posts/{postId}:
+  /api/posts/{postId}:
     get:
       tags:
         - post
@@ -256,10 +246,6 @@ components:
         - email
         - password
         - nickname
-      example:
-        email: polar@polar.bear
-        password: password
-        nickname: polarBear
 
     login:
       type: object
@@ -302,6 +288,16 @@ components:
         nickname: polarBear
         status: 0
         postCount: 0
+
+    userUpdate:
+      type: object
+      properties:
+      required:
+        - currentPassword
+        - nickname
+      example:
+        currentPassword: "1234"
+        nickname: 북극곰 수정
 
     securitySchemes:
       jwt_auth:
