@@ -1,0 +1,454 @@
+openapi: 3.0.0
+info:
+  description: 북극곰
+  version: 1.0.0
+  title: 북극곰
+servers:
+  - url: "http://localhost:3000"
+tags:
+  - name: guest
+    description: guest
+  - name: user
+    description: user
+  - name: post
+    description: post
+
+paths:
+  /api/guest/register:
+    post:
+      tags:
+        - guest
+      summary: 회원가입
+      description: register
+      operationId: register
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/components/schemas/register"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/register"
+
+  /api/guest/login:
+    post:
+      tags:
+        - guest
+      summary: 로그인
+      description: login
+      operationId: login
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/components/schemas/login"
+      responses:
+        "200":
+          description: Succeeded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LoginResponse"
+
+  /api/users:
+    get:
+      tags:
+        - user
+      summary: 유저 전체 조회
+      description: findAll
+      operationId: findAll
+      responses:
+        "200":
+          description: Succeeded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/user"
+
+  /api/users/myInfo:
+    get:
+      tags:
+        - user
+      summary: 회원정보 조회
+      description: myinfo
+      operationId: myinfo
+      parameters:
+        - in: header
+          name: token
+          schema:
+            type: string
+          required: true
+      responses:
+        "200":
+          description: Succeeded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/user"
+
+  /api/users/rank:
+    get:
+      tags:
+        - user
+      summary: 유저 랭킹
+      description: rank
+      operationId: rank
+      responses:
+        "200":
+          description: Succeeded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/rank"
+
+  /api/users/update:
+    patch:
+      tags:
+        - user
+      summary: 유저정보 수정
+      description: update
+      operationId: update
+      parameters:
+        - in: header
+          name: token
+          schema:
+            type: string
+          required: true
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/components/schemas/userUpdate"
+
+      responses:
+        "200":
+          description: Succeeded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/user"
+
+  /api/users/delete:
+    delete:
+      tags:
+        - user
+      summary: 유저정보 삭제
+      description: delete
+      operationId: delete
+      parameters:
+        - in: header
+          name: token
+          schema:
+            type: string
+          required: true
+      responses:
+        "200":
+          description: Succeeded
+          content:
+            application/json:
+              schema:
+                type: number
+                example: 1
+  /api/posts:
+    post:
+      tags:
+        - post
+      summary: 게시글 작성
+      description: post
+      operationId: post
+      parameters:
+        - in: header
+          name: token
+          schema:
+            $ref: "#/components/schemas/securitySchemes"
+        - in: body
+          name: body
+          schema:
+            $ref: "#/components/schemas/post"
+      responses:
+        "200":
+          description: Succeeded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/postInfo"
+
+  /api/posts?id={id}:
+    get:
+      tags:
+        - post
+      summary: 게시글 전체 조회 커서페이징
+      description: postFindAll
+      operationId: postFindAll
+      parameters:
+        - in: query
+          name: postId
+          schema:
+            type: string
+          required: true
+      responses:
+        "200":
+          description: Succeeded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  post:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/findAllPost"
+                  totalCount:
+                    $ref: "#/components/schemas/totalCount"
+
+  /api/posts/{postId}:
+    get:
+      tags:
+        - post
+      summary: 게시글 조회
+      description: postFindOne
+      operationId: postFindOne
+      parameters:
+        - in: header
+          name: token
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: postId
+          schema:
+            type: string
+          required: true
+      responses:
+        "200":
+          description: Succeeded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  post:
+                    $ref: "#/components/schemas/postInfo"
+                  isAuthor:
+                    $ref: "#/components/schemas/isAuthor"
+
+  /api/posts/my/posts?page={page}:
+    get:
+      tags:
+        - post
+      summary: 내 게시글 조회
+      description: myPostFind
+      operationId: myPostFind
+      parameters:
+        - in: header
+          name: token
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: postId
+          schema:
+            type: string
+          required: true
+      responses:
+        "200":
+          description: Succeeded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/postInfo"
+
+  /api/posts/update/{postId}:
+    patch:
+      tags:
+        - post
+      summary: 게시물 수정
+      description: postUpdate
+      operationId: postUpdate
+      parameters:
+        - in: header
+          name: token
+          schema:
+            type: string
+          required: true
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/components/schemas/post"
+      responses:
+        "200":
+          description: Succeeded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/postInfo"
+
+  /api/posts/delete/{postId}:
+    delete:
+      tags:
+        - post
+      summary: 게시물 삭제
+      description: postDelete
+      operationId: postDelete
+      parameters:
+        - in: header
+          name: token
+          schema:
+            type: string
+          required: true
+        - in: path
+          name: postId
+          schema:
+            type: string
+          required: true
+      responses:
+        "200":
+          description: Succeeded
+          content:
+            application/json:
+              schema:
+                type: number
+                example: 1
+
+components:
+  schemas:
+    register:
+      type: object
+      title: register
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+        nickname:
+          type: string
+      required:
+        - email
+        - password
+        - nickname
+
+    login:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+      required:
+        - email
+        - password
+      example:
+        email: "polar@polar.bear"
+        password: "1234"
+
+    LoginResponse:
+      type: object
+      properties:
+        token:
+          type: string
+      required:
+        - token
+      example:
+        token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+
+    user:
+      type: object
+      properties:
+      required:
+        - id
+        - email
+        - nickname
+        - post_count
+        - status
+      example:
+        id: 1
+        email: polar@polar.bear
+        password: password
+        nickname: polarBear
+        status: 0
+        postCount: 0
+
+    userUpdate:
+      type: object
+      properties:
+      required:
+        - currentPassword
+        - nickname
+      example:
+        currentPassword: "1234"
+        nickname: 북극곰 수정
+
+    securitySchemes:
+      jwt_auth:
+        description: 토큰
+        type: http
+        scheme: bearer
+        bearerFormat: JWT
+
+    rank:
+      type: object
+      properties:
+      required:
+        - id
+        - nickname
+        - post_count
+      example:
+        id: 1
+        nickname: polarBear
+        postCount: 100
+    isAuthor:
+      type: string
+      examples:
+        - isAuthor: "true"
+
+    post:
+      type: object
+      properties:
+        title:
+          type: string
+        content:
+          type: string
+        image:
+          type: string
+      example:
+        title: 제목
+        content: 내용
+        img: url
+
+    postInfo:
+      type: object
+      properties:
+        id:
+          type: number
+        userId:
+          type: number
+        title:
+          type: string
+        content:
+          type: string
+        image:
+          type: string
+        comment_count:
+          type: number
+        date:
+          type: string
+
+    findAllPost:
+      type: array
+      items:
+        $ref: "#/components/schemas/postInfo"
+
+    totalCount:
+      type: object
+      properties:
+        count:
+          type: number
