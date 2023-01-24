@@ -1,19 +1,26 @@
 import styled from "styled-components";
+import theme from "../../styles/Theme";
 
 const Container = styled.div`
   display: grid;
   grid-template-columns: 1fr 3fr;
   grid-template-rows: 200px;
   min-width: 200px;
-  background-color: pink;
+  background-color: ${theme.color.iceblue};
   border-radius: 5px;
   margin: 5px;
   padding: 20px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: dark pink;
+  }
 `;
 
 const Section = styled.div`
   display: flex;
   flex-direction: column;
+  margin-right: 5px;
 `;
 
 const BookImage = styled.img`

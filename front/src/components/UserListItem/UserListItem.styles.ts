@@ -1,9 +1,10 @@
 import styled from "styled-components";
+import theme from "../../styles/Theme";
 
 const Container = styled.div`
   display: grid;
   grid-template-columns: 4fr 3fr 1fr;
-  background-color: pink;
+  background-color: ${theme.color.iceblue};
   border-radius: 5px;
   height: 70px;
   margin: 5px;
@@ -30,13 +31,14 @@ const Section = styled.div`
 `;
 
 const Button = styled.button`
-  background-color: #f2d1d1;
+  background-color: ${theme.color.lightblue};
   border: none;
   border-radius: 5px;
   width: 100%;
 
   &:hover {
-    background-color: palevioletred;
+    background-color: ${theme.color.lightskyblue};
+    cursor: pointer;
   }
 `;
 
