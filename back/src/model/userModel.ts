@@ -1,9 +1,10 @@
 import { pg } from "../db/database";
-import { user, IUserModel, rank } from "../interface";
+import { user, IUserModel, rank, monthPostCount } from "../interface";
 export class UserModel implements IUserModel {
   async findAll(): Promise<user[]> {
     const users = await pg.query(
-      `select id,email,nickname,post_count,status from users`
+      `select  id,email,nickname,status,(select count(*) from posts where posts."userId" = users.id) as post_count
+      from users order by id desc`
     );
 
     return users.rows;
@@ -33,7 +34,7 @@ export class UserModel implements IUserModel {
 
   async findById(id: number): Promise<user> {
     const users = await pg.query(
-      `SELECT id,email,nickname,post_count,status FROM users WHERE id = ($1)`,
+      `SELECT id,email,nickname,status,(select count(*) from posts where "userId" = ($1)) as post_count FROM users WHERE id = ($1)`,
       [id]
     );
     return users.rows[0];
@@ -55,10 +56,27 @@ export class UserModel implements IUserModel {
 
   async rank(): Promise<rank[]> {
     const userRank = await pg.query(
-      `select id,nickname,post_count from users order by post_count desc limit 5;`
+      `select nickname ,(
+        select count(*)
+        from posts as p
+        where u.id = p."userId") as post_count
+        from users as u
+        order by post_count desc limit 5;`
     );
 
     return userRank.rows;
+  }
+
+  async monthPostCount(userId: number): Promise<monthPostCount[]> {
+    const monthPostCount = await pg.query(
+      `select to_char(date, 'YYYY-MM') as month ,count(*)
+    from posts
+    where  "userId" = ($1) and date between '2023-01-01' and '2023-12-31' 
+    group by month
+    order by month`,
+      [userId]
+    );
+    return monthPostCount.rows;
   }
 }
 

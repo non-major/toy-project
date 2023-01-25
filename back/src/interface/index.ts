@@ -41,13 +41,19 @@ interface IUserModel {
   update(id: number, toUpdate: user): Promise<user>;
   delete(id: number): Promise<user[]>;
   rank(): Promise<rank[]>;
+  monthPostCount(userId: number): Promise<monthPostCount[]>;
 }
 
 interface IPostModel {
   create(postInfo: post): Promise<post>;
   findPost(postId: number): Promise<post>;
-  findAll(postId: number): Promise<any>;
-  findMyPosts(userId: number, page: number): Promise<post[]>;
+  findAllDesc(postId: number): Promise<post[]>;
+  findAllAsc(postId: number): Promise<post[]>;
+  searchPost(search: string, page: number): Promise<post[]>;
+  findAllCommentCount(): Promise<post[]>;
+  findMyPostsDesc(userId: number, postId: number): Promise<post[]>;
+  findMyPostsAsc(userId: number, postId: number): Promise<post[]>;
+  findMyPostsCommentCount(userId: number, postId: number): Promise<post[]>;
   findMyPostsCount(userId: number): Promise<number>;
   updatePost(id: number, postInfo: post): Promise<post>;
   delete(id: number, userId: number): Promise<number>;
@@ -56,6 +62,11 @@ interface IPostModel {
 interface MyPosts {
   MyPosts?: post[];
   totalCount: number;
+}
+
+interface monthPostCount {
+  month: string;
+  count: number;
 }
 
 export {
@@ -67,4 +78,5 @@ export {
   IPostModel,
   MyPosts,
   rank,
+  monthPostCount,
 };

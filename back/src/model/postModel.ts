@@ -9,10 +9,6 @@ export class PostModel implements IPostModel {
       `INSERT INTO posts ("userId", title, content, image) VALUES ($1,$2,$3,$4) RETURNING*`,
       [userId, title, content, image]
     );
-    const postCountUpdate = await pg.query(
-      `UPDATE users SET post_count =(post_count + 1)WHERE id=($1)`,
-      [userId]
-    );
 
     return newPost.rows[0];
   }
@@ -32,13 +28,45 @@ export class PostModel implements IPostModel {
     return findPostId.rows[0];
   }
 
-  // todo 커서페이징 query postId 받아오기
-  async findAll(postId: number): Promise<any> {
+  // 최신순
+  async findAllDesc(postId: number): Promise<post[]> {
     const findAll = await pg.query(
       `select * from posts where id<=($1) order by id desc limit 9`,
       [postId]
     );
     return findAll.rows;
+  }
+  //오래된순
+  async findAllAsc(postId: number): Promise<post[]> {
+    const findAll = await pg.query(
+      `select * from posts where id>=($1) order by id asc limit 9`,
+      [postId]
+    );
+    return findAll.rows;
+  }
+  //댓글 많은순
+  async findAllCommentCount(): Promise<post[]> {
+    const findAll = await pg.query(
+      `select * from posts order by comment_count desc limit 9`
+    );
+    return findAll.rows;
+  }
+
+  //검색 기능
+  async searchPost(search: string, page: number): Promise<post[]> {
+    const searchPost = await pg.query(
+      `select * from posts where (title like '%'||$1||'%' or content like '%'||$1||'%') order by id desc limit 9 offset(($2)-1)*9`,
+      [search, page]
+    );
+    return searchPost.rows;
+  }
+
+  async searchPostCount(search: string): Promise<number> {
+    const searchPost = await pg.query(
+      `select count(*) from posts where (title like '%'||$1||'%' or content like '%'||$1||'%')`,
+      [search]
+    );
+    return searchPost.rows[0];
   }
 
   async findAllCount(): Promise<number> {
@@ -46,11 +74,33 @@ export class PostModel implements IPostModel {
     return findAllCount.rows[0];
   }
 
-  async findMyPosts(userId: number, page: number): Promise<post[]> {
+  //todo postId 필요한지
+  //내 게시글 보기 (최신순)
+  async findMyPostsDesc(userId: number, postId: number): Promise<post[]> {
     const myPosts = await pg.query(
-      `select * from posts where "userId" = ($1) order by id desc limit 9 offset (($2)-1)*9`,
-      [userId, page]
+      `select * from posts where "userId" = ($1) order by id desc limit 9 `,
+      [userId]
     );
+    return myPosts.rows;
+  }
+
+  async findMyPostsAsc(userId: number, postId: number): Promise<post[]> {
+    const myPosts = await pg.query(
+      `select * from posts where "userId" = ($1) order by id Asc limit 9 `,
+      [userId]
+    );
+    return myPosts.rows;
+  }
+
+  async findMyPostsCommentCount(
+    userId: number,
+    postId: number
+  ): Promise<post[]> {
+    const myPosts = await pg.query(
+      `select * from posts where "userId" = ($1) order by comment_count desc limit 9 `,
+      [userId]
+    );
+
     return myPosts.rows;
   }
 
@@ -77,10 +127,6 @@ export class PostModel implements IPostModel {
       id,
     ]);
 
-    const postCountUpdate = await pg.query(
-      `UPDATE users SET post_count =(post_count - 1)WHERE id=($1)`,
-      [userId]
-    );
     return deletePost.rowCount;
   }
 }

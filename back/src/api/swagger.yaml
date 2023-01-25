@@ -179,16 +179,44 @@ paths:
               schema:
                 $ref: "#/components/schemas/postInfo"
 
-  /api/posts?id={id}:
+  /api/posts/order/desc?id={id}:
     get:
       tags:
         - post
-      summary: 게시글 전체 조회 커서페이징
-      description: postFindAll
-      operationId: postFindAll
+      summary: 게시글 전체 조회 커서페이징(내림차순)
+      description: postFindAllDesc
+      operationId: postFindAllDesc
       parameters:
         - in: query
-          name: postId
+          name: id
+          schema:
+            type: string
+          required: true
+      responses:
+        "200":
+          description: Succeeded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  post:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/findAllPost"
+                  totalCount:
+                    $ref: "#/components/schemas/totalCount"
+
+  /api/posts/order/asc?id={id}:
+    get:
+      tags:
+        - post
+      summary: 게시글 전체 조회 커서페이징(오름차순)
+      description: postFindAllAsc
+      operationId: postFindAllAsc
+      parameters:
+        - in: query
+          name: id
           schema:
             type: string
           required: true
