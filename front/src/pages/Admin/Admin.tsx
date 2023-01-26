@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { ReportList } from "../../components/ReportList/ReportList";
+import ReportPageModal from "../../components/ReportPageModal/ReportPageModal";
 import UserList from "../../components/UserList/UserList";
 import { Container, Menu, Sidebar, Content } from "./Admin.styles";
 
@@ -7,6 +8,7 @@ const menuList = ["report", "userlist"];
 
 function Admin() {
   const [menu, setMenu] = useState("report");
+  const [isOpenModal, setIsOpenModal] = useState(false);
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     const clickedMenu = (event.target as HTMLElement).id;
@@ -15,7 +17,6 @@ function Admin() {
       setMenu(clickedMenu);
     }
   };
-
   return (
     <Container>
       <Sidebar>
@@ -28,7 +29,14 @@ function Admin() {
           </Menu>
         </ul>
       </Sidebar>
-      <Content>{menu === "report" ? <ReportList /> : <UserList />}</Content>
+      <Content>
+        {menu === "report" ? (
+          <ReportList setIsOpenModal={setIsOpenModal} />
+        ) : (
+          <UserList />
+        )}
+      </Content>
+      {isOpenModal && <ReportPageModal setModalState={setIsOpenModal} />}
     </Container>
   );
 }

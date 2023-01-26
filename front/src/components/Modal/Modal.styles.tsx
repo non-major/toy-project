@@ -1,4 +1,5 @@
 import styled from "styled-components";
+
 const ModalBackground = styled.div`
   position: fixed;
   top: 0;
@@ -14,6 +15,7 @@ const ModalBackground = styled.div`
 
 const ModalContent = styled.div`
   display: flex;
+  position: relative;
   flex-direction: column;
   background-color: white;
   width: 60vw;
@@ -29,4 +31,14 @@ const ModalTitle = styled.div`
   color: black;
 `;
 
-export { ModalBackground, ModalContent, ModalTitle };
+const ModalCloseButton = styled.button`
+  border: none;
+  position: absolute;
+  right: 5%;
+  &:hover {
+    cursor: pointer;
+    background-color: darkgray;
+  }
+`;
+
+export { ModalBackground, ModalContent, ModalTitle, ModalCloseButton };

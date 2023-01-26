@@ -1,5 +1,5 @@
 import React from "react";
-import { ReportType } from "../ReportList/ReportList";
+import { ReportListItemProps } from "../ReportList/ReportList";
 import {
   Container,
   BookImage,
@@ -15,9 +15,10 @@ export const ReportListItem = ({
   nickname,
   title,
   content,
-}: ReportType) => {
+  setIsOpenModal,
+}: ReportListItemProps) => {
   return (
-    <Container>
+    <Container onClick={() => setIsOpenModal(true)}>
       <Section>
         <BookImage src={bookImageURL}></BookImage>
       </Section>
