@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Dispatch, SetStateAction } from "react";
 import ButtonWrap from "../../styles/ButtonWrap";
 import MyButton from "../../components/MyButton";
 import CommentList from "../../components/Comment/CommentList";
-import ReportModal from "../../components/ReportModal/ReportModal";
+import ReportModal from "../../components/ContentReportModal/ContentReportModal";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import {
@@ -89,7 +89,7 @@ function Content() {
   return (
     <>
       {isReportModalOpen && (
-        <ReportModal setIsReportModalOpen={setIsReportModalOpen} />
+        <ReportModal setModalState={setIsReportModalOpen} />
       )}
       <ContentWrap>
         <ContentReportWrapper>

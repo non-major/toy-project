@@ -1,7 +1,7 @@
 import React from "react";
 import MyButton from "../MyButton";
 import ButtonWrap from "../../styles/ButtonWrap";
-import { ReportReasonSelect } from "./ReportModal.styles";
+import { ReportReasonSelect } from "./ContentReportModal.styles";
 
 const reasons = [
   { reasonId: 1, reasonType: "욕설, 부적절한 언어, 비방" },
