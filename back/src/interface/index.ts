@@ -23,6 +23,13 @@ interface post {
   user_nickname?: string;
 }
 
+interface comment {
+  postId?: number;
+  userId?: number;
+  content: string;
+  date?: Date;
+}
+
 interface IGuestModel {
   create(user: user): Promise<user>;
 }
@@ -44,9 +51,27 @@ interface IPostModel {
   findMyPostsCount(userId: number): Promise<number>;
 }
 
+interface ICommentModel {
+  create(comment: comment): Promise<comment>;
+  findByPostId(postId: number): Promise<comment[]>;
+  findById(id: number): Promise<comment>;
+  update(id: number, toUpdate: comment): Promise<comment>;
+  delete(id: number): Promise<comment[]>;
+}
+
 interface MyPosts {
   MyPosts?: post[];
   totalCount: number;
 }
 
-export { user, userInfo, IGuestModel, IUserModel, post, IPostModel, MyPosts };
+export {
+  user,
+  userInfo,
+  IGuestModel,
+  IUserModel,
+  post,
+  IPostModel,
+  MyPosts,
+  comment,
+  ICommentModel,
+};
