@@ -52,11 +52,11 @@ function NewContent() {
           title: response.data.title,
           content: response.data.content,
           image: response.data.image,
-          date: response.data.createdAt,
-          postId: response.data.postId,
+          date: response.data.date,
+          postId: response.data.id,
         });
         alert("독서 기록 등록이 완료되었습니다.");
-        navigate(`/content/${response.data.postId}`);
+        navigate(`/content/${response.data.id}`);
       })
       .catch((error) => {
         console.log(error.response.data);
