@@ -51,4 +51,9 @@ const Content = styled.div`
   margin: 5% 0 5% 0;
 `;
 
-export { Container, Sidebar, Menu, Content };
+const Modal = styled.div`
+  border: solid black 1px;
+  position: fixed;
+`;
+
+export { Container, Sidebar, Menu, Content, Modal };

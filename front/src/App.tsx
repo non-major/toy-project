@@ -40,6 +40,7 @@ const App = () => {
                 element={<MyPage isMain={true} />}
               />
               <Route path="mypage/useredit" element={<MyPage />} />
+              <Route path="/admin" element={<Admin />} />
             </Route>
           </Routes>
         </div>

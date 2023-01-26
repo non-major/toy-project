@@ -1,5 +1,5 @@
 import React from "react";
-import { ReportType } from "../ReportList/ReportList";
+import { ReportListItemProps } from "../ReportList/ReportList";
 import {
   Container,
   BookImage,
@@ -9,26 +9,23 @@ import {
   Section,
 } from "./ReportListItem.styles";
 
-const contentTruncate = (content: string): string => {
-  return content.length > 100 ? content.substring(0, 100) + " ..." : content;
-};
-
 export const ReportListItem = ({
   postId,
   bookImageURL,
   nickname,
   title,
   content,
-}: ReportType) => {
+  setIsOpenModal,
+}: ReportListItemProps) => {
   return (
-    <Container>
+    <Container onClick={() => setIsOpenModal(true)}>
       <Section>
         <BookImage src={bookImageURL}></BookImage>
       </Section>
       <Section>
         <Title>{title}</Title>
         <Nickname>@{nickname}</Nickname>
-        <Content>{contentTruncate(content)}</Content>
+        <Content>{content}</Content>
       </Section>
     </Container>
   );
