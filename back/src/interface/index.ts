@@ -1,7 +1,7 @@
 interface user {
   id?: number;
   email?: string;
-  password: string;
+  password?: string;
   nickname?: string;
   status?: number;
 }

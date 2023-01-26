@@ -8,6 +8,7 @@ import bodyParser from "body-parser";
 import swaggerJsdoc from "swagger-jsdoc";
 import yaml from "yamljs";
 import { swaggerUi } from "./swagger";
+import { authRouter } from "./routers/authRouter";
 const app = express();
 
 app.use(cors());
@@ -20,7 +21,7 @@ app.use(
   swaggerUi.serve,
   swaggerUi.setup(openApiDocument, { explorer: true })
 );
-
+app.use("/auth", authRouter);
 app.use(endPoint.guest, guestRouter);
 app.use(endPoint.user, userRouter);
 app.use(endPoint.post, postRouter);

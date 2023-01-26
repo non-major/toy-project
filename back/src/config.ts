@@ -14,4 +14,8 @@ export const config = {
     database: process.env.DB_DATABASE,
     password: process.env.DB_PASSWORD,
   },
+  kakao: {
+    clientID: process.env.KAKAO_ID as string,
+    callbackURL: "api/kakao/oauth",
+  },
 };
