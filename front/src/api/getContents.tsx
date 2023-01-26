@@ -7,7 +7,9 @@ const getData = async (
   commentSort: string,
 ): Promise<{ response: []; totalCount: number }> => {
   try {
-    const mySort = commentSort !== "" ? "comment=desc" : `order=${dateSort}`;
+    const allContents = all ? "" : "/myInfo";
+    const sort =
+      dateSort === "desc" ? "desc" : commentSort === "" ? "asc" : "comment";
 
     const headObj: object = all
       ? {}
@@ -16,21 +18,20 @@ const getData = async (
             authorization: `Bearer ${sessionStorage.getItem("userToken")}`,
           },
         };
-
-    const url = all
-      ? `/api/post/postList/${page}?order=${dateSort}`
-      : `/api/post/myPostList/${page}?${mySort}`;
+    console.log(page);
+    const url = `/api/posts${allContents}/order/${sort}?page=${page}`;
 
     const response = await axios.get(url, headObj).then((res) => {
-      if (res.data.length === 1) {
+      console.log("합쳐서", url, page, res);
+      if (res.data.post.length === 1) {
         return {
           response: [],
           totalCount: 0,
         };
       } else {
         return {
-          response: res.data.slice(0, -1),
-          totalCount: res.data.slice(-1)[0].totalCount,
+          response: res.data.post,
+          totalCount: res.data.totalCount.count,
         };
       }
     });
