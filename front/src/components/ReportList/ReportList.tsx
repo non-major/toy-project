@@ -1,18 +1,29 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, {
+  useState,
+  useEffect,
+  Dispatch,
+  SetStateAction,
+  memo,
+} from "react";
 import { ReportContainer } from "./ReportList.styles";
 import { ReportListItem } from "../ReportListItem/ReportListItem";
 
-export interface ReportType {
+interface ReportListProps {
+  setIsOpenModal: Dispatch<SetStateAction<boolean>>;
+}
+
+export interface ReportListItemProps {
   postId: number;
   bookImageURL: string;
   nickname: string;
   title: string;
   content: string;
+  setIsOpenModal: Dispatch<SetStateAction<boolean>>;
 }
 
-export const ReportList = () => {
-  const [reports, setReports] = useState<ReportType[]>([]);
+export const ReportList = memo(({ setIsOpenModal }: ReportListProps) => {
+  const [reports, setReports] = useState<ReportListItemProps[]>([]);
 
   const getReports = () => {
     axios
@@ -30,7 +41,7 @@ export const ReportList = () => {
 
   return (
     <ReportContainer>
-      {reports.map((report, idx) => {
+      {reports.map((report) => {
         const postId = report.postId;
         const bookImageURL = report.bookImageURL;
         const nickname = report.nickname;
@@ -44,9 +55,10 @@ export const ReportList = () => {
             nickname={nickname}
             title={title}
             content={content}
+            setIsOpenModal={setIsOpenModal}
           />
         );
       })}
     </ReportContainer>
   );
-};
+});

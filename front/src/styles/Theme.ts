@@ -9,6 +9,7 @@ const theme: DefaultTheme = {
     blue: "#1565c0",
     lightblue: "#5e92f3",
     darkblue: "#003c8f",
+    lightskyblue: "#87cefa",
   },
 };
 

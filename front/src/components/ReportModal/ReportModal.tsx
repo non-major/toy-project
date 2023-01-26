@@ -19,7 +19,7 @@ const ReportModal = (props: ReportModalProps) => {
   // 제목이랑 onSubmit 함수를 같이 prop으로 내려줘야 되나
   // 아니 제목만 내려줘도 되려나
   return (
-    <Modal title="신고하기">
+    <Modal title="신고하기" setModalState={() => {}}>
       <ModalCloseWrapper>
         <ModalCloseBtn onClick={() => props.setIsReportModalOpen(false)}>
           <img src={closeBtnImg} width="25" alt="창 닫기" />
