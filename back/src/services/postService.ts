@@ -12,8 +12,8 @@ export class PostService {
     return await postModel.findPost(postId);
   }
 
-  async findAllDesc(postId: number): Promise<MyPosts> {
-    const findAll = await postModel.findAllDesc(postId);
+  async findAllDesc(page: number): Promise<MyPosts> {
+    const findAll = await postModel.findAllDesc(page);
     const findAllCount = await postModel.findAllCount();
     const result = {
       post: findAll,
@@ -22,8 +22,8 @@ export class PostService {
     return result;
   }
 
-  async findAllAsc(postId: number): Promise<MyPosts> {
-    const findAll = await postModel.findAllAsc(postId);
+  async findAllAsc(page: number): Promise<MyPosts> {
+    const findAll = await postModel.findAllAsc(page);
     const findAllCount = await postModel.findAllCount();
     const result = {
       post: findAll,
@@ -42,8 +42,8 @@ export class PostService {
     return result;
   }
 
-  async findAllCommentCount(): Promise<MyPosts> {
-    const findAll = await postModel.findAllCommentCount();
+  async findAllCommentCount(page: number): Promise<MyPosts> {
+    const findAll = await postModel.findAllCommentCount(page);
     const findAllCount = await postModel.findAllCount();
     const result = {
       post: findAll,
@@ -52,8 +52,8 @@ export class PostService {
     return result;
   }
 
-  async findMyPostsDesc(userId: number, postId: number): Promise<MyPosts> {
-    const myPosts = await postModel.findMyPostsDesc(userId, postId);
+  async findMyPostsDesc(userId: number, page: number): Promise<MyPosts> {
+    const myPosts = await postModel.findMyPostsDesc(userId, page);
     const totalCount = await postModel.findMyPostsCount(userId);
     const result: MyPosts = {
       MyPosts: myPosts,
@@ -62,8 +62,8 @@ export class PostService {
     return result;
   }
 
-  async findMyPostsAsc(userId: number, postId: number): Promise<MyPosts> {
-    const myPosts = await postModel.findMyPostsAsc(userId, postId);
+  async findMyPostsAsc(userId: number, page: number): Promise<MyPosts> {
+    const myPosts = await postModel.findMyPostsAsc(userId, page);
     const totalCount = await postModel.findMyPostsCount(userId);
     const result: MyPosts = {
       MyPosts: myPosts,
@@ -74,9 +74,9 @@ export class PostService {
 
   async findMyPostsCommentCount(
     userId: number,
-    postId: number
+    page: number
   ): Promise<MyPosts> {
-    const myPosts = await postModel.findMyPostsCommentCount(userId, postId);
+    const myPosts = await postModel.findMyPostsCommentCount(userId, page);
     const totalCount = await postModel.findMyPostsCount(userId);
     const result: MyPosts = {
       MyPosts: myPosts,

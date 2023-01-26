@@ -29,25 +29,26 @@ export class PostModel implements IPostModel {
   }
 
   // 최신순
-  async findAllDesc(postId: number): Promise<post[]> {
+  async findAllDesc(page: number): Promise<post[]> {
     const findAll = await pg.query(
-      `select * from posts where id<=($1) order by id desc limit 9`,
-      [postId]
+      `select * from posts order by id desc limit 9 offset(($1)-1)*9`,
+      [page]
     );
     return findAll.rows;
   }
   //오래된순
-  async findAllAsc(postId: number): Promise<post[]> {
+  async findAllAsc(page: number): Promise<post[]> {
     const findAll = await pg.query(
-      `select * from posts where id>=($1) order by id asc limit 9`,
-      [postId]
+      `select * from posts order by id asc limit 9 offset(($1)-1)*9`,
+      [page]
     );
     return findAll.rows;
   }
   //댓글 많은순
-  async findAllCommentCount(): Promise<post[]> {
+  async findAllCommentCount(page: number): Promise<post[]> {
     const findAll = await pg.query(
-      `select * from posts order by comment_count desc limit 9`
+      `select * from posts order by comment_count desc limit 9 offset(($1)-1)*9`,
+      [page]
     );
     return findAll.rows;
   }
@@ -76,29 +77,26 @@ export class PostModel implements IPostModel {
 
   //todo postId 필요한지
   //내 게시글 보기 (최신순)
-  async findMyPostsDesc(userId: number, postId: number): Promise<post[]> {
+  async findMyPostsDesc(userId: number, page: number): Promise<post[]> {
     const myPosts = await pg.query(
-      `select * from posts where "userId" = ($1) order by id desc limit 9 `,
-      [userId]
+      `select * from posts where "userId" = ($1) order by id desc limit 9 offset(($2)-1)*9`,
+      [userId, page]
     );
     return myPosts.rows;
   }
 
-  async findMyPostsAsc(userId: number, postId: number): Promise<post[]> {
+  async findMyPostsAsc(userId: number, page: number): Promise<post[]> {
     const myPosts = await pg.query(
-      `select * from posts where "userId" = ($1) order by id Asc limit 9 `,
-      [userId]
+      `select * from posts where "userId" = ($1) order by id Asc limit 9 offset(($2)-1)*9`,
+      [userId, page]
     );
     return myPosts.rows;
   }
 
-  async findMyPostsCommentCount(
-    userId: number,
-    postId: number
-  ): Promise<post[]> {
+  async findMyPostsCommentCount(userId: number, page: number): Promise<post[]> {
     const myPosts = await pg.query(
-      `select * from posts where "userId" = ($1) order by comment_count desc limit 9 `,
-      [userId]
+      `select * from posts where "userId" = ($1) order by comment_count desc limit 9 offset(($2)-1)*9 `,
+      [userId, page]
     );
 
     return myPosts.rows;

@@ -47,26 +47,28 @@ export class PostController implements postControllerInterface {
   };
 
   findAllDesc: AsyncRequestHandler = async (req, res) => {
-    const id = req.query.id as string;
-    const postId = parseInt(id);
-    const findAll = await postService.findAllDesc(postId);
+    const page = req.query.page as string;
+    const postPage = parseInt(page);
+    const findAll = await postService.findAllDesc(postPage);
     res.json(findAll);
   };
 
   findAllAsc: AsyncRequestHandler = async (req, res) => {
-    const id = req.query.id as string;
-    const postId = parseInt(id);
-    const findAll = await postService.findAllAsc(postId);
+    const page = req.query.page as string;
+    const postPage = parseInt(page);
+    const findAll = await postService.findAllAsc(postPage);
     res.json(findAll);
   };
 
   findAllCommentCount: AsyncRequestHandler = async (req, res) => {
-    const findAll = await postService.findAllCommentCount();
+    const page = req.query.page as string;
+    const postPage = parseInt(page);
+    const findAll = await postService.findAllCommentCount(postPage);
     res.json(findAll);
   };
 
   searchPost: AsyncRequestHandler = async (req, res) => {
-    const search = req.body.search;
+    const search = req.query.search as string;
     const page = req.query.page as string;
     const searchPostPage = parseInt(page);
 
@@ -76,30 +78,30 @@ export class PostController implements postControllerInterface {
 
   findMyPostsDesc: AsyncRequestHandler = async (req, res) => {
     const userId = req.body.userId;
-    const id = req.query.id as string;
-    const postId = parseInt(id);
+    const page = req.query.page as string;
+    const postPage = parseInt(page);
 
-    const findMyPosts = await postService.findMyPostsDesc(userId, postId);
+    const findMyPosts = await postService.findMyPostsDesc(userId, postPage);
     res.json(findMyPosts);
   };
 
   findMyPostsAsc: AsyncRequestHandler = async (req, res) => {
     const userId = req.body.userId;
-    const id = req.query.id as string;
-    const postId = parseInt(id);
+    const page = req.query.page as string;
+    const postPage = parseInt(page);
 
-    const findMyPosts = await postService.findMyPostsAsc(userId, postId);
+    const findMyPosts = await postService.findMyPostsAsc(userId, postPage);
     res.json(findMyPosts);
   };
 
   findMyPostsCommentCount: AsyncRequestHandler = async (req, res) => {
     const userId = req.body.userId;
-    const id = req.query.id as string;
-    const postId = parseInt(id);
+    const page = req.query.page as string;
+    const postPage = parseInt(page);
 
     const findMyPosts = await postService.findMyPostsCommentCount(
       userId,
-      postId
+      postPage
     );
     res.json(findMyPosts);
   };

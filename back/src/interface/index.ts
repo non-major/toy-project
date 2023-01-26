@@ -47,13 +47,13 @@ interface IUserModel {
 interface IPostModel {
   create(postInfo: post): Promise<post>;
   findPost(postId: number): Promise<post>;
-  findAllDesc(postId: number): Promise<post[]>;
-  findAllAsc(postId: number): Promise<post[]>;
+  findAllDesc(page: number): Promise<post[]>;
+  findAllAsc(page: number): Promise<post[]>;
   searchPost(search: string, page: number): Promise<post[]>;
-  findAllCommentCount(): Promise<post[]>;
-  findMyPostsDesc(userId: number, postId: number): Promise<post[]>;
-  findMyPostsAsc(userId: number, postId: number): Promise<post[]>;
-  findMyPostsCommentCount(userId: number, postId: number): Promise<post[]>;
+  findAllCommentCount(page: number): Promise<post[]>;
+  findMyPostsDesc(userId: number, page: number): Promise<post[]>;
+  findMyPostsAsc(userId: number, page: number): Promise<post[]>;
+  findMyPostsCommentCount(userId: number, page: number): Promise<post[]>;
   findMyPostsCount(userId: number): Promise<number>;
   updatePost(id: number, postInfo: post): Promise<post>;
   delete(id: number, userId: number): Promise<number>;
