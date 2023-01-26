@@ -9,10 +9,8 @@ import { Division } from "./Home.styles";
 import { useInfiniteQuery, useQuery } from "react-query";
 
 interface Item {
-  postId: string;
-  userId: {
-    nickname: string;
-  };
+  id: string;
+  userId: number;
   nickname: string;
   image: string;
   title: string;
@@ -81,6 +79,7 @@ const Home = () => {
       }
     };
     document.addEventListener("scroll", onScroll);
+    console.log(contents);
 
     return () => document.removeEventListener("scroll", onScroll);
   }, [data, fetchNextPage, hasNextPage, status, contents, fistData]);

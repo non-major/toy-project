@@ -5,7 +5,7 @@ const getUserRank = async (
   setUsers: React.Dispatch<React.SetStateAction<RankingUser[]>>,
 ) => {
   try {
-    const response = await axios.get(`/api/user/rank`);
+    const response = await axios.get(`/api/users/rank`);
 
     return setUsers(response.data);
   } catch (err) {
