@@ -3,6 +3,7 @@ import styled from "styled-components";
 const TitleWrap = styled.div`
   display: flex;
   justify-content: center;
+  margin-top: 50px;
 `;
 
 const TitleInput = styled.input`

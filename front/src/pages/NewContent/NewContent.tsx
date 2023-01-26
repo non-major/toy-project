@@ -29,11 +29,17 @@ function NewContent() {
   const handleChangeState = (e: React.ChangeEvent<HTMLInputElement>) => {
     setState({ ...state, [e.target.name]: e.target.value });
   };
+  const handleContentChangeState = (
+    e: React.ChangeEvent<HTMLTextAreaElement>,
+  ) => {
+    setState({ ...state, content: e.target.value });
+  };
 
   const handleSubmit = async () => {
+    console.log(token);
     await axios
       .post(
-        "/api/post",
+        "/api/posts",
         {
           title: state.title,
           content: state.content,
@@ -89,21 +95,23 @@ function NewContent() {
           value={state.img}
           onChange={handleChangeState}
         />
-        {/* <MyButton text="검색" type="basic" /> */}
+        <MyButton btntype="basic" onClick={handleQuit}>
+          검색
+        </MyButton>
       </div>
       <p>내용</p>
       <ContentInput
         name="content"
         placeholder="내용을 적어주세요."
         value={state.content}
-        // onChange={handleChangeState}
+        onChange={handleContentChangeState}
       />
       <ButtonWrap>
         <MyButton btntype="submit" onClick={handleSubmit}>
-          {"저장하기"}
+          저장하기
         </MyButton>
         <MyButton btntype="basic" onClick={handleQuit}>
-          {"작성취소"}
+          작성취소
         </MyButton>
       </ButtonWrap>
     </div>
