@@ -30,6 +30,12 @@ interface comment {
   date?: Date;
 }
 
+interface report {
+  postId: number;
+  userId: number;
+  type: number;
+}
+
 interface IGuestModel {
   create(user: user): Promise<user>;
 }
@@ -59,6 +65,12 @@ interface ICommentModel {
   delete(id: number): Promise<comment[]>;
 }
 
+interface IReportModel {
+  create(report: report): Promise<report>;
+  findAll(): Promise<report[]>;
+  delete(id: number): Promise<report>;
+}
+
 interface MyPosts {
   MyPosts?: post[];
   totalCount: number;
@@ -74,4 +86,6 @@ export {
   MyPosts,
   comment,
   ICommentModel,
+  report,
+  IReportModel,
 };
