@@ -14,7 +14,6 @@ import {
   ContentReportBtn,
 } from "./Content.styles";
 import { RiAlarmWarningFill } from "react-icons/ri";
-// import { useModalState, useModalDispatch } from "../../App";
 
 function Content() {
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
@@ -31,8 +30,6 @@ function Content() {
   const [userNickname, setUserNickname] = useState("기본");
   const [isAuthor, setIsAuthor] = useState(false);
 
-  // const isAuthor = useRef(false);
-
   function formatDate(dateString: Date) {
     const newDate = new Date(dateString);
     let formattedDate = `${newDate.getFullYear()}.`;
@@ -48,40 +45,34 @@ function Content() {
   useEffect(() => {
     const getOnePost = async () => {
       await axios
-        .get(`/api/post/postList/details/${id}`)
+        .get(`/api/posts/${id}`)
         .then((response) => {
-          const postData = response.data[0];
+          const postData = response.data.post;
+          const isAuthor = response.data.isAuthor;
           console.log(postData);
           setPost((post) => {
             return {
               ...post,
               title: postData.title,
-              date: formatDate(postData.createdAt),
-              author: postData.userId.nickname,
+              date: postData.date,
+              author: postData.user_nickname,
               content: postData.content,
               img: postData.image,
             };
           });
+          if (isAuthor === "false") {
+            setIsAuthor(false);
+          } else {
+            setIsAuthor(true);
+          }
         })
-        .catch((err) => console.log("게시글 가져오기 오류"));
+        .catch((err) => console.log(err));
     };
     getOnePost();
-  }, [id]);
+  }, [id, isAuthor]);
   // 게시글 불러와서 post 세팅해줌
 
-  useEffect(() => {
-    if (userNickname !== post.author) {
-      setIsAuthor(false);
-      console.log(isAuthor);
-      return;
-    } else {
-      setIsAuthor(true);
-      console.log(isAuthor);
-      return;
-    }
-  }, [userNickname, post.author, isAuthor]);
-  // 로그인 한 유저와 현재 보고있는 post의 작성자가 같으면 isAuthor = true
-  // 와 계속 안되다가 deps에 userNickname이랑 post.author값 넣으니까 됐다ㅠㅠㅠㅠ
+  // isAuthor 값에 따라서 수정하기, 삭제하기 버튼 렌더링
 
   const handleEdit = () => {
     console.log("수정하기");
@@ -121,7 +112,7 @@ function Content() {
           <p>{post.content}</p>
         </ContentSubstance>
         <ButtonWrap>
-          {isAuthor ? (
+          {isAuthor && (
             <>
               <MyButton btntype="basic" onClick={handleEdit}>
                 {"수정하기"}
@@ -130,7 +121,7 @@ function Content() {
                 {"삭제하기"}
               </MyButton>
             </>
-          ) : null}
+          )}
         </ButtonWrap>
         <CommentList postId={id} />
       </ContentWrap>

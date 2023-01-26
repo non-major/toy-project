@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-// import Input from '../components/Input.jsx'
 import MyButton from "../../components/MyButton";
 import axios from "axios";
 import {
@@ -35,7 +33,7 @@ function NewContent() {
   const handleSubmit = async () => {
     await axios
       .post(
-        "/api/post/add",
+        "/api/post",
         {
           title: state.title,
           content: state.content,
