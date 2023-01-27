@@ -3,7 +3,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import MyFooter from "./MyFooter/MyFooter";
 import MyHeader from "./MyHeader/MyHeader";
 import styled from "styled-components";
-import ReportModal from "./ReportModal/ReportModal";
+import ReportModal from "./ContentReportModal/ContentReportModal";
 
 const Layout = () => {
   const { pathname } = useLocation();

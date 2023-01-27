@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-// import Input from '../components/Input.jsx'
 import MyButton from "../../components/MyButton";
 import axios from "axios";
 import {
@@ -31,11 +29,17 @@ function NewContent() {
   const handleChangeState = (e: React.ChangeEvent<HTMLInputElement>) => {
     setState({ ...state, [e.target.name]: e.target.value });
   };
+  const handleContentChangeState = (
+    e: React.ChangeEvent<HTMLTextAreaElement>,
+  ) => {
+    setState({ ...state, content: e.target.value });
+  };
 
   const handleSubmit = async () => {
+    console.log(token);
     await axios
       .post(
-        "/api/post/add",
+        "/api/posts",
         {
           title: state.title,
           content: state.content,
@@ -48,11 +52,11 @@ function NewContent() {
           title: response.data.title,
           content: response.data.content,
           image: response.data.image,
-          date: response.data.createdAt,
-          postId: response.data.postId,
+          date: response.data.date,
+          postId: response.data.id,
         });
         alert("독서 기록 등록이 완료되었습니다.");
-        navigate(`/content/${response.data.postId}`);
+        navigate(`/content/${response.data.id}`);
       })
       .catch((error) => {
         console.log(error.response.data);
@@ -91,21 +95,23 @@ function NewContent() {
           value={state.img}
           onChange={handleChangeState}
         />
-        {/* <MyButton text="검색" type="basic" /> */}
+        <MyButton btntype="basic" onClick={handleQuit}>
+          검색
+        </MyButton>
       </div>
       <p>내용</p>
       <ContentInput
         name="content"
         placeholder="내용을 적어주세요."
         value={state.content}
-        // onChange={handleChangeState}
+        onChange={handleContentChangeState}
       />
       <ButtonWrap>
         <MyButton btntype="submit" onClick={handleSubmit}>
-          {"저장하기"}
+          저장하기
         </MyButton>
         <MyButton btntype="basic" onClick={handleQuit}>
-          {"작성취소"}
+          작성취소
         </MyButton>
       </ButtonWrap>
     </div>
