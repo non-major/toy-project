@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Register, { MyTitle } from "../User/Register";
-import Chart from "../../components/Chart";
+import Chart from "../../components/Chart/Chart";
 import { deleteUserInfo, getUsersInfo } from "../../api/userInfo";
 import {
   ChartBox,
@@ -13,7 +13,6 @@ import {
 } from "./MyPage.styles";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import SidebarText from "../../components/Sidebar/SidebarText";
-import { useNavigate } from "react-router-dom";
 
 interface MyPageProps {
   isMain?: boolean;
@@ -36,24 +35,23 @@ const levelDivision = (level: number) => {
 
 interface User {
   nickname: string;
-  postCount: number;
+  post_count: number;
 }
 
 const MyPage = ({ isMain }: MyPageProps) => {
   const [user, setUser] = useState<User>({
     nickname: "",
-    postCount: 0,
+    post_count: 0,
   });
-  const navigate = useNavigate();
+
   const userLevel = useMemo(
-    () => levelDivision(user.postCount),
-    [user.postCount],
+    () => levelDivision(user.post_count),
+    [user.post_count],
   );
 
   const onUserRemove = async () => {
     if (window.confirm("정말 탈퇴하시겠어요?😭")) {
       deleteUserInfo();
-      navigate("/");
     }
   };
 
@@ -68,7 +66,7 @@ const MyPage = ({ isMain }: MyPageProps) => {
       <>
         <LevelBox>
           <div style={{ fontSize: "18px" }}>
-            누적 독서량 {user.postCount}권 달성!
+            누적 독서량 {user.post_count}권 달성!
           </div>
           <Level>
             <div style={{ transform: "rotateY(180deg)" }}>🎉</div>

@@ -3,7 +3,7 @@ import axios from "axios";
 const getBookStatistics = async () => {
   const userToken = sessionStorage.getItem("userToken");
   try {
-    const res = await axios.get(`/api/post/chart`, {
+    const res = await axios.get(`/api/users/month/count`, {
       headers: {
         authorization: `Bearer ${userToken}`,
       },
