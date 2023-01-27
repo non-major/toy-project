@@ -14,7 +14,7 @@ import {
   ContentReportBtn,
 } from "./Content.styles";
 import { RiAlarmWarningFill } from "react-icons/ri";
-import { tokenToString } from "typescript";
+import { instance } from "../../api/axiosInstance";
 
 function Content() {
   const navigate = useNavigate();
@@ -26,9 +26,7 @@ function Content() {
     content: "",
     img: "",
   });
-  const [comments, setComments] = useState([]);
 
-  const [userNickname, setUserNickname] = useState("기본");
   const [isAuthor, setIsAuthor] = useState(false);
 
   const { id } = useParams();
@@ -37,12 +35,8 @@ function Content() {
 
   useEffect(() => {
     const getOnePost = async () => {
-      await axios
-        .get(`/api/posts/${id}`, {
-          headers: {
-            Authorization: `Bearer ${userToken}`,
-          },
-        })
+      await instance
+        .get(`/api/posts/${id}`)
         .then((response) => {
           const postData = response.data.post;
           const isCurrentAuthor = response.data.isAuthor;
@@ -62,11 +56,16 @@ function Content() {
             setIsAuthor(true);
           }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          console.log(err);
+          if (err.response.status === 400) {
+            navigate("/notFound");
+          }
+        });
     };
     getOnePost();
-  }, [id, isAuthor, userToken]);
-  // 게시글 불러와서 post 세팅해줌
+  }, [id, isAuthor, userToken, navigate]);
+  // 게시글 불러와서 post 세팅
 
   const handleEdit = () => {
     navigate(`/edit/${id}`);
@@ -75,12 +74,6 @@ function Content() {
   const handleDelete = () => {
     alert("이 게시물을 삭제하시겠습니까?");
   };
-
-  const onDelete = () => {
-    alert("이 댓글을 삭제하시겠습니까?");
-  };
-
-  // console.log(isAuthor);
 
   return (
     <>

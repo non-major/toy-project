@@ -1,8 +1,8 @@
-import React from "react";
 import axios from "axios";
+import { instance } from "./axiosInstance";
 
 const getOnePost = async (id: string | undefined) => {
-  const postData = await axios.get(`/api/posts/${id}`);
+  const postData = await instance.get(`/api/posts/${id}`);
   return postData;
 };
 

@@ -10,6 +10,7 @@ import {
 } from "./NewContent.styles";
 import ButtonWrap from "../../styles/ButtonWrap";
 import { MyTitle } from "../User/Register";
+import { instance } from "../../api/axiosInstance";
 
 function NewContent() {
   const navigate = useNavigate();
@@ -19,12 +20,6 @@ function NewContent() {
     img: "",
     content: "",
   });
-
-  const token = sessionStorage.getItem("userToken");
-
-  const config = {
-    headers: { Authorization: `Bearer ${token}` },
-  };
 
   const handleChangeState = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewPost({ ...newPost, [e.target.name]: e.target.value });
@@ -36,25 +31,13 @@ function NewContent() {
   };
 
   const handleSubmit = async () => {
-    console.log(token);
-    await axios
-      .post(
-        "/api/posts",
-        {
-          title: newPost.title,
-          content: newPost.content,
-          image: newPost.img,
-        },
-        config,
-      )
+    await instance
+      .post("/api/posts", {
+        title: newPost.title,
+        content: newPost.content,
+        image: newPost.img,
+      })
       .then((response) => {
-        console.log({
-          title: response.data.title,
-          content: response.data.content,
-          image: response.data.image,
-          date: response.data.date,
-          postId: response.data.id,
-        });
         alert("독서 기록 등록이 완료되었습니다.");
         navigate(`/content/${response.data.id}`);
       })

@@ -86,7 +86,7 @@ function EditContent() {
 
   const handleQuit = () => {
     if (window.confirm("작성을 취소하시겠습니까?")) {
-      navigate("/");
+      navigate(`/content/${id}`);
     }
   };
 
