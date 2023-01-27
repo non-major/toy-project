@@ -34,29 +34,6 @@ const ChartBox = styled.h2`
   align-items: center;
 `;
 
-// const Sidebar = styled.div`
-//   padding-top: 5%;
-//   border-right: 1px solid gray;
-//   padding-right: 5%;
-//   white-space: nowrap;
-
-//   @media (max-width: 768px) {
-//     border: none;
-//     padding-bottom: 5%;
-//     border-bottom: 1px solid gray;
-//   }
-// `;
-
-// const Menu = styled.li`
-//   font-size: 1.2rem;
-//   margin-top: 20px;
-//   cursor: pointer;
-
-//   &.activeMenu {
-//     font-weight: 800;
-//   }
-// `;
-
 const Content = styled.div`
   flex: 1;
   display: flex;
@@ -81,8 +58,6 @@ export {
   LevelBox,
   Level,
   ChartBox,
-  // Sidebar,
-  // Menu,
   Content,
   RemoveUserBox,
   RemoveUser,
