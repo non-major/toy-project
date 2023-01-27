@@ -2,7 +2,13 @@ import express from "express";
 import cors from "cors";
 import { config } from "./config";
 import { pg } from "./db/database";
-import { guestRouter, userRouter, postRouter } from "./routers";
+import {
+  guestRouter,
+  userRouter,
+  postRouter,
+  commentRouter,
+  reportRouter,
+} from "./routers";
 import { endPoint } from "./constants";
 import bodyParser from "body-parser";
 import swaggerJsdoc from "swagger-jsdoc";
@@ -24,6 +30,8 @@ app.use(
 app.use(endPoint.guest, guestRouter);
 app.use(endPoint.user, userRouter);
 app.use(endPoint.post, postRouter);
+app.use(endPoint.comment, commentRouter);
+app.use(endPoint.report, reportRouter);
 
 pg.connect().then(() => {
   console.log(`DB connect`);
