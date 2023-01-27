@@ -3,6 +3,7 @@ import cors from "cors";
 import { config } from "./config";
 import { pg } from "./db/database";
 import { guestRouter, userRouter, postRouter, authRouter } from "./routers";
+import { imageRouter } from "./routers/imageRouter";
 import { endPoint } from "./constants";
 import bodyParser from "body-parser";
 import swaggerJsdoc from "swagger-jsdoc";
@@ -24,6 +25,8 @@ app.use(endPoint.auth, authRouter);
 app.use(endPoint.guest, guestRouter);
 app.use(endPoint.user, userRouter);
 app.use(endPoint.post, postRouter);
+app.use(endPoint.post, postRouter);
+app.use(endPoint.image, imageRouter);
 
 pg.connect().then(() => {
   console.log(`DB connect`);

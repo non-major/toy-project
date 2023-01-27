@@ -11,23 +11,30 @@ import {
 import ButtonWrap from "../../styles/ButtonWrap";
 import { MyTitle } from "../User/Register";
 import { instance } from "../../api/axiosInstance";
+import ImageSearchModal from "./../../components/ImageSearchModal/ImageSearchModal";
 
 function NewContent() {
+  const [isImageSearchModalOpen, setIsImageSearchModalOpen] = useState(false);
+  const [bookImageUrl, setBookImageUrl] = useState("");
   const navigate = useNavigate();
 
   const [newPost, setNewPost] = useState({
     title: "",
-    img: "",
     content: "",
   });
 
   const handleChangeState = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewPost({ ...newPost, [e.target.name]: e.target.value });
   };
+
   const handleContentChangeState = (
     e: React.ChangeEvent<HTMLTextAreaElement>,
   ) => {
     setNewPost({ ...newPost, content: e.target.value });
+  };
+
+  const hadleImgSearchModal = () => {
+    setIsImageSearchModalOpen(true);
   };
 
   const handleSubmit = async () => {
@@ -35,7 +42,7 @@ function NewContent() {
       .post("/api/posts", {
         title: newPost.title,
         content: newPost.content,
-        image: newPost.img,
+        image: bookImageUrl,
       })
       .then((response) => {
         alert("독서 기록 등록이 완료되었습니다.");
@@ -54,6 +61,12 @@ function NewContent() {
 
   return (
     <div>
+      {isImageSearchModalOpen && (
+        <ImageSearchModal
+          setBookImageUrl={setBookImageUrl}
+          setModalState={setIsImageSearchModalOpen}
+        />
+      )}
       <TitleWrap>
         <MyTitle>독서 기록 작성하기</MyTitle>
       </TitleWrap>
@@ -72,13 +85,13 @@ function NewContent() {
       </p>
       <div>
         <ImgSearchInput
+          disabled
           name="img"
           id="img"
           placeholder="어떤 책을 읽으셨나요?"
-          value={newPost.img}
-          onChange={handleChangeState}
+          value={bookImageUrl}
         />
-        <MyButton btntype="basic" onClick={handleQuit}>
+        <MyButton btntype="basic" onClick={hadleImgSearchModal}>
           검색
         </MyButton>
       </div>
