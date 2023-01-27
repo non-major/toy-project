@@ -8,6 +8,7 @@ interface userControllerInterface {
   update: AsyncRequestHandler;
   delete: AsyncRequestHandler;
   userRank: AsyncRequestHandler;
+  monthPostCount: AsyncRequestHandler;
 }
 
 export class UserController implements userControllerInterface {
@@ -19,6 +20,7 @@ export class UserController implements userControllerInterface {
   findUser: AsyncRequestHandler = async (req, res) => {
     const userId = req.body.userId;
     const user = await userService.findUser(userId);
+
     res.json(user);
   };
 
@@ -55,6 +57,12 @@ export class UserController implements userControllerInterface {
     const userRank = await userService.userRank();
 
     res.json(userRank);
+  };
+
+  monthPostCount: AsyncRequestHandler = async (req, res) => {
+    const id = req.body.userId;
+    const monthPostCount = await userService.monthPostCount(id);
+    res.json(monthPostCount);
   };
 }
 

@@ -6,6 +6,12 @@ interface user {
   status?: number;
 }
 
+interface kakaoUser {
+  id?: number;
+  email?: string;
+  nickname: string;
+}
+
 interface userInfo {
   userId: number;
   currentPassword: string;
@@ -23,10 +29,17 @@ interface post {
   user_nickname?: string;
 }
 
-interface rank {
-  id: number;
-  nickname: string;
-  post_count: number;
+interface comment {
+  postId?: number;
+  userId?: number;
+  content: string;
+  date?: Date;
+}
+
+interface report {
+  postId: number;
+  userId: number;
+  type: number;
 }
 
 interface IGuestModel {
@@ -41,21 +54,60 @@ interface IUserModel {
   update(id: number, toUpdate: user): Promise<user>;
   delete(id: number): Promise<user[]>;
   rank(): Promise<rank[]>;
+  monthPostCount(userId: number): Promise<monthPostCount[]>;
 }
 
 interface IPostModel {
   create(postInfo: post): Promise<post>;
   findPost(postId: number): Promise<post>;
-  findAll(postId: number): Promise<any>;
-  findMyPosts(userId: number, page: number): Promise<post[]>;
+  findAllDesc(page: number): Promise<post[]>;
+  findAllAsc(page: number): Promise<post[]>;
+  searchPost(search: string, page: number): Promise<post[]>;
+  findAllCommentCount(page: number): Promise<post[]>;
+  findMyPostsDesc(userId: number, page: number): Promise<post[]>;
+  findMyPostsAsc(userId: number, page: number): Promise<post[]>;
+  findMyPostsCommentCount(userId: number, page: number): Promise<post[]>;
   findMyPostsCount(userId: number): Promise<number>;
   updatePost(id: number, postInfo: post): Promise<post>;
   delete(id: number, userId: number): Promise<number>;
 }
 
+interface ICommentModel {
+  create(comment: comment): Promise<comment>;
+  findByPostId(postId: number): Promise<comment[]>;
+  findById(id: number): Promise<comment>;
+  update(id: number, toUpdate: comment): Promise<comment>;
+  delete(id: number): Promise<comment[]>;
+}
+
+interface IReportModel {
+  create(report: report): Promise<report>;
+  findAll(): Promise<report[]>;
+  delete(id: number): Promise<report>;
+}
+
+interface ICommentModel {
+  create(comment: comment): Promise<comment>;
+  findByPostId(postId: number): Promise<comment[]>;
+  findById(id: number): Promise<comment>;
+  update(id: number, toUpdate: comment): Promise<comment>;
+  delete(id: number): Promise<comment[]>;
+}
+
+interface IReportModel {
+  create(report: report): Promise<report>;
+  findAll(): Promise<report[]>;
+  delete(id: number): Promise<report>;
+}
+
 interface MyPosts {
   MyPosts?: post[];
   totalCount: number;
+}
+
+interface monthPostCount {
+  month: string;
+  count: number;
 }
 
 export {
@@ -66,5 +118,10 @@ export {
   post,
   IPostModel,
   MyPosts,
-  rank,
+  comment,
+  ICommentModel,
+  report,
+  monthPostCount,
+  kakaoUser,
+  IReportModel,
 };

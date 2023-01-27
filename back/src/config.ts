@@ -14,4 +14,9 @@ export const config = {
     database: process.env.DB_DATABASE,
     password: process.env.DB_PASSWORD,
   },
+  kakao: {
+    clientID: process.env.KAKAO_ID as string,
+    KAKAO_SECRET_KEY: process.env.KAKAO_SECRET_KEY,
+    callbackURL: process.env.KAKAO_URL,
+  },
 };

@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 const slide = [
   "https://picsum.photos/2000/400",
-  "https://picsum.photos/2000/400",
+  "https://picsum.photos/2300/400",
   "https://picsum.photos/2200/400",
 ];
 

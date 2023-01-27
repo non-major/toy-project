@@ -2,10 +2,8 @@ import { Link } from "react-router-dom";
 import { ItemListStyle } from "./ItemList.styles";
 
 interface Item {
-  postId: string;
-  userId: {
-    nickname: string;
-  };
+  id: string;
+  userId: number;
   nickname: string;
   image: string;
   title: string;
@@ -25,9 +23,9 @@ const ItemList = ({ contents }: ContentProps) => {
       <ItemListStyle className="itemList">
         {contents.map((content) => {
           return (
-            <div className="item" key={content.postId}>
-              <span>@{content.userId.nickname}</span>
-              <Link to={"/content/" + content.postId}>
+            <div className="item" key={content.id}>
+              <span>@{content.userId}</span>
+              <Link to={"/content/" + content.id}>
                 <div className="img">
                   <img src={content.image} alt={content.title} />
                 </div>

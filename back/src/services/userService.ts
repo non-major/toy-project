@@ -1,4 +1,4 @@
-import { user, userInfo, IUserModel, rank } from "../interface";
+import { user, userInfo, IUserModel, rank, monthPostCount } from "../interface";
 import { userModel } from "../model/userModel";
 import bcrypt from "bcrypt";
 
@@ -66,6 +66,10 @@ export class UserService {
 
   async userRank(): Promise<rank[]> {
     return await userModel.rank();
+  }
+
+  async monthPostCount(userId: number): Promise<monthPostCount[]> {
+    return await userModel.monthPostCount(userId);
   }
 }
 

@@ -5,6 +5,12 @@ import { loginRequired } from "../middlewares/loginRequired";
 export const userRouter = Router();
 userRouter.get("/", asyncHandler(userController.findAll));
 userRouter.get("/myInfo", loginRequired, asyncHandler(userController.findUser));
+userRouter.get(
+  "/month/count",
+  loginRequired,
+  asyncHandler(userController.monthPostCount)
+);
+
 userRouter.get("/rank", asyncHandler(userController.userRank));
 userRouter.patch("/update", loginRequired, asyncHandler(userController.update));
 userRouter.delete(
