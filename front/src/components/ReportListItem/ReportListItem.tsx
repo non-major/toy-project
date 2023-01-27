@@ -16,9 +16,14 @@ export const ReportListItem = ({
   title,
   content,
   setIsOpenModal,
+  setSelectedPostId,
 }: ReportListItemProps) => {
   return (
-    <Container onClick={() => setIsOpenModal(true)}>
+    <Container
+      onClick={() => {
+        setIsOpenModal(true);
+        setSelectedPostId(postId);
+      }}>
       <Section>
         <BookImage src={bookImageURL}></BookImage>
       </Section>

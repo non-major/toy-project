@@ -9,6 +9,7 @@ const menuList = ["report", "userlist"];
 function Admin() {
   const [menu, setMenu] = useState("report");
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const [selectedPostId, setSelectedPostId] = useState<number | null>(null);
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     const clickedMenu = (event.target as HTMLElement).id;
@@ -31,12 +32,20 @@ function Admin() {
       </Sidebar>
       <Content>
         {menu === "report" ? (
-          <ReportList setIsOpenModal={setIsOpenModal} />
+          <ReportList
+            setIsOpenModal={setIsOpenModal}
+            setSelectedPostId={setSelectedPostId}
+          />
         ) : (
           <UserList />
         )}
       </Content>
-      {isOpenModal && <ReportPageModal setModalState={setIsOpenModal} />}
+      {isOpenModal && (
+        <ReportPageModal
+          setModalState={setIsOpenModal}
+          selectedPostId={selectedPostId}
+        />
+      )}
     </Container>
   );
 }
