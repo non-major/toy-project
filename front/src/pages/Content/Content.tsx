@@ -14,10 +14,11 @@ import {
   ContentReportBtn,
 } from "./Content.styles";
 import { RiAlarmWarningFill } from "react-icons/ri";
+import { tokenToString } from "typescript";
 
 function Content() {
-  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const navigate = useNavigate();
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const [post, setPost] = useState({
     title: "",
     date: "",
@@ -30,14 +31,6 @@ function Content() {
   const [userNickname, setUserNickname] = useState("기본");
   const [isAuthor, setIsAuthor] = useState(false);
 
-  function formatDate(dateString: Date) {
-    const newDate = new Date(dateString);
-    let formattedDate = `${newDate.getFullYear()}.`;
-    formattedDate += `${`0${newDate.getMonth() + 1}`.slice(-2)}.`;
-    formattedDate += `${`0${newDate.getDate()}`.slice(-2)}`;
-    return formattedDate;
-  }
-
   const { id } = useParams();
 
   const userToken = sessionStorage.getItem("userToken");
@@ -45,11 +38,14 @@ function Content() {
   useEffect(() => {
     const getOnePost = async () => {
       await axios
-        .get(`/api/posts/${id}`)
+        .get(`/api/posts/${id}`, {
+          headers: {
+            Authorization: `Bearer ${userToken}`,
+          },
+        })
         .then((response) => {
           const postData = response.data.post;
-          const isAuthor = response.data.isAuthor;
-          console.log(postData);
+          const isCurrentAuthor = response.data.isAuthor;
           setPost((post) => {
             return {
               ...post,
@@ -60,7 +56,7 @@ function Content() {
               img: postData.image,
             };
           });
-          if (isAuthor === "false") {
+          if (isCurrentAuthor === "false") {
             setIsAuthor(false);
           } else {
             setIsAuthor(true);
@@ -69,13 +65,11 @@ function Content() {
         .catch((err) => console.log(err));
     };
     getOnePost();
-  }, [id, isAuthor]);
+  }, [id, isAuthor, userToken]);
   // 게시글 불러와서 post 세팅해줌
 
-  // isAuthor 값에 따라서 수정하기, 삭제하기 버튼 렌더링
-
   const handleEdit = () => {
-    console.log("수정하기");
+    navigate(`/edit/${id}`);
   };
 
   const handleDelete = () => {
@@ -85,6 +79,8 @@ function Content() {
   const onDelete = () => {
     alert("이 댓글을 삭제하시겠습니까?");
   };
+
+  // console.log(isAuthor);
 
   return (
     <>
@@ -115,10 +111,10 @@ function Content() {
           {isAuthor && (
             <>
               <MyButton btntype="basic" onClick={handleEdit}>
-                {"수정하기"}
+                수정하기
               </MyButton>
               <MyButton btntype="remove" onClick={handleDelete}>
-                {"삭제하기"}
+                삭제하기
               </MyButton>
             </>
           )}

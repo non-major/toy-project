@@ -1,24 +1,46 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import MyButton from "../../components/MyButton";
 import axios from "axios";
+import ButtonWrap from "../../styles/ButtonWrap";
+import { MyTitle } from "../User/Register";
 import {
   TitleInput,
   TitleWrap,
   ContentInput,
   ImgSearchInput,
-} from "./NewContent.styles";
-import ButtonWrap from "../../styles/ButtonWrap";
-import { MyTitle } from "../User/Register";
+} from "./EditContent.styles";
+import { useQuery } from "react-query";
+import getOnePost from "../../api/getOnePost";
 
-function NewContent() {
-  const navigate = useNavigate();
-
-  const [newPost, setNewPost] = useState({
+function EditContent() {
+  const { id } = useParams();
+  const [post, setPost] = useState({
     title: "",
     img: "",
     content: "",
   });
+
+  const postQuery = useQuery({
+    queryKey: ["posts", id],
+    queryFn: () => getOnePost(id),
+  });
+
+  useEffect(() => {
+    const postData = postQuery?.data?.data.post;
+    if (postQuery.status === "success") {
+      setPost((post) => {
+        return {
+          ...post,
+          title: postData.title,
+          content: postData.content,
+          img: postData.image,
+        };
+      });
+    }
+  }, [postQuery.status, postQuery?.data?.data.post]);
+
+  const navigate = useNavigate();
 
   const token = sessionStorage.getItem("userToken");
 
@@ -27,23 +49,22 @@ function NewContent() {
   };
 
   const handleChangeState = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewPost({ ...newPost, [e.target.name]: e.target.value });
+    setPost({ ...post, [e.target.name]: e.target.value });
   };
   const handleContentChangeState = (
     e: React.ChangeEvent<HTMLTextAreaElement>,
   ) => {
-    setNewPost({ ...newPost, content: e.target.value });
+    setPost({ ...post, content: e.target.value });
   };
 
   const handleSubmit = async () => {
-    console.log(token);
     await axios
-      .post(
-        "/api/posts",
+      .patch(
+        `/api/posts/update/${id}`,
         {
-          title: newPost.title,
-          content: newPost.content,
-          image: newPost.img,
+          title: post.title,
+          content: post.content,
+          image: post.img,
         },
         config,
       )
@@ -55,7 +76,7 @@ function NewContent() {
           date: response.data.date,
           postId: response.data.id,
         });
-        alert("독서 기록 등록이 완료되었습니다.");
+        alert("독서 기록 수정이 완료되었습니다.");
         navigate(`/content/${response.data.id}`);
       })
       .catch((error) => {
@@ -72,7 +93,7 @@ function NewContent() {
   return (
     <div>
       <TitleWrap>
-        <MyTitle>독서 기록 작성하기</MyTitle>
+        <MyTitle>독서 기록 수정하기</MyTitle>
       </TitleWrap>
       <p>
         <label htmlFor="title">제목</label>
@@ -81,7 +102,7 @@ function NewContent() {
         name="title"
         id="title"
         placeholder="제목을 적어주세요."
-        value={newPost.title}
+        value={post.title}
         onChange={handleChangeState}
       />
       <p>
@@ -92,7 +113,7 @@ function NewContent() {
           name="img"
           id="img"
           placeholder="어떤 책을 읽으셨나요?"
-          value={newPost.img}
+          value={post.img}
           onChange={handleChangeState}
         />
         <MyButton btntype="basic" onClick={handleQuit}>
@@ -103,19 +124,19 @@ function NewContent() {
       <ContentInput
         name="content"
         placeholder="내용을 적어주세요."
-        value={newPost.content}
+        value={post.content}
         onChange={handleContentChangeState}
       />
       <ButtonWrap>
         <MyButton btntype="submit" onClick={handleSubmit}>
-          저장하기
+          수정하기
         </MyButton>
         <MyButton btntype="basic" onClick={handleQuit}>
-          작성취소
+          수정취소
         </MyButton>
       </ButtonWrap>
     </div>
   );
 }
 
-export default NewContent;
+export default EditContent;
