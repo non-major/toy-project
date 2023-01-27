@@ -20,6 +20,7 @@ export class UserController implements userControllerInterface {
   findUser: AsyncRequestHandler = async (req, res) => {
     const userId = req.body.userId;
     const user = await userService.findUser(userId);
+
     res.json(user);
   };
 

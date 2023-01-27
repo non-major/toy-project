@@ -6,6 +6,12 @@ interface user {
   status?: number;
 }
 
+interface kakaoUser {
+  id?: number;
+  email?: string;
+  nickname: string;
+}
+
 interface userInfo {
   userId: number;
   currentPassword: string;
@@ -116,5 +122,6 @@ export {
   ICommentModel,
   report,
   monthPostCount,
+  kakaoUser,
   IReportModel,
 };
