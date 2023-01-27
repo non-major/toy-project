@@ -1,7 +1,13 @@
 import { pg } from "../db/database";
-import { user, IUserModel, rank, monthPostCount } from "../interface";
+import {
+  user,
+  IUserModel,
+  rank,
+  monthPostCount,
+  kakaoUser,
+} from "../interface";
 export class UserModel implements IUserModel {
-  async create(user: user): Promise<user> {
+  async create(user: kakaoUser): Promise<user> {
     const { email, nickname } = user;
     const newUser = await pg.query(
       `INSERT INTO users (email,nickname) VALUES ($1,$2)RETURNING*`,

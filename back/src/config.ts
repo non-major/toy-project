@@ -16,6 +16,7 @@ export const config = {
   },
   kakao: {
     clientID: process.env.KAKAO_ID as string,
-    callbackURL: "api/kakao/oauth",
+    KAKAO_SECRET_KEY: process.env.KAKAO_SECRET_KEY,
+    callbackURL: process.env.KAKAO_URL,
   },
 };

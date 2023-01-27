@@ -1,17 +1,18 @@
 import { Router } from "express";
 import { asyncHandler } from "../utils/index";
-import { guestController } from "../controller";
-import passport from "passport";
+import passport = require("passport");
+import { setUserToken } from "../utils/jwt";
 
 export const authRouter = Router();
 
 authRouter.get("/kakao", passport.authenticate("kakao"));
+
 authRouter.get(
-  "/kakao/oauth",
+  "/kakao/login",
   passport.authenticate("kakao", {
-    failureRedirect: "/kakao",
+    session: false,
   }),
-  (req, res) => {
-    res.redirect("/api/posts/order/desc");
+  (req, res, next) => {
+    res.json(setUserToken(res, req.user));
   }
 );

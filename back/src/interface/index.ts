@@ -1,9 +1,15 @@
 interface user {
   id?: number;
   email?: string;
-  password?: string;
+  password: string;
   nickname?: string;
   status?: number;
+}
+
+interface kakaoUser {
+  id?: number;
+  email?: string;
+  nickname: string;
 }
 
 interface userInfo {
@@ -79,4 +85,5 @@ export {
   MyPosts,
   rank,
   monthPostCount,
+  kakaoUser,
 };

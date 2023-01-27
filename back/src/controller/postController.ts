@@ -18,6 +18,7 @@ interface postControllerInterface {
 export class PostController implements postControllerInterface {
   create: AsyncRequestHandler = async (req, res) => {
     const { userId, title, content, image } = req.body;
+
     const postInfo: post = {
       userId: userId,
       title: title,
