@@ -1,15 +1,19 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { logoutAccout } from "../../redux/userReducer";
 import { Header, Nav, SearchBar } from "./MyHeader.styles";
 
 const MyHeader = () => {
-  const [user, setUser] = useState(false);
+  // const [user, setUser] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
+  const isLogin = useAppSelector((state) => state.user.isLogin);
+  const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    sessionStorage.getItem("userToken") ? setUser(true) : setUser(false);
-  }, []);
+  // useEffect(() => {
+  //   sessionStorage.getItem("userToken") ? setUser(true) : setUser(false);
+  // }, []);
 
   const onSearch = () => {
     if (!searchRef.current?.value) {
@@ -37,7 +41,7 @@ const MyHeader = () => {
             onClick={() => {
               sessionStorage.removeItem("userToken");
               alert("로그아웃 되셨습니다.");
-              setUser(false);
+              dispatch(logoutAccout());
             }}>
             로그아웃
           </Link>
@@ -87,7 +91,7 @@ const MyHeader = () => {
         />
       </SearchBar>
 
-      <Nav>{user ? <MemberNav /> : <GuestNav />}</Nav>
+      <Nav>{isLogin ? <MemberNav /> : <GuestNav />}</Nav>
     </Header>
   );
 };
