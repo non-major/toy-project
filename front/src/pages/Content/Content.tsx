@@ -73,6 +73,12 @@ function Content() {
 
   const handleDelete = () => {
     alert("이 게시물을 삭제하시겠습니까?");
+    try {
+      instance.delete(`/api/posts/delete/${id}`);
+      navigate(`/`);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
