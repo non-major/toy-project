@@ -1,6 +1,21 @@
 import { pg } from "../db/database";
-import { user, IUserModel, rank, monthPostCount } from "../interface";
+import {
+  user,
+  IUserModel,
+  rank,
+  monthPostCount,
+  kakaoUser,
+} from "../interface";
 export class UserModel implements IUserModel {
+  async create(user: kakaoUser): Promise<user> {
+    const { email, nickname } = user;
+    const newUser = await pg.query(
+      `INSERT INTO users (email,nickname) VALUES ($1,$2)RETURNING*`,
+      [email, nickname]
+    );
+    return newUser.rows[0];
+  }
+
   async findAll(): Promise<user[]> {
     const users = await pg.query(
       `select  id,email,nickname,status,(select count(*) from posts where posts."userId" = users.id) as post_count

@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import { config } from "./config";
 import { pg } from "./db/database";
-import { guestRouter, userRouter, postRouter } from "./routers";
+import { guestRouter, userRouter, postRouter, authRouter } from "./routers";
 import { endPoint } from "./constants";
 import bodyParser from "body-parser";
 import swaggerJsdoc from "swagger-jsdoc";
@@ -12,7 +12,7 @@ const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
-
+require("./passport")();
 const openApiDocument = yaml.load("src/api/swagger.yaml");
 
 app.use(
@@ -20,7 +20,7 @@ app.use(
   swaggerUi.serve,
   swaggerUi.setup(openApiDocument, { explorer: true })
 );
-
+app.use(endPoint.auth, authRouter);
 app.use(endPoint.guest, guestRouter);
 app.use(endPoint.user, userRouter);
 app.use(endPoint.post, postRouter);
