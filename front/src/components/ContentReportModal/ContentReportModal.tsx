@@ -9,6 +9,7 @@ import {
 import ReportModalReasonForm from "./ContentReportModalReasonForm";
 
 type ReportModalProps = {
+  postTitle: string;
   setModalState: Dispatch<SetStateAction<boolean>>;
 };
 
@@ -21,9 +22,7 @@ const ReportModal = (props: ReportModalProps) => {
         </ModalCloseBtn> */}
       </ModalCloseWrapper>
       <ReportModalTitle>신고 게시글</ReportModalTitle>
-      <ReportContentBookTitle>
-        우리가 빛의 속도로 갈 수 없다면
-      </ReportContentBookTitle>
+      <ReportContentBookTitle>{props.postTitle}</ReportContentBookTitle>
       <ReportModalTitle>신고 사유</ReportModalTitle>
       <ReportModalReasonForm />
     </Modal>

@@ -84,7 +84,10 @@ function Content() {
   return (
     <>
       {isReportModalOpen && (
-        <ReportModal setModalState={setIsReportModalOpen} />
+        <ReportModal
+          postTitle={post.title}
+          setModalState={setIsReportModalOpen}
+        />
       )}
       <ContentWrap>
         <ContentReportWrapper>
