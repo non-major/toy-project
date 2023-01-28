@@ -22,11 +22,11 @@ const getData = async (
     const url = `/api/posts${allContents}/order/${sort}?page=${page}`;
 
     const response = await axios.get(url, headObj).then((res) => {
-      console.log("합쳐서", url, page, res);
-      if (res.data.post.length === 1) {
+      console.log(res);
+      if (res.data.post.length === 0) {
         return {
           response: [],
-          totalCount: 0,
+          totalCount: 9,
         };
       } else {
         return {

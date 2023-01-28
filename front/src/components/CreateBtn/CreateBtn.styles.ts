@@ -16,7 +16,7 @@ export const Btn = styled.div`
   position: fixed;
   bottom: 10vh;
   right: 18vw;
-  z-index: 99;
+  z-index: 24;
 
   img {
     width: 50%;

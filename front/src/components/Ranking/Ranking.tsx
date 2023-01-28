@@ -1,29 +1,23 @@
-import React, { useState, useEffect } from "react";
+import { useQuery } from "react-query";
 import getUserRank from "../../api/getUserRank";
 import { Rank } from "./Ranking.styles";
 
-export interface RankingUser {
-  postCount: number;
-  nickname: string;
-}
-
 const Ranking = () => {
-  const [users, setUsers] = useState<RankingUser[]>([]);
-
-  useEffect(() => {
-    getUserRank(setUsers);
-  }, []);
+  const { data: rank, isSuccess } = useQuery(["user", "contents"], () =>
+    getUserRank(),
+  );
 
   return (
     <Rank>
-      {users.map((user, idx) => {
-        return (
-          <div className="rank" key={idx}>
-            <span>{idx + 1}</span>
-            <div>{user.nickname}</div>
-          </div>
-        );
-      })}
+      {isSuccess &&
+        rank.map((user, idx) => {
+          return (
+            <div className="rank" key={idx}>
+              <span>{idx + 1}</span>
+              <div>{user.nickname}</div>
+            </div>
+          );
+        })}
     </Rank>
   );
 };
