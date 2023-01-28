@@ -20,7 +20,6 @@ type Modal = {
 };
 
 const Modal = (props: Modal) => {
-  // const dispatch = useModalDispatch();
   const divRef = useRef<HTMLDivElement>(null);
   useOneClickOutside(divRef, () => {
     props.setModalState(false);

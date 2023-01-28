@@ -4,8 +4,12 @@ import { reportModel } from "../model/index";
 export class ReportService {
   constructor(private commentModel: IReportModel) {}
 
-  async findAll(): Promise<report[]> {
-    return await reportModel.findAll();
+  async findReportedPosts(): Promise<report[]> {
+    return await reportModel.findReportedPosts();
+  }
+
+  async findByPostId(postId: number): Promise<report[]> {
+    return await reportModel.findByPostId(postId);
   }
 
   async create(report: report): Promise<report> {

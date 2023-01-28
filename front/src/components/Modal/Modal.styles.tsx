@@ -19,8 +19,8 @@ const ModalContent = styled.div`
   flex-direction: column;
   background-color: white;
   width: 60vw;
-  height: auto;
   padding: 25px;
+  z-index: 100;
 `;
 
 const ModalTitle = styled.div`

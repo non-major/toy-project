@@ -56,7 +56,7 @@ export class PostService {
     const myPosts = await postModel.findMyPostsDesc(userId, page);
     const totalCount = await postModel.findMyPostsCount(userId);
     const result: MyPosts = {
-      MyPosts: myPosts,
+      post: myPosts,
       totalCount: totalCount,
     };
     return result;
@@ -66,7 +66,7 @@ export class PostService {
     const myPosts = await postModel.findMyPostsAsc(userId, page);
     const totalCount = await postModel.findMyPostsCount(userId);
     const result: MyPosts = {
-      MyPosts: myPosts,
+      post: myPosts,
       totalCount: totalCount,
     };
     return result;
@@ -79,7 +79,7 @@ export class PostService {
     const myPosts = await postModel.findMyPostsCommentCount(userId, page);
     const totalCount = await postModel.findMyPostsCount(userId);
     const result: MyPosts = {
-      MyPosts: myPosts,
+      post: myPosts,
       totalCount: totalCount,
     };
     return result;
