@@ -28,7 +28,8 @@ const ImageSearchModal = (props: ImageSearchModalProps) => {
   const handleImageSearchClick = async () => {
     try {
       if (bookSearchKeyword === "") {
-        setbookSearchResult([{ title: "검색어를 입력해주세요" }]);
+        console.log("검색어 없음");
+        return;
       }
       const { data } = await axios.get(`/api/image?query=${bookSearchKeyword}`);
       setbookSearchResult([...data]);
