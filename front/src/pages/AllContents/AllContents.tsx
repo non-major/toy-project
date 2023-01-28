@@ -14,12 +14,12 @@ const AllContents = () => {
   const [dateSort, setDateSort] = useState("desc");
   const [commentSort, setCommentSort] = useState("");
   const [totalCount, setTotal] = useState(0);
-  const { data, isSuccess } = useQuery(
-    ["contents", page, dateSort, commentSort],
-    () => getData(all, page, dateSort, commentSort),
-  );
   const location = useLocation();
   const all = location.pathname === "/all" || location.pathname === "/";
+  const { data, isSuccess } = useQuery(
+    ["contents", all, page, dateSort, commentSort],
+    () => getData(all, page, dateSort, commentSort),
+  );
 
   /*헤더 네비바에서 비회원은 내 기록 보기 버튼이 노출되지 않지만 
   /mydiary 경로를 직접 입력하여 들어오는 경우 블락하고 로그인 페이지로 이동하는 조건문 */
@@ -83,8 +83,10 @@ const AllContents = () => {
           itemsCountPerPage={9}
           totalItemsCount={isSuccess ? data.totalCount : 9}
           pageRangeDisplayed={5}
-          prevPageText={"‹"}
-          nextPageText={"›"}
+          prevPageText={"<"}
+          nextPageText={">"}
+          firstPageText={"<<"}
+          lastPageText={">>"}
           onChange={handlePageChange}
         />
       </Paging>

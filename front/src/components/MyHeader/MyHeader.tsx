@@ -21,7 +21,7 @@ const MyHeader = () => {
     if (!searchRef.current?.value) {
       navigate("/");
     } else {
-      navigate("/");
+      navigate(`/search/${searchRef.current.value}`);
       searchRef.current.value = "";
     }
   };

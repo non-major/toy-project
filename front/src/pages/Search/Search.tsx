@@ -5,17 +5,16 @@ import ItemList from "../../components/ItemList/ItemList";
 import CreateBtn from "../../components/CreateBtn/CreateBtn";
 import { Division, Nav, Paging } from "./Search.styles";
 import { useQuery } from "react-query";
+import getSearch from "../../api/getSearch";
 
 const Search = () => {
   const [page, setPage] = useState(1);
   const [contents, setContents] = useState([]);
-  const [dateSort, setDateSort] = useState("desc");
-  const [commentSort, setCommentSort] = useState("");
   const [totalCount, setTotal] = useState(0);
-  // const { data, isSuccess } = useQuery(
-  //   ["contents", page, dateSort, commentSort],
-  //   () => getData(all, page, dateSort, commentSort),
-  // );
+  const location = decodeURIComponent(useLocation().pathname.split("/")[2]);
+  const { data, isSuccess } = useQuery([page, location], () =>
+    getSearch(page, location),
+  );
 
   //http://localhost:3000/api/posts/search/post?search=es&page=1
 
@@ -26,20 +25,22 @@ const Search = () => {
   return (
     <>
       <Division>
-        <p></p>
+        <p>{`'${location}' 검색 결과`}</p>
         <div className="line"></div>
       </Division>
 
-      {/* {isSuccess && <ItemList contents={data.response} />} */}
+      {isSuccess && <ItemList contents={data.response} />}
 
       <Paging>
         <Pagination
           activePage={page}
           itemsCountPerPage={9}
-          totalItemsCount={9}
+          totalItemsCount={isSuccess ? data.totalCount : 9}
           pageRangeDisplayed={5}
-          prevPageText={"‹"}
-          nextPageText={"›"}
+          prevPageText={"<"}
+          nextPageText={">"}
+          firstPageText={"<<"}
+          lastPageText={">>"}
           onChange={handlePageChange}
         />
       </Paging>
