@@ -10,6 +10,7 @@ interface kakaoUser {
   id?: number;
   email?: string;
   nickname: string;
+  kakaoId: number;
 }
 
 interface userInfo {
@@ -101,7 +102,7 @@ interface IReportModel {
 }
 
 interface MyPosts {
-  MyPosts?: post[];
+  post?: post[];
   totalCount: number;
 }
 

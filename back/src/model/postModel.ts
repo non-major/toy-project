@@ -22,16 +22,17 @@ export class PostModel implements IPostModel {
     return findPost.rows[0];
   }
   async findPostId(id: number): Promise<post> {
-    const findPostId = await pg.query(`select * from posts where id = ($1)`, [
-      id,
-    ]);
+    const findPostId = await pg.query(
+      `select *,(select count(*) from comments where posts.id = comments."postId") as comment_count from posts where id = ($1)`,
+      [id]
+    );
     return findPostId.rows[0];
   }
 
   // 최신순
   async findAllDesc(page: number): Promise<post[]> {
     const findAll = await pg.query(
-      `select * from posts order by id desc limit 9 offset(($1)-1)*9`,
+      `select *,(select count(*) from comments where posts.id = comments."postId") as comment_count,(select nickname from users where users.id = posts."userId") from posts order by id desc limit 9 offset(($1)-1)*9`,
       [page]
     );
     return findAll.rows;
@@ -39,7 +40,7 @@ export class PostModel implements IPostModel {
   //오래된순
   async findAllAsc(page: number): Promise<post[]> {
     const findAll = await pg.query(
-      `select * from posts order by id asc limit 9 offset(($1)-1)*9`,
+      `select *,(select count(*) from comments where posts.id = comments."postId") as comment_count,(select nickname from users where users.id = posts."userId") from posts order by id asc limit 9 offset(($1)-1)*9`,
       [page]
     );
     return findAll.rows;
@@ -47,7 +48,7 @@ export class PostModel implements IPostModel {
   //댓글 많은순
   async findAllCommentCount(page: number): Promise<post[]> {
     const findAll = await pg.query(
-      `select * from posts order by comment_count desc limit 9 offset(($1)-1)*9`,
+      `select *,(select count(*) from comments where posts.id = comments."postId") as comment_count,(select nickname from users where users.id = posts."userId") from posts order by comment_count desc limit 9 offset(($1)-1)*9`,
       [page]
     );
     return findAll.rows;
@@ -56,7 +57,7 @@ export class PostModel implements IPostModel {
   //검색 기능
   async searchPost(search: string, page: number): Promise<post[]> {
     const searchPost = await pg.query(
-      `select * from posts where (title like '%'||$1||'%' or content like '%'||$1||'%') order by id desc limit 9 offset(($2)-1)*9`,
+      `select *,(select count(*) from comments where posts.id = comments."postId") as comment_count,(select nickname from users where users.id = posts."userId") from posts where (title like '%'||$1||'%' or content like '%'||$1||'%') order by id desc limit 9 offset(($2)-1)*9`,
       [search, page]
     );
     return searchPost.rows;
@@ -75,27 +76,26 @@ export class PostModel implements IPostModel {
     return findAllCount.rows[0];
   }
 
-  //todo postId 필요한지
   //내 게시글 보기 (최신순)
   async findMyPostsDesc(userId: number, page: number): Promise<post[]> {
     const myPosts = await pg.query(
-      `select * from posts where "userId" = ($1) order by id desc limit 9 offset(($2)-1)*9`,
+      `select *,(select count(*) from comments where posts.id = comments."postId") as comment_count,(select nickname from users where users.id = posts."userId") from posts where "userId" = ($1) order by id desc limit 9 offset(($2)-1)*9`,
       [userId, page]
     );
     return myPosts.rows;
   }
-
+  // 내 게시물 보기 (오래된 순)
   async findMyPostsAsc(userId: number, page: number): Promise<post[]> {
     const myPosts = await pg.query(
-      `select * from posts where "userId" = ($1) order by id Asc limit 9 offset(($2)-1)*9`,
+      `select * ,(select count(*) from comments where posts.id = comments."postId") as comment_count,(select nickname from users where users.id = posts."userId") from posts where "userId" = ($1) order by id Asc limit 9 offset(($2)-1)*9`,
       [userId, page]
     );
     return myPosts.rows;
   }
-
+  // 내 게시물 (댓글 순)
   async findMyPostsCommentCount(userId: number, page: number): Promise<post[]> {
     const myPosts = await pg.query(
-      `select * from posts where "userId" = ($1) order by comment_count desc limit 9 offset(($2)-1)*9 `,
+      `select *,(select count(*) from comments where posts.id = comments."postId") as comment_count,(select nickname from users where users.id = posts."userId") from posts where "userId" = ($1) order by comment_count desc limit 9 offset(($2)-1)*9 `,
       [userId, page]
     );
 

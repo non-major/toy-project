@@ -19,8 +19,8 @@ const kakao = new KakaoStrategy(
     done: any
   ) => {
     try {
-      const profileNickname = profile.displayName;
-      const exUser = await userModel.findByNickname(profileNickname);
+      const profileId = profile.id;
+      const exUser = await userModel.findByKakaoId(profileId);
 
       if (exUser) {
         done(null, exUser);
@@ -28,6 +28,7 @@ const kakao = new KakaoStrategy(
         const newUser = await userModel.create({
           email: profile._json.kakao_account.email,
           nickname: profile.displayName,
+          kakaoId: profile.id,
         });
         done(null, newUser);
       }
