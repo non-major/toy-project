@@ -2,16 +2,28 @@ import React from "react";
 
 interface SortNavProps {
   all: boolean;
+  dateSort: string;
+  commentSort: string;
   setDateSort: React.Dispatch<React.SetStateAction<string>>;
   setCommentSort: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const SortNav = ({ all, setDateSort, setCommentSort }: SortNavProps) => {
+const SortNav = ({
+  all,
+  dateSort,
+  commentSort,
+  setDateSort,
+  setCommentSort,
+}: SortNavProps) => {
   const MemberNav = () => {
     return (
       <ul>
         <li
-          className="point"
+          className={
+            dateSort === "desc" && commentSort !== "desc"
+              ? "point bold"
+              : "point"
+          }
           onClick={() => {
             setDateSort("desc");
             setCommentSort("");
@@ -20,7 +32,7 @@ const SortNav = ({ all, setDateSort, setCommentSort }: SortNavProps) => {
         </li>
         <li>|</li>
         <li
-          className="point"
+          className={dateSort === "desc" ? "point" : "point bold"}
           onClick={() => {
             setDateSort("asc");
             setCommentSort("");
@@ -29,7 +41,13 @@ const SortNav = ({ all, setDateSort, setCommentSort }: SortNavProps) => {
         </li>
         <li>|</li>
         <li
-          className="point"
+          className={
+            commentSort === "desc"
+              ? dateSort === "desc"
+                ? "point bold"
+                : "point"
+              : "point"
+          }
           onClick={() => {
             setDateSort("desc");
             setCommentSort("desc");
@@ -44,7 +62,7 @@ const SortNav = ({ all, setDateSort, setCommentSort }: SortNavProps) => {
     return (
       <ul>
         <li
-          className="point"
+          className={dateSort === "desc" ? "point bold" : "point"}
           onClick={() => {
             setDateSort("desc");
             setCommentSort("");
@@ -53,7 +71,7 @@ const SortNav = ({ all, setDateSort, setCommentSort }: SortNavProps) => {
         </li>
         <li>|</li>
         <li
-          className="point"
+          className={dateSort === "desc" ? "point" : "point bold"}
           onClick={() => {
             setDateSort("asc");
             setCommentSort("");

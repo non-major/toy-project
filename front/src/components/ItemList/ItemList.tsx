@@ -15,7 +15,9 @@ interface ContentProps {
 
 const ItemList = ({ contents }: ContentProps) => {
   if (contents.length === 0) {
-    return <div style={{ margin: "40px 0 20px 0" }}>게시물이 없습니다.</div>;
+    return (
+      <div style={{ margin: "40px 0 20px 0" }}>작성한 게시물이 없습니다.</div>
+    );
   } else {
     return (
       <ItemListStyle className="itemList">

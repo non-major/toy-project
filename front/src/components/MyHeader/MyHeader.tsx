@@ -1,11 +1,13 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { logoutAccout } from "../../redux/userReducer";
+import Modal from "../Modal/Modal";
 import { Header, Nav, SearchBar } from "./MyHeader.styles";
 
 const MyHeader = () => {
   const [admin, setAdmin] = useState(false);
+  const [isModal, setIsModal] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const isLogin = useAppSelector((state) => state.user.isLogin);
@@ -19,6 +21,7 @@ const MyHeader = () => {
 
   const onSearch = () => {
     if (!searchRef.current?.value) {
+      setIsModal(true);
       navigate("/");
     } else {
       navigate(`/search/${searchRef.current.value}`);
@@ -78,6 +81,14 @@ const MyHeader = () => {
     );
   };
 
+  const SearchModal = () => {
+    return (
+      <Modal title="" setModalState={setIsModal}>
+        검색어를 입력해 주세요.
+      </Modal>
+    );
+  };
+
   return (
     <Header>
       <div className="logo">
@@ -108,6 +119,7 @@ const MyHeader = () => {
         />
       </SearchBar>
 
+      {isModal && <SearchModal />}
       <Nav>{isLogin ? admin ? <AdminNav /> : <MemberNav /> : <GuestNav />}</Nav>
     </Header>
   );

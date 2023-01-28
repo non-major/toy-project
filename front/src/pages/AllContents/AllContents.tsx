@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import Pagination from "react-js-pagination";
 import getData from "../../api/getContents";
@@ -10,10 +10,8 @@ import { useQuery } from "react-query";
 
 const AllContents = () => {
   const [page, setPage] = useState(1);
-  const [contents, setContents] = useState([]);
   const [dateSort, setDateSort] = useState("desc");
   const [commentSort, setCommentSort] = useState("");
-  const [totalCount, setTotal] = useState(0);
   const location = useLocation();
   const all = location.pathname === "/all" || location.pathname === "/";
   const { data, isSuccess } = useQuery(
@@ -30,34 +28,8 @@ const AllContents = () => {
     window.location.href = "/login";
   }
 
-  useEffect(() => {
-    console.log(data);
-    console.log(all, page, dateSort, commentSort);
-  }, [data, all, page, dateSort, commentSort]);
-
-  // useEffect(() => {
-  //   getData(all, page, dateSort, commentSort).then((res) => {
-  //     if (res?.response.length === 0) {
-  //       setTotal(0);
-  //       return;
-  //     } else {
-  //       setContents(res?.response);
-  //       setTotal(res?.totalCount);
-  //     }
-  //   });
-  // }, [all, page, dateSort, commentSort]);
-
   const handlePageChange = (page: number) => {
     setPage(page);
-    // getData(all, page, dateSort, commentSort).then((res) => {
-    //   if (res?.response.length === 0) {
-    //     setTotal(0);
-    //     return;
-    //   } else {
-    //     setContents(res?.response);
-    //     setTotal(res?.totalCount);
-    //   }
-    // });
   };
 
   return (
@@ -70,6 +42,8 @@ const AllContents = () => {
       <Nav>
         <SortNav
           all={all}
+          dateSort={dateSort}
+          commentSort={commentSort}
           setDateSort={setDateSort}
           setCommentSort={setCommentSort}
         />

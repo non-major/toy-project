@@ -1,22 +1,18 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import Pagination from "react-js-pagination";
 import ItemList from "../../components/ItemList/ItemList";
 import CreateBtn from "../../components/CreateBtn/CreateBtn";
-import { Division, Nav, Paging } from "./Search.styles";
+import { Division, Paging } from "./Search.styles";
 import { useQuery } from "react-query";
 import getSearch from "../../api/getSearch";
 
 const Search = () => {
   const [page, setPage] = useState(1);
-  const [contents, setContents] = useState([]);
-  const [totalCount, setTotal] = useState(0);
   const location = decodeURIComponent(useLocation().pathname.split("/")[2]);
   const { data, isSuccess } = useQuery([page, location], () =>
     getSearch(page, location),
   );
-
-  //http://localhost:3000/api/posts/search/post?search=es&page=1
 
   const handlePageChange = (page: number) => {
     setPage(page);
