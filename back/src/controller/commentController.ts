@@ -15,12 +15,13 @@ export class CommentController implements commentControllerInterface {
     const intPostId = parseInt(postId);
     const { userId, content, date } = req.body;
     const intUserId = parseInt(userId);
+    const newDate = new Date(date);
 
     const postCommentInfo: comment = {
       postId: intPostId,
       userId: intUserId,
       content: content,
-      date: date,
+      date: newDate,
     };
     const commentPost = commentService.create(postCommentInfo);
     res.json(commentPost);
