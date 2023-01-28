@@ -28,7 +28,7 @@ reportRouter.get(
 
 // 관리자모드
 reportRouter.delete(
-  "/:reportId",
+  "/:postId",
   isAuthorRequired,
   asyncHandler(reportController.delete)
 );

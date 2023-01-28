@@ -29,10 +29,10 @@ export class ReportModel implements IReportModel {
     return reports.rows;
   }
 
-  // 신고 삭제
-  async delete(reportId: number): Promise<report> {
-    const deleteReport = await pg.query(`DELETE FROM reports WHERE id = ($1)`, [
-      reportId,
+  // 신고당한 게시물 삭제
+  async delete(postId: number): Promise<report> {
+    const deleteReport = await pg.query(`DELETE FROM posts WHERE id = ($1)`, [
+      postId,
     ]);
     return deleteReport.rows[0];
   }

@@ -92,8 +92,8 @@ interface ICommentModel {
 interface IReportModel {
   create(report: report): Promise<report>;
   findReportedPosts(): Promise<report[]>;
-  findByPostId(PostId: number): Promise<report[]>;
-  delete(id: number): Promise<report>;
+  findByPostId(postId: number): Promise<report[]>;
+  delete(postId: number): Promise<report>;
 }
 
 interface MyPosts {
