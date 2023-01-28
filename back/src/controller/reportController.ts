@@ -3,7 +3,8 @@ import { reportService } from "../services";
 import { AsyncRequestHandler } from "../types";
 
 interface reportControllerInterface {
-  findAll: AsyncRequestHandler;
+  findReportedPosts: AsyncRequestHandler;
+  findByPostId: AsyncRequestHandler;
   create: AsyncRequestHandler;
   delete: AsyncRequestHandler;
 }
@@ -25,13 +26,24 @@ export class ReportController implements reportControllerInterface {
     res.json(reportPost);
   };
 
-  findAll: AsyncRequestHandler = async (req, res) => {
+  findReportedPosts: AsyncRequestHandler = async (req, res) => {
     const { status } = req.body;
     if (status === 0) {
       throw new Error("관리자가 아닙니다.");
     }
-    const findAll = await reportService.findAll();
-    res.json(findAll);
+    const findReportedPosts = await reportService.findReportedPosts();
+    res.json(findReportedPosts);
+  };
+
+  findByPostId: AsyncRequestHandler = async (req, res) => {
+    const { postId } = req.params;
+    const intPostId = parseInt(postId);
+    const { status } = req.body;
+    if (status === 0) {
+      throw new Error("관리자가 아닙니다.");
+    }
+    const findByPostId = await reportService.findByPostId(intPostId);
+    res.json(findByPostId);
   };
 
   delete: AsyncRequestHandler = async (req, res) => {

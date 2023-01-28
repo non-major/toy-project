@@ -13,7 +13,18 @@ reportRouter.post(
 );
 
 // 관리자모드
-reportRouter.get("/", isAuthorRequired, asyncHandler(reportController.findAll));
+reportRouter.get(
+  "/reportedList",
+  isAuthorRequired,
+  asyncHandler(reportController.findReportedPosts)
+);
+
+// 관리자모드
+reportRouter.get(
+  "/:postId",
+  isAuthorRequired,
+  asyncHandler(reportController.findByPostId)
+);
 
 // 관리자모드
 reportRouter.delete(

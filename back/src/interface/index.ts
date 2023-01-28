@@ -80,12 +80,6 @@ interface ICommentModel {
   delete(id: number): Promise<comment[]>;
 }
 
-interface IReportModel {
-  create(report: report): Promise<report>;
-  findAll(): Promise<report[]>;
-  delete(id: number): Promise<report>;
-}
-
 interface ICommentModel {
   create(comment: comment): Promise<comment>;
   findByPostId(postId: number): Promise<comment[]>;
@@ -96,7 +90,8 @@ interface ICommentModel {
 
 interface IReportModel {
   create(report: report): Promise<report>;
-  findAll(): Promise<report[]>;
+  findReportedPosts(): Promise<report[]>;
+  findByPostId(PostId: number): Promise<report[]>;
   delete(id: number): Promise<report>;
 }
 
