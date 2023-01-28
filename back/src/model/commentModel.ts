@@ -4,10 +4,10 @@ import { comment, ICommentModel } from "../interface";
 export class CommentModel implements ICommentModel {
   // 댓글 생성
   async create(comment: comment): Promise<comment> {
-    const { postId, userId, content } = comment;
+    const { postId, userId, content, date } = comment;
     const newComment = await pg.query(
-      `INSERT INTO comments ("postId", "userId", content) VALUES ($1,$2,$3)RETURNING*`,
-      [postId, userId, content]
+      `INSERT INTO comments ("postId", "userId", content, date) VALUES ($1,$2,$3,$4)RETURNING*`,
+      [postId, userId, content, date]
     );
     return newComment.rows[0];
   }

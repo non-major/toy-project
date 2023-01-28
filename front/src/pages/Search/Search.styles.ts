@@ -37,15 +37,10 @@ const Nav = styled.nav`
   ul > li {
     margin-left: 10px;
   }
-
-  .bold {
-    font-weight: bold;
-  }
 `;
 
 const Paging = styled.div`
   margin: 50px 0 50px 0;
-  text-align: center;
 
   .pagination {
     display: flex;

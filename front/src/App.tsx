@@ -9,6 +9,7 @@ import Register from "./pages/User/Register";
 import Login from "./pages/User/Login";
 import MyPage from "./pages/MyPage/MyPage";
 import Admin from "./pages/Admin/Admin";
+import Search from "./pages/Search/Search";
 import PrivateRoute from "./route/PrivateRoute";
 import { QueryClientProvider, QueryClient } from "react-query";
 import EditContent from "./pages/EditContent/EditContent";
@@ -34,13 +35,14 @@ const App = () => {
                 <Route path="" element={<Home />} />
                 <Route path="all" element={<AllContents />} />
                 <Route path="mydiary" element={<AllContents />} />
+                <Route path="search/:keyword" element={<Search />} />
                 <Route path="new" element={<NewContent />} />
                 <Route path="content/:id" element={<Content />} />
                 <Route path="edit/:id" element={<EditContent />} />
                 <Route path="register" element={<Register />} />
                 <Route path="login" element={<Login />} />
                 <Route path="notFound" element={<NotFound />} />
-                <Route path="/admin" element={<Admin />} />
+                <Route path="admin" element={<Admin />} />
                 <Route
                   path="mypage/statistics"
                   element={

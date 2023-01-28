@@ -1,25 +1,30 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { logoutAccout } from "../../redux/userReducer";
+import Modal from "../Modal/Modal";
 import { Header, Nav, SearchBar } from "./MyHeader.styles";
 
 const MyHeader = () => {
-  // const [user, setUser] = useState(false);
+  const [admin, setAdmin] = useState(false);
+  const [isModal, setIsModal] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const isLogin = useAppSelector((state) => state.user.isLogin);
   const dispatch = useAppDispatch();
 
-  // useEffect(() => {
-  //   sessionStorage.getItem("userToken") ? setUser(true) : setUser(false);
-  // }, []);
+  useEffect(() => {
+    sessionStorage.getItem("role") === "admin"
+      ? setAdmin(true)
+      : setAdmin(false);
+  }, [isLogin]);
 
   const onSearch = () => {
     if (!searchRef.current?.value) {
+      setIsModal(true);
       navigate("/");
     } else {
-      navigate("/");
+      navigate(`/search/${searchRef.current.value}`);
       searchRef.current.value = "";
     }
   };
@@ -28,18 +33,33 @@ const MyHeader = () => {
     return (
       <div className="nav">
         <ul>
-          <Link
-            to="/mydiary"
-            onClick={() => {
-              window.location.replace("/mydiary");
-            }}>
-            내 독서 기록
-          </Link>
+          <Link to="/mydiary">내 독서 기록</Link>
           <Link to="/mypage/statistics">마이페이지</Link>
           <Link
             to="/"
             onClick={() => {
               sessionStorage.removeItem("userToken");
+              sessionStorage.removeItem("role");
+              alert("로그아웃 되셨습니다.");
+              dispatch(logoutAccout());
+            }}>
+            로그아웃
+          </Link>
+        </ul>
+      </div>
+    );
+  };
+
+  const AdminNav = () => {
+    return (
+      <div className="nav">
+        <ul>
+          <Link to="/admin">회원관리</Link>
+          <Link
+            to="/"
+            onClick={() => {
+              sessionStorage.removeItem("userToken");
+              sessionStorage.removeItem("role");
               alert("로그아웃 되셨습니다.");
               dispatch(logoutAccout());
             }}>
@@ -58,6 +78,14 @@ const MyHeader = () => {
           <Link to="/register">회원가입</Link>
         </ul>
       </div>
+    );
+  };
+
+  const SearchModal = () => {
+    return (
+      <Modal title="" setModalState={setIsModal}>
+        검색어를 입력해 주세요.
+      </Modal>
     );
   };
 
@@ -91,7 +119,8 @@ const MyHeader = () => {
         />
       </SearchBar>
 
-      <Nav>{isLogin ? <MemberNav /> : <GuestNav />}</Nav>
+      {isModal && <SearchModal />}
+      <Nav>{isLogin ? admin ? <AdminNav /> : <MemberNav /> : <GuestNav />}</Nav>
     </Header>
   );
 };
