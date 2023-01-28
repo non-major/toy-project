@@ -8,10 +8,10 @@ import {
 } from "../interface";
 export class UserModel implements IUserModel {
   async create(user: kakaoUser): Promise<user> {
-    const { email, nickname } = user;
+    const { email, nickname, kakaoId } = user;
     const newUser = await pg.query(
-      `INSERT INTO users (email,nickname) VALUES ($1,$2)RETURNING*`,
-      [email, nickname]
+      `INSERT INTO users (email,nickname,kakaoId) VALUES ($1,$2,$3)RETURNING*`,
+      [email, nickname, kakaoId]
     );
     return newUser.rows[0];
   }
@@ -28,6 +28,13 @@ export class UserModel implements IUserModel {
   async findByEmail(email: string | undefined): Promise<user> {
     const users = await pg.query(`SELECT * FROM users WHERE email = ($1)`, [
       email,
+    ]);
+    return users.rows[0];
+  }
+
+  async findByKakaoId(kakaoId: string): Promise<user> {
+    const users = await pg.query(`SELECT * FROM users WHERE kakaoId = ($1)`, [
+      kakaoId,
     ]);
     return users.rows[0];
   }
