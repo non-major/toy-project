@@ -17,8 +17,7 @@ const Search = () => {
   //   () => getData(all, page, dateSort, commentSort),
   // );
 
-  /*헤더 네비바에서 비회원은 내 기록 보기 버튼이 노출되지 않지만 
-  /mydiary 경로를 직접 입력하여 들어오는 경우 블락하고 로그인 페이지로 이동하는 조건문 */
+  //http://localhost:3000/api/posts/search/post?search=es&page=1
 
   const handlePageChange = (page: number) => {
     setPage(page);
