@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 const Comment = () => {
   // 인자로 nickname 넘어오면 추가로 받아서 commentAuthor span에 넣어주기
-  const content: string = "댓글 내용";
+  const content = "댓글 내용";
 
   const [isEdit, setIsEdit] = useState(false);
 

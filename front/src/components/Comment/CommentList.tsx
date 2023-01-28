@@ -3,6 +3,7 @@ import Comment from "./Comment";
 import { CommentWrap } from "./Comment.styles";
 import { useQuery } from "react-query";
 import getComments from "../../api/getComments";
+import axios from "axios";
 
 function CommentList({ postId }: { postId: string | undefined }) {
   const commentsQuery = useQuery({
@@ -19,15 +20,30 @@ function CommentList({ postId }: { postId: string | undefined }) {
     body: "",
   });
 
+  console.log(comment.body);
+
   const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setComment({ ...comment, body: e.target.value });
   };
 
-  const handleCommentSubmit = () => {
-    // onCreate(comment.body);
-    setComment({
-      body: "",
-    });
+  const handleCommentSubmit = async () => {
+    try {
+      const result = await axios.post(
+        `/api/comments/${postId}`,
+        {
+          content: comment.body,
+          date: new Date().toString(),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("userToken")}`,
+          },
+        },
+      );
+      console.log("result", result);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
