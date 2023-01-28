@@ -11,8 +11,8 @@ import MyPage from "./pages/MyPage/MyPage";
 import Admin from "./pages/Admin/Admin";
 import PrivateRoute from "./route/PrivateRoute";
 import { QueryClientProvider, QueryClient } from "react-query";
-// import EditContent from "./pages/EditContent";
-
+import EditContent from "./pages/EditContent/EditContent";
+import NotFound from "./pages/NotFound/NotFound";
 import { worker } from "./mocks/browers";
 import { Provider } from "react-redux";
 import store from "./redux/store";
@@ -36,9 +36,10 @@ const App = () => {
                 <Route path="mydiary" element={<AllContents />} />
                 <Route path="new" element={<NewContent />} />
                 <Route path="content/:id" element={<Content />} />
-                {/* <Route path="edit" element={<EditContent />} /> */}
+                <Route path="edit/:id" element={<EditContent />} />
                 <Route path="register" element={<Register />} />
                 <Route path="login" element={<Login />} />
+                <Route path="notFound" element={<NotFound />} />
                 <Route path="/admin" element={<Admin />} />
                 <Route
                   path="mypage/statistics"

@@ -1,8 +1,16 @@
 import React, { useState } from "react";
 import Comment from "./Comment";
 import { CommentWrap } from "./Comment.styles";
+import { useQuery } from "react-query";
+import getComments from "../../api/getComments";
 
 function CommentList({ postId }: { postId: string | undefined }) {
+  const commentsQuery = useQuery({
+    queryKey: ["comments", postId],
+    queryFn: () => getComments(postId),
+  });
+
+  // console.log(commentsQuery.data);
   // db에서 생성된 comments들 갖고올 것 (나중에 기본값 세팅해주기?)
   const comments = [{ id: 1, author: "작성자", body: "댓글입니다." }];
 

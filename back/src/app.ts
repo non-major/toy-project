@@ -7,6 +7,7 @@ import {
   userRouter,
   postRouter,
   authRouter,
+  imageRouter,
   commentRouter,
   reportRouter,
 } from "./routers";
@@ -31,6 +32,7 @@ app.use(endPoint.auth, authRouter);
 app.use(endPoint.guest, guestRouter);
 app.use(endPoint.user, userRouter);
 app.use(endPoint.post, postRouter);
+app.use(endPoint.image, imageRouter);
 app.use(endPoint.comment, commentRouter);
 app.use(endPoint.report, reportRouter);
 

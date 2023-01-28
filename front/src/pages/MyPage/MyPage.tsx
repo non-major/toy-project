@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Register, { MyTitle } from "../User/Register";
-import Chart from "../../components/Chart/Chart";
+import Chart from "../../components/Chart";
 import { deleteUserInfo, getUsersInfo } from "../../api/userInfo";
 import {
   ChartBox,
