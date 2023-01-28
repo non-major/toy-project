@@ -110,6 +110,12 @@ interface monthPostCount {
   count: number;
 }
 
+interface rank {
+  id: number;
+  nickname: string;
+  post_count: number;
+}
+
 export {
   user,
   userInfo,
@@ -124,4 +130,5 @@ export {
   monthPostCount,
   kakaoUser,
   IReportModel,
+  rank,
 };
