@@ -29,10 +29,17 @@ interface post {
   user_nickname?: string;
 }
 
-interface rank {
-  id: number;
-  nickname: string;
-  post_count: number;
+interface comment {
+  postId?: number;
+  userId?: number;
+  content: string;
+  date?: Date;
+}
+
+interface report {
+  postId: number;
+  userId: number;
+  type: number;
 }
 
 interface IGuestModel {
@@ -65,6 +72,34 @@ interface IPostModel {
   delete(id: number, userId: number): Promise<number>;
 }
 
+interface ICommentModel {
+  create(comment: comment): Promise<comment>;
+  findByPostId(postId: number): Promise<comment[]>;
+  findById(id: number): Promise<comment>;
+  update(id: number, toUpdate: comment): Promise<comment>;
+  delete(id: number): Promise<comment[]>;
+}
+
+interface IReportModel {
+  create(report: report): Promise<report>;
+  findAll(): Promise<report[]>;
+  delete(id: number): Promise<report>;
+}
+
+interface ICommentModel {
+  create(comment: comment): Promise<comment>;
+  findByPostId(postId: number): Promise<comment[]>;
+  findById(id: number): Promise<comment>;
+  update(id: number, toUpdate: comment): Promise<comment>;
+  delete(id: number): Promise<comment[]>;
+}
+
+interface IReportModel {
+  create(report: report): Promise<report>;
+  findAll(): Promise<report[]>;
+  delete(id: number): Promise<report>;
+}
+
 interface MyPosts {
   MyPosts?: post[];
   totalCount: number;
@@ -75,6 +110,12 @@ interface monthPostCount {
   count: number;
 }
 
+interface rank {
+  id: number;
+  nickname: string;
+  post_count: number;
+}
+
 export {
   user,
   userInfo,
@@ -83,7 +124,11 @@ export {
   post,
   IPostModel,
   MyPosts,
-  rank,
+  comment,
+  ICommentModel,
+  report,
   monthPostCount,
   kakaoUser,
+  IReportModel,
+  rank,
 };

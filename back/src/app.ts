@@ -8,6 +8,8 @@ import {
   postRouter,
   authRouter,
   imageRouter,
+  commentRouter,
+  reportRouter,
 } from "./routers";
 import { endPoint } from "./constants";
 import bodyParser from "body-parser";
@@ -30,8 +32,9 @@ app.use(endPoint.auth, authRouter);
 app.use(endPoint.guest, guestRouter);
 app.use(endPoint.user, userRouter);
 app.use(endPoint.post, postRouter);
-app.use(endPoint.post, postRouter);
 app.use(endPoint.image, imageRouter);
+app.use(endPoint.comment, commentRouter);
+app.use(endPoint.report, reportRouter);
 
 pg.connect().then(() => {
   console.log(`DB connect`);

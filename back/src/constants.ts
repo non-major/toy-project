@@ -4,6 +4,8 @@ interface EndPointInterface {
   user: string;
   post: string;
   image: string;
+  comment: string;
+  report: string;
 }
 
 export const endPoint: EndPointInterface = {
@@ -12,4 +14,6 @@ export const endPoint: EndPointInterface = {
   user: "/api/users",
   post: "/api/posts",
   image: "/api/image",
+  comment: "/api/comments",
+  report: "/api/reports",
 };
