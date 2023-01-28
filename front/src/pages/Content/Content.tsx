@@ -14,10 +14,11 @@ import {
   ContentReportBtn,
 } from "./Content.styles";
 import { RiAlarmWarningFill } from "react-icons/ri";
+import { instance } from "../../api/axiosInstance";
 
 function Content() {
-  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const navigate = useNavigate();
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const [post, setPost] = useState({
     title: "",
     date: "",
@@ -25,18 +26,8 @@ function Content() {
     content: "",
     img: "",
   });
-  const [comments, setComments] = useState([]);
 
-  const [userNickname, setUserNickname] = useState("기본");
   const [isAuthor, setIsAuthor] = useState(false);
-
-  function formatDate(dateString: Date) {
-    const newDate = new Date(dateString);
-    let formattedDate = `${newDate.getFullYear()}.`;
-    formattedDate += `${`0${newDate.getMonth() + 1}`.slice(-2)}.`;
-    formattedDate += `${`0${newDate.getDate()}`.slice(-2)}`;
-    return formattedDate;
-  }
 
   const { id } = useParams();
 
@@ -44,12 +35,11 @@ function Content() {
 
   useEffect(() => {
     const getOnePost = async () => {
-      await axios
+      await instance
         .get(`/api/posts/${id}`)
         .then((response) => {
           const postData = response.data.post;
-          const isAuthor = response.data.isAuthor;
-          console.log(postData);
+          const isCurrentAuthor = response.data.isAuthor;
           setPost((post) => {
             return {
               ...post,
@@ -60,36 +50,44 @@ function Content() {
               img: postData.image,
             };
           });
-          if (isAuthor === "false") {
+          if (isCurrentAuthor === "false") {
             setIsAuthor(false);
           } else {
             setIsAuthor(true);
           }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          console.log(err);
+          if (err.response.status === 400) {
+            navigate("/notFound");
+          }
+        });
     };
     getOnePost();
-  }, [id, isAuthor]);
-  // 게시글 불러와서 post 세팅해줌
-
-  // isAuthor 값에 따라서 수정하기, 삭제하기 버튼 렌더링
+  }, [id, isAuthor, userToken, navigate]);
+  // 게시글 불러와서 post 세팅
 
   const handleEdit = () => {
-    console.log("수정하기");
+    navigate(`/edit/${id}`);
   };
 
   const handleDelete = () => {
     alert("이 게시물을 삭제하시겠습니까?");
-  };
-
-  const onDelete = () => {
-    alert("이 댓글을 삭제하시겠습니까?");
+    try {
+      instance.delete(`/api/posts/delete/${id}`);
+      navigate(`/`);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
     <>
       {isReportModalOpen && (
-        <ReportModal setModalState={setIsReportModalOpen} />
+        <ReportModal
+          postTitle={post.title}
+          setModalState={setIsReportModalOpen}
+        />
       )}
       <ContentWrap>
         <ContentReportWrapper>
@@ -115,10 +113,10 @@ function Content() {
           {isAuthor && (
             <>
               <MyButton btntype="basic" onClick={handleEdit}>
-                {"수정하기"}
+                수정하기
               </MyButton>
               <MyButton btntype="remove" onClick={handleDelete}>
-                {"삭제하기"}
+                삭제하기
               </MyButton>
             </>
           )}

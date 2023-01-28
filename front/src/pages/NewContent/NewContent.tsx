@@ -10,51 +10,41 @@ import {
 } from "./NewContent.styles";
 import ButtonWrap from "../../styles/ButtonWrap";
 import { MyTitle } from "../User/Register";
+import { instance } from "../../api/axiosInstance";
+import ImageSearchModal from "./../../components/ImageSearchModal/ImageSearchModal";
 
 function NewContent() {
+  const [isImageSearchModalOpen, setIsImageSearchModalOpen] = useState(false);
+  const [bookImageUrl, setBookImageUrl] = useState("");
   const navigate = useNavigate();
 
-  const [state, setState] = useState({
+  const [newPost, setNewPost] = useState({
     title: "",
-    img: "",
     content: "",
   });
 
-  const token = sessionStorage.getItem("userToken");
-
-  const config = {
-    headers: { Authorization: `Bearer ${token}` },
-  };
-
   const handleChangeState = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setState({ ...state, [e.target.name]: e.target.value });
+    setNewPost({ ...newPost, [e.target.name]: e.target.value });
   };
+
   const handleContentChangeState = (
     e: React.ChangeEvent<HTMLTextAreaElement>,
   ) => {
-    setState({ ...state, content: e.target.value });
+    setNewPost({ ...newPost, content: e.target.value });
+  };
+
+  const hadleImgSearchModal = () => {
+    setIsImageSearchModalOpen(true);
   };
 
   const handleSubmit = async () => {
-    console.log(token);
-    await axios
-      .post(
-        "/api/posts",
-        {
-          title: state.title,
-          content: state.content,
-          image: state.img,
-        },
-        config,
-      )
+    await instance
+      .post("/api/posts", {
+        title: newPost.title,
+        content: newPost.content,
+        image: bookImageUrl,
+      })
       .then((response) => {
-        console.log({
-          title: response.data.title,
-          content: response.data.content,
-          image: response.data.image,
-          date: response.data.date,
-          postId: response.data.id,
-        });
         alert("독서 기록 등록이 완료되었습니다.");
         navigate(`/content/${response.data.id}`);
       })
@@ -71,6 +61,12 @@ function NewContent() {
 
   return (
     <div>
+      {isImageSearchModalOpen && (
+        <ImageSearchModal
+          setBookImageUrl={setBookImageUrl}
+          setModalState={setIsImageSearchModalOpen}
+        />
+      )}
       <TitleWrap>
         <MyTitle>독서 기록 작성하기</MyTitle>
       </TitleWrap>
@@ -81,7 +77,7 @@ function NewContent() {
         name="title"
         id="title"
         placeholder="제목을 적어주세요."
-        value={state.title}
+        value={newPost.title}
         onChange={handleChangeState}
       />
       <p>
@@ -89,13 +85,13 @@ function NewContent() {
       </p>
       <div>
         <ImgSearchInput
+          disabled
           name="img"
           id="img"
           placeholder="어떤 책을 읽으셨나요?"
-          value={state.img}
-          onChange={handleChangeState}
+          value={bookImageUrl}
         />
-        <MyButton btntype="basic" onClick={handleQuit}>
+        <MyButton btntype="basic" onClick={hadleImgSearchModal}>
           검색
         </MyButton>
       </div>
@@ -103,7 +99,7 @@ function NewContent() {
       <ContentInput
         name="content"
         placeholder="내용을 적어주세요."
-        value={state.content}
+        value={newPost.content}
         onChange={handleContentChangeState}
       />
       <ButtonWrap>
