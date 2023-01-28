@@ -6,6 +6,7 @@ import ItemList from "../../components/ItemList/ItemList";
 import SortNav from "../../components/SortNav";
 import CreateBtn from "../../components/CreateBtn/CreateBtn";
 import { Division, Nav, Paging } from "./AllContents.styles";
+import { useQuery } from "react-query";
 
 const AllContents = () => {
   const [page, setPage] = useState(1);
@@ -13,6 +14,10 @@ const AllContents = () => {
   const [dateSort, setDateSort] = useState("desc");
   const [commentSort, setCommentSort] = useState("");
   const [totalCount, setTotal] = useState(0);
+  const { data, isSuccess } = useQuery(
+    ["contents", page, dateSort, commentSort],
+    () => getData(all, page, dateSort, commentSort),
+  );
   const location = useLocation();
   const all = location.pathname === "/all" || location.pathname === "/";
 
@@ -26,28 +31,33 @@ const AllContents = () => {
   }
 
   useEffect(() => {
-    getData(all, page, dateSort, commentSort).then((res) => {
-      if (res?.response.length === 0) {
-        setTotal(0);
-        return;
-      } else {
-        setContents(res?.response);
-        setTotal(res?.totalCount);
-      }
-    });
-  }, [all, page, dateSort, commentSort]);
+    console.log(data);
+    console.log(all, page, dateSort, commentSort);
+  }, [data, all, page, dateSort, commentSort]);
+
+  // useEffect(() => {
+  //   getData(all, page, dateSort, commentSort).then((res) => {
+  //     if (res?.response.length === 0) {
+  //       setTotal(0);
+  //       return;
+  //     } else {
+  //       setContents(res?.response);
+  //       setTotal(res?.totalCount);
+  //     }
+  //   });
+  // }, [all, page, dateSort, commentSort]);
 
   const handlePageChange = (page: number) => {
     setPage(page);
-    getData(all, page, dateSort, commentSort).then((res) => {
-      if (res?.response.length === 0) {
-        setTotal(0);
-        return;
-      } else {
-        setContents(res?.response);
-        setTotal(res?.totalCount);
-      }
-    });
+    // getData(all, page, dateSort, commentSort).then((res) => {
+    //   if (res?.response.length === 0) {
+    //     setTotal(0);
+    //     return;
+    //   } else {
+    //     setContents(res?.response);
+    //     setTotal(res?.totalCount);
+    //   }
+    // });
   };
 
   return (
@@ -65,13 +75,13 @@ const AllContents = () => {
         />
       </Nav>
 
-      <ItemList contents={contents} />
+      {isSuccess && <ItemList contents={data.response} />}
 
       <Paging>
         <Pagination
           activePage={page}
           itemsCountPerPage={9}
-          totalItemsCount={totalCount}
+          totalItemsCount={isSuccess ? data.totalCount : 9}
           pageRangeDisplayed={5}
           prevPageText={"‹"}
           nextPageText={"›"}
