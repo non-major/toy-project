@@ -26,7 +26,7 @@ const Home = () => {
   const [contents, setContents] = useState<Item[]>([]);
   //무한스크롤을 위한 쿼리 > 조건에 따라 데이터를 받아 축적? 해줌
   const { status, data, hasNextPage, fetchNextPage } = useInfiniteQuery<Data>(
-    "contents",
+    ["contents"],
     ({ pageParam = 1 }) => getData(true, pageParam, "desc", ""),
     {
       getNextPageParam: (lastPage, allPages) => {
@@ -48,7 +48,7 @@ const Home = () => {
 
   useEffect(() => {
     // 초기값 주입
-    if (contents.length === 0) {
+    if (contents.length < 10) {
       if (fistData !== undefined) {
         setContents(fistData.response);
       }
@@ -62,7 +62,7 @@ const Home = () => {
       const { scrollHeight, scrollTop, clientHeight } =
         e.target.scrollingElement;
 
-      if (!fetching && scrollHeight - scrollTop <= clientHeight * 1.5) {
+      if (!fetching && scrollHeight - scrollTop <= clientHeight * 2) {
         fetching = true;
         if (hasNextPage) {
           await fetchNextPage();
