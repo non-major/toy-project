@@ -2,9 +2,9 @@ import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
 const SidebarContainer = styled.div`
-  padding-top: 5%;
+  padding-top: 40px;
   border-right: 1px solid gray;
-  padding-right: 5%;
+  padding-right: 40px;
   white-space: nowrap;
 
   @media (max-width: 768px) {

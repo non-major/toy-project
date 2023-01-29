@@ -12,6 +12,7 @@ import ButtonWrap from "../../styles/ButtonWrap";
 import { MyTitle } from "../User/Register";
 import { instance } from "../../api/axiosInstance";
 import ImageSearchModal from "./../../components/ImageSearchModal/ImageSearchModal";
+import { useMutation, useQueryClient } from "react-query";
 
 function NewContent() {
   const [isImageSearchModalOpen, setIsImageSearchModalOpen] = useState(false);
@@ -52,6 +53,13 @@ function NewContent() {
         console.log(error.response.data);
       });
   };
+
+  const queryClient = useQueryClient();
+  const postMutation = useMutation(handleSubmit, {
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+    },
+  });
 
   const handleQuit = () => {
     if (window.confirm("작성을 취소하시겠습니까?")) {
@@ -103,7 +111,7 @@ function NewContent() {
         onChange={handleContentChangeState}
       />
       <ButtonWrap>
-        <MyButton btntype="submit" onClick={handleSubmit}>
+        <MyButton btntype="submit" onClick={() => postMutation.mutate()}>
           저장하기
         </MyButton>
         <MyButton btntype="basic" onClick={handleQuit}>

@@ -10,7 +10,7 @@ import {
   ContentInput,
   ImgSearchInput,
 } from "./EditContent.styles";
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import getOnePost from "../../api/getOnePost";
 
 function EditContent() {
@@ -84,6 +84,13 @@ function EditContent() {
       });
   };
 
+  const queryClient = useQueryClient();
+  const postMutation = useMutation(handleSubmit, {
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+    },
+  });
+
   const handleQuit = () => {
     if (window.confirm("작성을 취소하시겠습니까?")) {
       navigate(`/content/${id}`);
@@ -128,7 +135,7 @@ function EditContent() {
         onChange={handleContentChangeState}
       />
       <ButtonWrap>
-        <MyButton btntype="submit" onClick={handleSubmit}>
+        <MyButton btntype="submit" onClick={() => postMutation.mutate()}>
           수정하기
         </MyButton>
         <MyButton btntype="basic" onClick={handleQuit}>

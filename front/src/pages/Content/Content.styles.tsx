@@ -67,6 +67,19 @@ const ContentReportBtn = styled.button`
   }
 `;
 
+const DeleteModalButton = styled.button`
+  margin: 20px auto 0 auto;
+  border: none;
+  border-radius: 50px;
+  padding: 10px 20px 10px 20px;
+  color: white;
+  font-family: "S-CoreDream-4Regular";
+  background-color: ${(props) => props.theme.color.gray};
+  &:hover {
+    opacity: 0.8;
+  }
+`;
+
 export {
   ContentWrap,
   ContentTitle,
@@ -74,4 +87,5 @@ export {
   ContentSubstance,
   ContentReportWrapper,
   ContentReportBtn,
+  DeleteModalButton,
 };

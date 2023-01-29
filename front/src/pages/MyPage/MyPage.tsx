@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Register, { MyTitle } from "../User/Register";
-import Chart from "../../components/Chart";
 import { deleteUserInfo, getUsersInfo } from "../../api/userInfo";
 import {
   ChartBox,
@@ -13,6 +12,8 @@ import {
 } from "./MyPage.styles";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import SidebarText from "../../components/Sidebar/SidebarText";
+import Chart from "../../components/Chart/Chart";
+import { useQuery } from "react-query";
 
 interface MyPageProps {
   isMain?: boolean;
@@ -33,20 +34,12 @@ const levelDivision = (level: number) => {
   }
 };
 
-interface User {
-  nickname: string;
-  post_count: number;
-}
-
 const MyPage = ({ isMain }: MyPageProps) => {
-  const [user, setUser] = useState<User>({
-    nickname: "",
-    post_count: 0,
-  });
+  const { data: userInfo } = useQuery("userInfo", () => getUsersInfo());
 
   const userLevel = useMemo(
-    () => levelDivision(user.post_count),
-    [user.post_count],
+    () => levelDivision(userInfo?.post_count),
+    [userInfo?.post_count],
   );
 
   const onUserRemove = async () => {
@@ -55,18 +48,12 @@ const MyPage = ({ isMain }: MyPageProps) => {
     }
   };
 
-  useEffect(() => {
-    getUsersInfo().then((user) => {
-      setUser(user);
-    });
-  }, []);
-
   const Statistics = () => {
     return (
       <>
         <LevelBox>
           <div style={{ fontSize: "18px" }}>
-            누적 독서량 {user.post_count}권 달성!
+            누적 독서량 {userInfo?.post_count}권 달성!
           </div>
           <Level>
             <div style={{ transform: "rotateY(180deg)" }}>🎉</div>
@@ -104,7 +91,7 @@ const MyPage = ({ isMain }: MyPageProps) => {
       <Content>
         {isMain && (
           <div style={{ padding: "20px" }}>
-            <MyTitle>{`${user.nickname} 님의 레벨은?`}</MyTitle>
+            <MyTitle>{`${userInfo?.nickname} 님의 레벨은?`}</MyTitle>
           </div>
         )}
         {isMain ? <Statistics /> : <EditRegister />}

@@ -35,6 +35,7 @@ const Button = styled.button<BtnProps>`
   &:hover {
     opacity: 0.8;
   }
+  cursor: pointer;
 
   font-family: "S-CoreDream-4Regular";
   ${(props) => props.btntype === "basic" && `background-color: #003c8f`}
