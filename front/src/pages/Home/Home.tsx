@@ -42,15 +42,15 @@ const Home = () => {
   // 데이터에 바로 map을 적용하여 렌더링 하면 필요없는 쿼리
   // 데이터를 배열 모양으로 바꾸어 <ItemList> 컴포넌트에 주입해 줄 경우 초기값(페이지 1)이 반영 안됨
   // 초기값 설정을 위해
-  const { data: fistData } = useQuery(["posts", contents], () =>
+  const { data: firstData } = useQuery(["posts", contents], () =>
     getData(true, 1, "desc", ""),
   );
 
   useEffect(() => {
     // 초기값 주입
     if (contents.length < 10) {
-      if (fistData !== undefined) {
-        setContents(fistData.response);
+      if (firstData !== undefined) {
+        setContents(firstData.response);
       }
     }
 
@@ -62,7 +62,7 @@ const Home = () => {
       const { scrollHeight, scrollTop, clientHeight } =
         e.target.scrollingElement;
 
-      if (!fetching && scrollHeight - scrollTop <= clientHeight * 2) {
+      if (!fetching && scrollHeight - scrollTop <= clientHeight * 1.5) {
         fetching = true;
         if (hasNextPage) {
           await fetchNextPage();
@@ -79,10 +79,9 @@ const Home = () => {
       }
     };
     document.addEventListener("scroll", onScroll);
-    console.log(contents);
 
     return () => document.removeEventListener("scroll", onScroll);
-  }, [data, fetchNextPage, hasNextPage, status, contents, fistData]);
+  }, [data, fetchNextPage, hasNextPage, status, contents, firstData]);
 
   return (
     <>
