@@ -57,7 +57,7 @@ function NewContent() {
   const queryClient = useQueryClient();
   const postMutation = useMutation(handleSubmit, {
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["contents"] });
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
     },
   });
 
