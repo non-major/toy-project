@@ -15,6 +15,7 @@ import {
 } from "./Content.styles";
 import { RiAlarmWarningFill } from "react-icons/ri";
 import { instance } from "../../api/axiosInstance";
+import { useMutation, useQueryClient } from "react-query";
 
 function Content() {
   const navigate = useNavigate();
@@ -71,15 +72,22 @@ function Content() {
     navigate(`/edit/${id}`);
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     alert("이 게시물을 삭제하시겠습니까?");
     try {
-      instance.delete(`/api/posts/delete/${id}`);
+      await instance.delete(`/api/posts/delete/${id}`);
       navigate(`/`);
     } catch (err) {
       console.log(err);
     }
   };
+
+  const queryClient = useQueryClient();
+  const postDeleteMutation = useMutation(handleDelete, {
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+    },
+  });
 
   return (
     <>
@@ -115,7 +123,9 @@ function Content() {
               <MyButton btntype="basic" onClick={handleEdit}>
                 수정하기
               </MyButton>
-              <MyButton btntype="remove" onClick={handleDelete}>
+              <MyButton
+                btntype="remove"
+                onClick={() => postDeleteMutation.mutate()}>
                 삭제하기
               </MyButton>
             </>

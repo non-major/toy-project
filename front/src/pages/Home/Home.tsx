@@ -26,7 +26,7 @@ const Home = () => {
   const [contents, setContents] = useState<Item[]>([]);
   //무한스크롤을 위한 쿼리 > 조건에 따라 데이터를 받아 축적? 해줌
   const { status, data, hasNextPage, fetchNextPage } = useInfiniteQuery<Data>(
-    ["contents"],
+    ["posts"],
     ({ pageParam = 1 }) => getData(true, pageParam, "desc", ""),
     {
       getNextPageParam: (lastPage, allPages) => {
@@ -42,7 +42,7 @@ const Home = () => {
   // 데이터에 바로 map을 적용하여 렌더링 하면 필요없는 쿼리
   // 데이터를 배열 모양으로 바꾸어 <ItemList> 컴포넌트에 주입해 줄 경우 초기값(페이지 1)이 반영 안됨
   // 초기값 설정을 위해
-  const { data: fistData } = useQuery(["contents", contents], () =>
+  const { data: fistData } = useQuery(["posts", contents], () =>
     getData(true, 1, "desc", ""),
   );
 
