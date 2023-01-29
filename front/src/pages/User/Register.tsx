@@ -14,7 +14,6 @@ import {
   RegisterBox,
   Title,
 } from "./User.styles";
-import { useNavigate } from "react-router-dom";
 
 interface Props {
   children: React.ReactNode;
