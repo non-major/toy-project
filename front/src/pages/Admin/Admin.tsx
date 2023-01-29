@@ -9,7 +9,7 @@ const menuList = ["report", "userlist"];
 function Admin() {
   const [menu, setMenu] = useState("report");
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const [selectedPostId, setSelectedPostId] = useState<number | null>(null);
+  const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     const clickedMenu = (event.target as HTMLElement).id;

@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState, Dispatch, SetStateAction } from "react";
 import MyButton from "../MyButton";
 import ButtonWrap from "../../styles/ButtonWrap";
 import { ReportReasonSelect } from "./ContentReportModal.styles";
+import axios from "axios";
 
-const reasons = [
+export const reasons = [
   { reasonId: 1, reasonType: "욕설, 부적절한 언어, 비방" },
   { reasonId: 2, reasonType: "음란성 게시물" },
   { reasonId: 3, reasonType: "지나친 정치/종교 논쟁" },
@@ -19,15 +20,41 @@ type ReportReasons = {
   }>;
 };
 
-const ReportModalReasonForm = () => {
+interface ReportModalReasonForm {
+  postId: string | undefined;
+  setModalState: Dispatch<SetStateAction<boolean>>;
+}
+
+const token = sessionStorage.getItem("userToken");
+
+const config = {
+  headers: { Authorization: `Bearer ${token}` },
+};
+
+const ReportModalReasonForm = ({
+  postId,
+  setModalState,
+}: ReportModalReasonForm) => {
+  const [reasonType, setReasonType] = useState("1");
   const onSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    console.log("submitted");
+
+    axios.post(
+      `/api/reports/${postId}`,
+      {
+        type: Number(reasonType),
+      },
+      config,
+    );
+
+    setModalState(false);
   };
 
   return (
     <form onSubmit={onSubmit}>
-      <ReportReasonSelect name="reportReasons">
+      <ReportReasonSelect
+        onChange={(e) => setReasonType(e.target.value)}
+        name="reportReasons">
         {reasons.map((reason) => {
           return (
             <option key={reason.reasonId} value={reason.reasonId}>
@@ -37,7 +64,7 @@ const ReportModalReasonForm = () => {
         })}
       </ReportReasonSelect>
       <ButtonWrap>
-        <MyButton btntype="basic">신고하기</MyButton>
+        <MyButton btntype="submit">신고하기</MyButton>
       </ButtonWrap>
     </form>
   );

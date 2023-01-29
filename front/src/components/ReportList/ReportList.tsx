@@ -11,17 +11,17 @@ import { ReportListItem } from "../ReportListItem/ReportListItem";
 
 interface ReportListProps {
   setIsOpenModal: Dispatch<SetStateAction<boolean>>;
-  setSelectedPostId: Dispatch<SetStateAction<number | null>>;
+  setSelectedPostId: Dispatch<SetStateAction<string | null>>;
 }
 
 export interface ReportListItemProps {
-  postId: number;
-  bookImageURL: string;
+  id: string;
+  image: string;
   nickname: string;
   title: string;
   content: string;
   setIsOpenModal: Dispatch<SetStateAction<boolean>>;
-  setSelectedPostId: Dispatch<SetStateAction<number | null>>;
+  setSelectedPostId: Dispatch<SetStateAction<string | null>>;
 }
 
 export const ReportList = memo(
@@ -30,7 +30,7 @@ export const ReportList = memo(
 
     const getReports = () => {
       axios
-        .get("/api/reports")
+        .get("/api/reports/reportedList")
         .then((res) => res.data)
         .then((data) => {
           console.log(data);
@@ -45,16 +45,16 @@ export const ReportList = memo(
     return (
       <ReportContainer>
         {reports.map((report) => {
-          const postId = report.postId;
-          const bookImageURL = report.bookImageURL;
+          const id = report.id;
+          const image = report.image;
           const nickname = report.nickname;
           const title = report.title;
           const content = report.content;
           return (
             <ReportListItem
-              key={postId}
-              postId={postId}
-              bookImageURL={bookImageURL}
+              key={id}
+              id={id}
+              image={image}
               nickname={nickname}
               title={title}
               content={content}

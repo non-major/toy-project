@@ -10,8 +10,8 @@ import {
 } from "./ReportListItem.styles";
 
 export const ReportListItem = ({
-  postId,
-  bookImageURL,
+  id,
+  image,
   nickname,
   title,
   content,
@@ -22,14 +22,14 @@ export const ReportListItem = ({
     <Container
       onClick={() => {
         setIsOpenModal(true);
-        setSelectedPostId(postId);
+        setSelectedPostId(id);
       }}>
       <Section>
-        <BookImage src={bookImageURL}></BookImage>
+        <BookImage src={image}></BookImage>
       </Section>
       <Section>
         <Title>{title}</Title>
-        <Nickname>@{nickname}</Nickname>
+        {/* <Nickname>@{nickname}</Nickname> */}
         <Content>{content}</Content>
       </Section>
     </Container>

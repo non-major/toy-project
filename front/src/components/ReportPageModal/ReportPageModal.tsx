@@ -4,7 +4,7 @@ import ModalContent from "./ModalContent/ModalContent";
 
 interface ReportPageModalType {
   setModalState: Dispatch<SetStateAction<boolean>>;
-  selectedPostId: number | null;
+  selectedPostId: string | null;
 }
 
 const ReportPageModal = ({

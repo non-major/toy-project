@@ -85,6 +85,7 @@ function Content() {
     <>
       {isReportModalOpen && (
         <ReportModal
+          postId={id}
           postTitle={post.title}
           setModalState={setIsReportModalOpen}
         />

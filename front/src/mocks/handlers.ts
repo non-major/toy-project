@@ -42,42 +42,41 @@ export const handlers = [
   //     ]),
   //   );
   // }),
-  rest.get("/api/reporterList/:postId", (req, res, ctx) => {
-    const { postId } = req.params;
-
-    switch (postId) {
-      case "1":
-        return res(
-          ctx.status(200),
-          ctx.json([
-            {
-              reporter: "홍길동",
-              reason: "신고사유 1",
-            },
-            {
-              reporter: "홍당무",
-              reason: "신고사유 2",
-            },
-          ]),
-        );
-      case "2":
-        return res(
-          ctx.status(200),
-          ctx.json([
-            {
-              reporter: "홍길동",
-              reason: "신고사유 1",
-            },
-            {
-              reporter: "홍당무",
-              reason: "신고 사유 2",
-            },
-            {
-              reporter: "홍삼",
-              reason: "신고 사유 3",
-            },
-          ]),
-        );
-    }
-  }),
+  // rest.get("/api/reporterList/:postId", (req, res, ctx) => {
+  //   const { postId } = req.params;
+  //   switch (postId) {
+  //     case "1":
+  //       return res(
+  //         ctx.status(200),
+  //         ctx.json([
+  //           {
+  //             reporter: "홍길동",
+  //             reason: "신고사유 1",
+  //           },
+  //           {
+  //             reporter: "홍당무",
+  //             reason: "신고사유 2",
+  //           },
+  //         ]),
+  //       );
+  //     case "2":
+  //       return res(
+  //         ctx.status(200),
+  //         ctx.json([
+  //           {
+  //             reporter: "홍길동",
+  //             reason: "신고사유 1",
+  //           },
+  //           {
+  //             reporter: "홍당무",
+  //             reason: "신고 사유 2",
+  //           },
+  //           {
+  //             reporter: "홍삼",
+  //             reason: "신고 사유 3",
+  //           },
+  //         ]),
+  //       );
+  //   }
+  // }),
 ];
