@@ -15,9 +15,17 @@ const Comment = (props: {
 
   const [localContent, setLocalContent] = useState(props.content);
 
-  const handleCommentEdit = (e: React.MouseEventHandler<HTMLButtonElement>) => {
-    console.log(localContent);
-    return;
+  const handleCommentEdit = async () => {
+    await instance
+      .patch(`/api/comments/${props.id}`, {
+        content: localContent,
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
   };
 
   const handleCommentDelete = async () => {
@@ -37,6 +45,11 @@ const Comment = (props: {
       queryClient.invalidateQueries({ queryKey: ["comments"] });
     },
   });
+  const commentPatchMutation = useMutation(handleCommentEdit, {
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["comments"] });
+    },
+  });
 
   return (
     <div className="commentContent">
@@ -51,16 +64,18 @@ const Comment = (props: {
           props.content
         )}
       </span>
-      {isEdit ? (
-        <button onClick={() => handleCommentEdit}>수정 완료</button>
-      ) : (
+      {props.isAuthor && (
         <div className="commentButton">
-          <CommentModifyButton className="editButton">
-            수정하기
+          <CommentModifyButton onClick={() => setIsEdit(!isEdit)}>
+            {isEdit ? (
+              <span onClick={() => commentPatchMutation.mutate()}>
+                수정완료
+              </span>
+            ) : (
+              <span>수정하기</span>
+            )}
           </CommentModifyButton>
-          <CommentModifyButton
-            className="removeButton"
-            onClick={() => commentDeleteMutation.mutate()}>
+          <CommentModifyButton onClick={() => commentDeleteMutation.mutate()}>
             삭제하기
           </CommentModifyButton>
         </div>
