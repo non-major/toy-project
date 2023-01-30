@@ -19,6 +19,7 @@ const Formbox = styled.div`
   margin-bottom: 20px;
   display: flex;
   justify-content: center;
+  flex-direction: column;
   align-items: center;
 `;
 

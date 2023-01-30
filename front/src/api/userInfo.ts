@@ -1,4 +1,5 @@
 import axios from "axios";
+import { KAKAO_AUTH_URL } from "../components/kakao/kakaoUrl";
 
 const userToken = sessionStorage.getItem("userToken");
 
@@ -84,10 +85,19 @@ const userLogin = async (data: Data) => {
   }
 };
 
+const kakaoLogin = async (code: any) => {
+  try {
+    await axios.get(`/api/auth/kakao/login?code=${code}`);
+  } catch {
+    console.log("카카오 로그인 실패");
+  }
+};
+
 export {
   getUsersInfo,
   updateUserInfo,
   createUserInfo,
   deleteUserInfo,
   userLogin,
+  kakaoLogin,
 };

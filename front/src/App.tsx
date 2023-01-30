@@ -17,6 +17,7 @@ import NotFound from "./pages/NotFound/NotFound";
 import { worker } from "./mocks/browers";
 import { Provider } from "react-redux";
 import store from "./redux/store";
+import KakaoLogin from "./components/kakao/KakaoLogin";
 
 if (process.env.NODE_ENV === "development") {
   worker.start();
@@ -59,6 +60,7 @@ const App = () => {
                     </PrivateRoute>
                   }
                 />
+                <Route path="api/auth/kakao/login" element={<KakaoLogin />} />
               </Route>
             </Routes>
           </div>

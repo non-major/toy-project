@@ -1,9 +1,12 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import MyButton from "../../components/MyButton";
-import { userLogin } from "../../api/userInfo";
+import { kakaoLogin, userLogin } from "../../api/userInfo";
 import { Errors, Formbox, Input, MyForm, RegisterBox } from "./User.styles";
 import { MyTitle } from "./Register";
+import { KAKAO_AUTH_URL, REST_API_KEY } from "../../components/kakao/kakaoUrl";
+import KakaoLogin from "react-kakao-login";
+import { useNavigate } from "react-router-dom";
 
 interface FormData {
   errors: {
@@ -21,6 +24,10 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>();
+
+  const kakaoLoginHandler = () => {
+    window.location.href = KAKAO_AUTH_URL;
+  };
 
   const onSubmit = (data: FormData) => {
     userLogin(data);
@@ -67,6 +74,18 @@ const Login = () => {
           <MyButton btntype={"submit"}>{"로그인"}</MyButton>
         </MyForm>
       </Formbox>
+      <img
+        src="kakao_login_wide.png"
+        alt="kakaologin"
+        onClick={kakaoLoginHandler}
+      />
+      {/* <KakaoLogin
+        token={`${REST_API_KEY}`}
+        onSuccess={(res) => console.log(res)}
+        onFail={() => console.log("실패")}
+        onLogout={() => console.log("로그아웃")}
+        // useLoginForm
+      /> */}
     </RegisterBox>
   );
 };
