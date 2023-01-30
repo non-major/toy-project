@@ -29,14 +29,16 @@ const Comment = (props: {
   };
 
   const handleCommentDelete = async () => {
-    await instance
-      .delete(`/api/comments/${props.id}`)
-      .then(() => {
-        alert("댓글이 삭제되었습니다.");
-      })
-      .catch((error) => {
-        console.log(error.response.data);
-      });
+    if (confirm("댓글을 삭제하시겠습니까?")) {
+      await instance
+        .delete(`/api/comments/${props.id}`)
+        .then(() => {
+          alert("댓글이 삭제되었습니다.");
+        })
+        .catch((error) => {
+          console.log(error.response.data);
+        });
+    }
   };
 
   const queryClient = useQueryClient();
