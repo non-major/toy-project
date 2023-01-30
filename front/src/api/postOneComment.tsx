@@ -6,12 +6,22 @@ type CommentData = {
 };
 
 type PostCommentFn = {
-  (id: string, body: CommentData): object;
+  (id: string | undefined, body: CommentData): Promise<{
+    data: unknown;
+    response: unknown;
+  }>;
 };
 
-// const postOneComment = async (id<string>, <{content: string, date: string}>) => {
-//   const commentData = await instance.post(`/api/posts/${id}`);
-//   return commentData;
-// };
+const postOneComment: PostCommentFn = async (id, body) => {
+  try {
+    const { data } = await instance.post(`/api/comments/${id}`, {
+      content: body.content,
+      date: body.date,
+    });
+    return data;
+  } catch (err) {
+    return err;
+  }
+};
 
-// export default postOneComment;
+export default postOneComment;

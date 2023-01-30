@@ -1,33 +1,46 @@
 import React, { useState } from "react";
+import { instance } from "./../../api/axiosInstance";
+import { CommentModifyButton } from "./Comment.styles";
+import { useQueryClient, useMutation } from "react-query";
 
-const Comment = () => {
-  // 인자로 nickname 넘어오면 추가로 받아서 commentAuthor span에 넣어주기
-  const content = "댓글 내용";
-
+const Comment = (props: {
+  id: string;
+  content: string;
+  date: string;
+  postId: number;
+  userId: number;
+  isAuthor: boolean;
+}) => {
   const [isEdit, setIsEdit] = useState(false);
 
-  // const toggleIsEdit = (e) => {
-  //   e.preventDefault();
-  //   setIsEdit(!isEdit);
-  // };
-
-  const [localContent, setLocalContent] = useState(content);
+  const [localContent, setLocalContent] = useState(props.content);
 
   const handleCommentEdit = (e: React.MouseEventHandler<HTMLButtonElement>) => {
     console.log(localContent);
-    // onEdit(_id, localContent);
-    // toggleIsEdit(e);
     return;
   };
 
-  // const handleCommentDelete = (e) => {
-  //   e.preventDefault();
-  //   onDelete();
-  // };
+  const handleCommentDelete = async () => {
+    await instance
+      .delete(`/api/comments/${props.id}`)
+      .then(() => {
+        alert("댓글이 삭제되었습니다.");
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
+  };
+
+  const queryClient = useQueryClient();
+  const commentDeleteMutation = useMutation(handleCommentDelete, {
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["comments"] });
+    },
+  });
 
   return (
     <div className="commentContent">
-      <span className="commentAuthor">작성자</span>
+      <span className="commentAuthor">{props.userId}</span>
       <span className="commentContent">
         {isEdit ? (
           <input
@@ -35,15 +48,21 @@ const Comment = () => {
             onChange={(e) => setLocalContent(e.target.value)}
           />
         ) : (
-          content
+          props.content
         )}
       </span>
       {isEdit ? (
         <button onClick={() => handleCommentEdit}>수정 완료</button>
       ) : (
         <div className="commentButton">
-          <span className="editButton">수정하기</span>
-          <span className="removeButton">삭제하기</span>
+          <CommentModifyButton className="editButton">
+            수정하기
+          </CommentModifyButton>
+          <CommentModifyButton
+            className="removeButton"
+            onClick={() => commentDeleteMutation.mutate()}>
+            삭제하기
+          </CommentModifyButton>
         </div>
       )}
     </div>

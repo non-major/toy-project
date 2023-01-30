@@ -55,3 +55,14 @@ export const CommentWrap = styled.div`
     }
   }
 `;
+
+export const CommentModifyButton = styled.button`
+  border: none;
+  background: none;
+  padding: 0;
+  margin-right: 5px;
+  color: ${(props) => props.theme.color.darkGray};
+  &:hover {
+    opacity: 0.7;
+  }
+`;
