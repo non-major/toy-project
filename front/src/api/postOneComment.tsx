@@ -7,8 +7,8 @@ type CommentData = {
 
 type PostCommentFn = {
   (id: string | undefined, body: CommentData): Promise<{
-    data: unknown;
-    response: unknown;
+    data: object;
+    response: { status: number };
   }>;
 };
 

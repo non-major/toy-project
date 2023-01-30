@@ -5,6 +5,7 @@ import { useQuery, useMutation, useQueryClient } from "react-query";
 import getComments from "../../api/getComments";
 import axios, { AxiosError } from "axios";
 import postOneComment from "./../../api/postOneComment";
+import { useNavigate } from "react-router-dom";
 
 type CommentData = {
   id: string;
@@ -16,6 +17,7 @@ type CommentData = {
 };
 
 function CommentList({ postId }: { postId: string | undefined }) {
+  const navigate = useNavigate();
   const { data, isSuccess } = useQuery({
     queryKey: ["comments", postId],
     queryFn: () => getComments(postId),
@@ -33,8 +35,9 @@ function CommentList({ postId }: { postId: string | undefined }) {
       content: localCommentText,
       date: new Date().toString(),
     });
-    if (promiseResult.response) {
-      console.log(promiseResult);
+    if (promiseResult.response.status === 403) {
+      alert("로그인 한 사용자만 댓글 등록이 가능합니다.");
+      navigate("/login");
     }
   };
 
