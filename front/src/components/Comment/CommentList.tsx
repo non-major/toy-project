@@ -1,53 +1,64 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Comment from "./Comment";
 import { CommentWrap } from "./Comment.styles";
-import { useQuery } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "react-query";
 import getComments from "../../api/getComments";
+import axios, { AxiosError } from "axios";
+import postOneComment from "./../../api/postOneComment";
+
+type CommentData = {
+  id: string;
+  content: string;
+  date: string;
+  postId: number;
+  userId: number;
+  isAuthor: boolean;
+};
 
 function CommentList({ postId }: { postId: string | undefined }) {
-  const commentsQuery = useQuery({
+  const { data, isSuccess } = useQuery({
     queryKey: ["comments", postId],
     queryFn: () => getComments(postId),
   });
 
-  // console.log(commentsQuery.data);
-  // db에서 생성된 comments들 갖고올 것 (나중에 기본값 세팅해주기?)
-  const comments = [{ id: 1, author: "작성자", body: "댓글입니다." }];
-
-  // author는 현재 로그인 한 user token에서 id 빼오기
-  const [comment, setComment] = useState({
-    body: "",
-  });
+  const [localCommentText, setLocalCommentText] = useState("");
 
   const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setComment({ ...comment, body: e.target.value });
+    setLocalCommentText(() => e.target.value);
   };
 
-  const handleCommentSubmit = () => {
-    // onCreate(comment.body);
-    setComment({
-      body: "",
+  // 성공했을 때 response가 빈 객체..?
+  const handleCommentSubmit = async () => {
+    const promiseResult = await postOneComment(postId, {
+      content: localCommentText,
+      date: new Date().toString(),
     });
+    if (promiseResult.response) {
+      console.log(promiseResult);
+    }
   };
+
+  const queryClient = useQueryClient();
+  const commentCreateMutation = useMutation(handleCommentSubmit, {
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["comments"] });
+      setLocalCommentText("");
+    },
+  });
 
   return (
     <CommentWrap>
       <div className="commentTitle">댓글</div>
       <div className="commentInput">
-        <input onChange={handleCommentChange} value={comment.body} />
-        <button onClick={handleCommentSubmit}>등록</button>
+        <input
+          onChange={(e) => handleCommentChange(e)}
+          value={localCommentText}
+        />
+        <button onClick={() => commentCreateMutation.mutate()}>등록</button>
       </div>
-      {comments.map((item) => {
-        return (
-          <Comment
-            key={item.id}
-            {...item}
-            // onEdit={onEdit}
-            // onDelete={onDelete}
-          />
-        );
+      {data?.data.map((item: CommentData) => {
+        return <Comment key={item.id} {...item} />;
       })}
-      {/* item에는 author, content, postId, createdAt 들어있음 */}
     </CommentWrap>
   );
 }

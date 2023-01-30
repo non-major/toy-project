@@ -19,4 +19,8 @@ export const config = {
     KAKAO_SECRET_KEY: process.env.KAKAO_SECRET_KEY,
     callbackURL: process.env.KAKAO_URL,
   },
+  naverBook: {
+    clientID: process.env.NAVER_CLIENT_ID,
+    clientSecret: process.env.NAVER_CLIENT_SECRET,
+  },
 };
