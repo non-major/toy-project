@@ -1,7 +1,14 @@
 import React, { useState } from "react";
 import { instance } from "./../../api/axiosInstance";
-import { CommentModifyButton } from "./Comment.styles";
+import {
+  CommentModifyButton,
+  CommentWrap,
+  CommentContent,
+  CommentAuthor,
+  CommentCreatedDate,
+} from "./Comment.styles";
 import { useQueryClient, useMutation } from "react-query";
+import { dateFormatter } from "../../api/dateFormatter";
 
 const Comment = (props: {
   id: string;
@@ -54,9 +61,9 @@ const Comment = (props: {
   });
 
   return (
-    <div className="commentContent">
-      <span className="commentAuthor">{props.userId}</span>
-      <span className="commentContent">
+    <CommentWrap>
+      <CommentAuthor>{props.userId}</CommentAuthor>
+      <CommentContent>
         {isEdit ? (
           <input
             value={localContent}
@@ -65,7 +72,8 @@ const Comment = (props: {
         ) : (
           props.content
         )}
-      </span>
+      </CommentContent>
+      <CommentCreatedDate>{dateFormatter(props.date)}</CommentCreatedDate>
       {props.isAuthor && (
         <div className="commentButton">
           <CommentModifyButton onClick={() => setIsEdit(!isEdit)}>
@@ -82,7 +90,7 @@ const Comment = (props: {
           </CommentModifyButton>
         </div>
       )}
-    </div>
+    </CommentWrap>
   );
 };
 
