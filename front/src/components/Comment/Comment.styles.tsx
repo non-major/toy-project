@@ -3,31 +3,7 @@ import styled from "styled-components";
 export const CommentWrap = styled.div`
   display: flex;
   flex-direction: column;
-  .commentTitle {
-    padding: 10px 0;
-    border-bottom: 1px solid black;
-  }
-  .commentContent {
-    > span {
-      display: block;
-      padding: 10px 0;
-    }
-
-    .commentAuthor {
-      font-weight: bolder;
-    }
-  }
-
-  .commentButton {
-    margin-bottom: 10px;
-    > a {
-      display: inline-block;
-      margin-right: 10px;
-      font-size: 0.8rem;
-      color: grey;
-      text-decoration: underline;
-    }
-  }
+  padding: 10px 0 10px 0;
 
   .commentInput {
     display: flex;
@@ -54,4 +30,31 @@ export const CommentWrap = styled.div`
       }
     }
   }
+`;
+
+export const CommentAuthor = styled.span`
+  font-weight: bold;
+`;
+
+export const CommentContent = styled.span`
+  display: block;
+  padding: 10px 0;
+`;
+
+export const CommentModifyButton = styled.button`
+  border: none;
+  background: none;
+  padding: 0;
+  margin-right: 5px;
+  color: ${(props) => props.theme.color.darkGray};
+  &:hover {
+    opacity: 0.7;
+    cursor: pointer;
+  }
+`;
+
+export const CommentCreatedDate = styled.div`
+  color: ${(props) => props.theme.color.darkGray};
+  font-size: small;
+  margin-bottom: 5px;
 `;

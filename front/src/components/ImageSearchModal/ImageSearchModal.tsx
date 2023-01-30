@@ -14,11 +14,11 @@ type ImageSearchModalProps = {
   setModalState: Dispatch<SetStateAction<boolean>>;
 };
 
-type Book = { [key: string]: string };
+type BookInfo = { [key: string]: string };
 
 const ImageSearchModal = (props: ImageSearchModalProps) => {
   const [bookSearchKeyword, setbookSearchKeyword] = useState("");
-  const [bookSearchResult, setbookSearchResult] = useState(Array<Book>);
+  const [bookSearchResult, setbookSearchResult] = useState(Array<BookInfo>);
   const handleImageSearchInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
   ) => {
@@ -39,7 +39,7 @@ const ImageSearchModal = (props: ImageSearchModalProps) => {
   };
 
   return (
-    <Modal title="이미지 검색하기" setModalState={props.setModalState}>
+    <Modal title="책 이미지 검색하기" setModalState={props.setModalState}>
       <ImgSearchModalWrap>
         <ImgSearchBar>
           <ImgSearchInput
@@ -60,7 +60,7 @@ const ImageSearchModal = (props: ImageSearchModalProps) => {
             setBookImageUrl={props.setBookImageUrl}
             setModalState={props.setModalState}
           />
-        ))}{" "}
+        ))}
       </ImgSearchModalWrap>
     </Modal>
   );
