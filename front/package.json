@@ -28,7 +28,7 @@
     "install": "^0.13.0",
     "npm": "^9.1.2",
     "prettier": "^2.8.2",
-    "react": "^18.3.0-next-de7d1c907-20221223",
+    "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.39.5",
     "react-icons": "^4.7.1",
