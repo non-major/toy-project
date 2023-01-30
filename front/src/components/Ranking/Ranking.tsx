@@ -3,7 +3,7 @@ import getUserRank from "../../api/getUserRank";
 import { Rank } from "./Ranking.styles";
 
 const Ranking = () => {
-  const { data: rank, isSuccess } = useQuery(["user", "contents"], () =>
+  const { data: rank, isSuccess } = useQuery(["user", "posts"], () =>
     getUserRank(),
   );
 

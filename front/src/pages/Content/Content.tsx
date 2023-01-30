@@ -1,10 +1,9 @@
-import React, { useEffect, useState, Dispatch, SetStateAction } from "react";
+import { useEffect, useState, Dispatch, SetStateAction } from "react";
 import ButtonWrap from "../../styles/ButtonWrap";
 import MyButton from "../../components/MyButton";
 import CommentList from "../../components/Comment/CommentList";
 import ReportModal from "../../components/ContentReportModal/ContentReportModal";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
 import {
   ContentWrap,
   ContentTitle,
@@ -12,13 +11,17 @@ import {
   ContentSubstance,
   ContentReportWrapper,
   ContentReportBtn,
+  DeleteModalButton,
 } from "./Content.styles";
 import { RiAlarmWarningFill } from "react-icons/ri";
 import { instance } from "../../api/axiosInstance";
+import { useMutation, useQueryClient } from "react-query";
+import Modal from "../../components/Modal/Modal";
 
 function Content() {
   const navigate = useNavigate();
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [post, setPost] = useState({
     title: "",
     date: "",
@@ -71,14 +74,37 @@ function Content() {
     navigate(`/edit/${id}`);
   };
 
-  const handleDelete = () => {
-    alert("이 게시물을 삭제하시겠습니까?");
-    try {
-      instance.delete(`/api/posts/delete/${id}`);
-      navigate(`/`);
-    } catch (err) {
-      console.log(err);
-    }
+  const handleDelete = async () => {
+    await instance
+      .delete(`/api/posts/delete/${id}`)
+      .then(() => {
+        alert("독서 기록이 삭제되었습니다.");
+        navigate("/");
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
+  };
+
+  const queryClient = useQueryClient();
+  const postDeleteMutation = useMutation(handleDelete, {
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+    },
+  });
+
+  const DeleteModal = () => {
+    return (
+      <Modal title="" setModalState={setIsDeleteModalOpen}>
+        <p>독서 기록을 삭제하시겠습니까?</p>
+        <DeleteModalButton
+          onClick={() => {
+            postDeleteMutation.mutate();
+          }}>
+          확인
+        </DeleteModalButton>
+      </Modal>
+    );
   };
 
   return (
@@ -89,6 +115,7 @@ function Content() {
           setModalState={setIsReportModalOpen}
         />
       )}
+      {isDeleteModalOpen && <DeleteModal />}
       <ContentWrap>
         <ContentReportWrapper>
           <ContentReportBtn onClick={() => setIsReportModalOpen(true)}>
@@ -115,7 +142,11 @@ function Content() {
               <MyButton btntype="basic" onClick={handleEdit}>
                 수정하기
               </MyButton>
-              <MyButton btntype="remove" onClick={handleDelete}>
+              <MyButton
+                btntype="remove"
+                onClick={() => {
+                  setIsDeleteModalOpen(true);
+                }}>
                 삭제하기
               </MyButton>
             </>

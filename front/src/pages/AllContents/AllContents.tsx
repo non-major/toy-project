@@ -15,7 +15,7 @@ const AllContents = () => {
   const location = useLocation();
   const all = location.pathname === "/all" || location.pathname === "/";
   const { data, isSuccess } = useQuery(
-    ["contents", all, page, dateSort, commentSort],
+    ["posts", all, page, dateSort, commentSort],
     () => getData(all, page, dateSort, commentSort),
   );
 

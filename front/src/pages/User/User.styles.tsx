@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 const RegisterBox = styled.div`
-  width: 100%;
-  margin: 5% 0 5% 0;
+  min-height: 50vh;
+  margin-top: 40px;
   display: flex;
   flex-direction: column;
   justify-content: center;

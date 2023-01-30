@@ -16,8 +16,8 @@ export class ReportService {
     return await reportModel.create(report);
   }
 
-  async delete(reportId: number): Promise<report> {
-    return await reportModel.delete(reportId);
+  async delete(postId: number): Promise<report> {
+    return await reportModel.delete(postId);
   }
 }
 

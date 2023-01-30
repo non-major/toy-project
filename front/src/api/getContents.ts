@@ -18,11 +18,9 @@ const getData = async (
             authorization: `Bearer ${sessionStorage.getItem("userToken")}`,
           },
         };
-    console.log(page);
     const url = `/api/posts${allContents}/order/${sort}?page=${page}`;
 
     const response = await axios.get(url, headObj).then((res) => {
-      console.log(res);
       if (res.data.post.length === 0) {
         return {
           response: [],

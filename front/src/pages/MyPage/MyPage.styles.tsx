@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 const MypageBox = styled.div`
   width: 100%;
+  min-height: 80vh;
   display: flex;
-
   @media (max-width: 768px) {
     flex-direction: column;
   }
@@ -40,7 +40,6 @@ const Content = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 5% 0 5% 0;
 `;
 
 const RemoveUserBox = styled.div`

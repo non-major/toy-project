@@ -47,15 +47,15 @@ export class ReportController implements reportControllerInterface {
   };
 
   delete: AsyncRequestHandler = async (req, res) => {
-    const { reportId } = req.params;
-    const intUserId = parseInt(reportId);
+    const { postId } = req.params;
+    const intPostId = parseInt(postId);
     const { status } = req.body;
 
     if (status === 0) {
       throw new Error("관리자가 아닙니다.");
     }
 
-    const reportDelete = reportService.delete(intUserId);
+    const reportDelete = reportService.delete(intPostId);
     res.json(reportDelete);
   };
 }
