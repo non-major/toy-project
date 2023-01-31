@@ -38,6 +38,12 @@ const ImageSearchModal = (props: ImageSearchModalProps) => {
     }
   };
 
+  const handleImageSearchInputEnter = (e: React.KeyboardEvent) => {
+    if (e.keyCode === 13) {
+      handleImageSearchClick();
+    }
+  };
+
   return (
     <Modal title="책 이미지 검색하기" setModalState={props.setModalState}>
       <ImgSearchModalWrap>
@@ -48,6 +54,7 @@ const ImageSearchModal = (props: ImageSearchModalProps) => {
             placeholder="책 제목, 지은이, 키워드로 검색할 수 있습니다."
             value={bookSearchKeyword}
             onChange={handleImageSearchInputChange}
+            onKeyUp={handleImageSearchInputEnter}
           />
           <MyButton btntype="basic" onClick={handleImageSearchClick}>
             검색
