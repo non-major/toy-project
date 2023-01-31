@@ -9,7 +9,7 @@ const getData = async (
   try {
     const allContents = all ? "" : "/myInfo";
     const sort =
-      dateSort === "desc" ? "desc" : commentSort === "" ? "asc" : "comment";
+      commentSort === "desc" ? "comment" : dateSort === "desc" ? "desc" : "asc";
 
     const headObj: object = all
       ? {}

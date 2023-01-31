@@ -24,7 +24,7 @@ const ItemList = ({ contents }: ContentProps) => {
         {contents.map((content) => {
           return (
             <div className="item" key={content.id}>
-              <span>@{content.userId}</span>
+              <span>@{content.nickname}</span>
               <Link to={"/content/" + content.id}>
                 <div className="img">
                   <img src={content.image} alt={content.title} />

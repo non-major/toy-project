@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const CarouselStyle = styled.div`
-  height: 30vh;
+  height: 300px;
   width: 100vw;
   position: relative;
   left: 0;

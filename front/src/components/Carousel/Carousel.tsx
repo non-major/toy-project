@@ -5,9 +5,9 @@ import { CarouselStyle } from "./Carousel.styles";
 import { Link } from "react-router-dom";
 
 const slide = [
-  "https://picsum.photos/2000/400",
-  "https://picsum.photos/2300/400",
-  "https://picsum.photos/2200/400",
+  "https://res.cloudinary.com/dk9scwone/image/upload/v1675150773/z4y1cebpphrhzd9rcrsu.png",
+  "https://res.cloudinary.com/dk9scwone/image/upload/v1675150774/nuly6pddivqa9dphopix.png",
+  "https://res.cloudinary.com/dk9scwone/image/upload/v1675150774/dodsmi18nxeef9whyqq9.png",
 ];
 
 const Carousel = () => {
@@ -26,7 +26,14 @@ const Carousel = () => {
         {slide.map((item, idx) => {
           return (
             <div key={idx}>
-              <img src={item} />
+              <Link
+                to={
+                  idx === 1 && sessionStorage.getItem("userToken")
+                    ? "/new"
+                    : "/"
+                }>
+                <img src={item} />
+              </Link>
             </div>
           );
         })}
