@@ -23,7 +23,7 @@ export class CommentController implements commentControllerInterface {
       content: content,
       date: newDate,
     };
-    const commentPost = commentService.create(postCommentInfo);
+    const commentPost = await commentService.create(postCommentInfo);
     res.json(commentPost);
   };
 
@@ -38,10 +38,6 @@ export class CommentController implements commentControllerInterface {
         ? { ...element, isAuthor: true }
         : { ...element, isAuthor: false }
     );
-    // const newdate = result.map((e) => ({
-    //   ...e,
-    //   date: e.date.toLocaleString("ko-KR", { timeZone: "Asia/Seoul" }),
-    // }));
 
     res.json(result);
   };
