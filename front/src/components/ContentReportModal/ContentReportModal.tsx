@@ -8,6 +8,7 @@ import {
 import ReportModalReasonForm from "./ContentReportModalReasonForm";
 
 type ReportModalProps = {
+  postId: string | undefined;
   postTitle: string;
   setModalState: Dispatch<SetStateAction<boolean>>;
 };
@@ -18,7 +19,10 @@ const ReportModal = (props: ReportModalProps) => {
       <ReportModalTitle>신고 게시글</ReportModalTitle>
       <ReportContentBookTitle>{props.postTitle}</ReportContentBookTitle>
       <ReportModalTitle>신고 사유</ReportModalTitle>
-      <ReportModalReasonForm />
+      <ReportModalReasonForm
+        postId={props.postId}
+        setModalState={props.setModalState}
+      />
     </Modal>
   );
 };

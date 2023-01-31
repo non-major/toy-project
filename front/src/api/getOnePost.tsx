@@ -1,4 +1,3 @@
-import axios from "axios";
 import { instance } from "./axiosInstance";
 
 const getOnePost = async (id: string | undefined) => {

@@ -17,6 +17,7 @@ import { RiAlarmWarningFill } from "react-icons/ri";
 import { instance } from "../../api/axiosInstance";
 import { useMutation, useQueryClient } from "react-query";
 import Modal from "../../components/Modal/Modal";
+import { dateFormatter } from "./../../api/dateFormatter";
 
 function Content() {
   const navigate = useNavigate();
@@ -111,6 +112,7 @@ function Content() {
     <>
       {isReportModalOpen && (
         <ReportModal
+          postId={id}
           postTitle={post.title}
           setModalState={setIsReportModalOpen}
         />
@@ -125,7 +127,7 @@ function Content() {
         </ContentReportWrapper>
         <ContentTitle>
           <span className="contentTitle">{post.title}</span>
-          <span className="contentDate">{post.date}</span>
+          <span className="contentDate">{dateFormatter(post.date)}</span>
         </ContentTitle>
         <div className="contentAuthor">
           <span>@{post.author}</span>

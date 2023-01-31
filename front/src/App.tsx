@@ -18,9 +18,9 @@ import { worker } from "./mocks/browers";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 
-if (process.env.NODE_ENV === "development") {
-  worker.start();
-}
+// if (process.env.NODE_ENV === "development") {
+//   worker.start();
+// }
 
 const queryClient = new QueryClient();
 
