@@ -44,6 +44,7 @@ function NewContent() {
         title: newPost.title,
         content: newPost.content,
         image: bookImageUrl,
+        date: new Date().toString(),
       })
       .then((response) => {
         alert("독서 기록 등록이 완료되었습니다.");

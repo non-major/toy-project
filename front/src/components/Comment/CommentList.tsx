@@ -29,16 +29,12 @@ function CommentList({ postId }: { postId: string | undefined }) {
     setLocalCommentText(() => e.target.value);
   };
 
-  // 성공했을 때 response가 빈 객체..?
   const handleCommentSubmit = async () => {
     const promiseResult = await postOneComment(postId, {
       content: localCommentText,
       date: new Date().toString(),
     });
-    if (promiseResult.response.status === 403) {
-      alert("로그인 한 사용자만 댓글 등록이 가능합니다.");
-      navigate("/login");
-    }
+    console.log(promiseResult);
   };
 
   const queryClient = useQueryClient();
