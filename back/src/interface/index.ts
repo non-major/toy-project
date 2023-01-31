@@ -81,14 +81,6 @@ interface ICommentModel {
   delete(id: number): Promise<comment[]>;
 }
 
-interface ICommentModel {
-  create(comment: comment): Promise<comment>;
-  findByPostId(postId: number): Promise<comment[]>;
-  findById(id: number): Promise<comment>;
-  update(id: number, toUpdate: comment): Promise<comment>;
-  delete(id: number): Promise<comment[]>;
-}
-
 interface IReportModel {
   create(report: report): Promise<report>;
   findReportedPosts(): Promise<report[]>;

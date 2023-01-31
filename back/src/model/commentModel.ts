@@ -6,7 +6,7 @@ export class CommentModel implements ICommentModel {
   async create(comment: comment): Promise<comment> {
     const { postId, userId, content, date } = comment;
     const newComment = await pg.query(
-      `INSERT INTO comments ("postId", "userId", content, date) VALUES ($1,$2,$3,$4)RETURNING*`,
+      `INSERT INTO comments ("postId", "userId", content, date) VALUES ($1,$2,$3,$4) RETURNING *`,
       [postId, userId, content, date]
     );
     return newComment.rows[0];

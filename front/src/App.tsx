@@ -19,9 +19,9 @@ import { Provider } from "react-redux";
 import store from "./redux/store";
 import KakaoLogin from "./components/kakao/KakaoLogin";
 
-if (process.env.NODE_ENV === "development") {
-  worker.start();
-}
+// if (process.env.NODE_ENV === "development") {
+//   worker.start();
+// }
 
 const queryClient = new QueryClient();
 

@@ -10,21 +10,26 @@ import {
 } from "./ReportListItem.styles";
 
 export const ReportListItem = ({
-  postId,
-  bookImageURL,
+  id,
+  image,
   nickname,
   title,
   content,
   setIsOpenModal,
+  setSelectedPostId,
 }: ReportListItemProps) => {
   return (
-    <Container onClick={() => setIsOpenModal(true)}>
+    <Container
+      onClick={() => {
+        setIsOpenModal(true);
+        setSelectedPostId(id);
+      }}>
       <Section>
-        <BookImage src={bookImageURL}></BookImage>
+        <BookImage src={image}></BookImage>
       </Section>
       <Section>
         <Title>{title}</Title>
-        <Nickname>@{nickname}</Nickname>
+        {/* <Nickname>@{nickname}</Nickname> */}
         <Content>{content}</Content>
       </Section>
     </Container>

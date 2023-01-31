@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState, useEffect, Dispatch, SetStateAction } from "react";
 import MyButton from "../MyButton";
 import ButtonWrap from "../../styles/ButtonWrap";
 import { ReportReasonSelect } from "./ContentReportModal.styles";
+import { isReported, postReport } from "../../api/postReport";
 
-const reasons = [
+export const reasons = [
   { reasonId: 1, reasonType: "욕설, 부적절한 언어, 비방" },
   { reasonId: 2, reasonType: "음란성 게시물" },
   { reasonId: 3, reasonType: "지나친 정치/종교 논쟁" },
@@ -19,25 +20,54 @@ type ReportReasons = {
   }>;
 };
 
-const ReportModalReasonForm = () => {
+interface ReportModalReasonForm {
+  postId: string | undefined;
+  setModalState: Dispatch<SetStateAction<boolean>>;
+}
+
+const ReportModalReasonForm = ({
+  postId,
+  setModalState,
+}: ReportModalReasonForm) => {
+  const [reasonType, setReasonType] = useState("1");
+  const [reportStatus, setReportStatus] = useState(false);
+  const [reportMessage, setReportMessage] = useState<string>("");
+
+  useEffect(() => {
+    (async () => {
+      const [report, reportType] = await isReported(postId);
+      if (report) {
+        setReportStatus(true);
+        setReportMessage(reasons[Number(reportType) - 1].reasonType);
+      }
+    })();
+  }, [postId, reasonType, reportMessage]);
+
   const onSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    console.log("submitted");
+    postReport(postId, reasonType);
+    setModalState(false);
   };
 
   return (
     <form onSubmit={onSubmit}>
-      <ReportReasonSelect name="reportReasons">
-        {reasons.map((reason) => {
-          return (
-            <option key={reason.reasonId} value={reason.reasonId}>
-              {reason.reasonType}
-            </option>
-          );
-        })}
-      </ReportReasonSelect>
+      {!reportStatus ? (
+        <ReportReasonSelect
+          onChange={(e) => setReasonType(e.target.value)}
+          name="reportReasons">
+          {reasons.map((reason) => {
+            return (
+              <option key={reason.reasonId} value={reason.reasonId}>
+                {reason.reasonType}
+              </option>
+            );
+          })}
+        </ReportReasonSelect>
+      ) : (
+        reportMessage
+      )}
       <ButtonWrap>
-        <MyButton btntype="basic">신고하기</MyButton>
+        {!reportStatus && <MyButton btntype="submit">신고하기</MyButton>}
       </ButtonWrap>
     </form>
   );
