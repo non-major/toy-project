@@ -15,7 +15,7 @@ export class ReportModel implements IReportModel {
   // 신고된 모든 게시물 찾기 (관리자페이지)
   async findReportedPosts(): Promise<report[]> {
     const reports = await pg.query(
-      `SELECT * FROM posts WHERE id = (SELECT DISTINCT "postId" FROM reports)`
+      `SELECT * FROM posts WHERE id in (SELECT DISTINCT "postId" FROM reports)`
     );
     return reports.rows;
   }
