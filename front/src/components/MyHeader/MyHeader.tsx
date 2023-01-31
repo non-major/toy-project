@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { logoutAccout } from "../../redux/userReducer";
+import isAdmin from "../../utils/isAdmin";
 import Modal from "../Modal/Modal";
 import { Header, Nav, SearchBar } from "./MyHeader.styles";
 
@@ -14,9 +15,7 @@ const MyHeader = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    sessionStorage.getItem("role") === "admin"
-      ? setAdmin(true)
-      : setAdmin(false);
+    isAdmin() === true ? setAdmin(true) : setAdmin(false);
   }, [isLogin]);
 
   const onSearch = () => {

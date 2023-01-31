@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { ReportList } from "../../components/ReportList/ReportList";
 import ReportPageModal from "../../components/ReportPageModal/ReportPageModal";
 import UserList from "../../components/UserList/UserList";
+import isAdmin from "../../utils/isAdmin";
 import { Container, Menu, Sidebar, Content } from "./Admin.styles";
 
 const menuList = ["report", "userlist"];
@@ -17,6 +18,8 @@ function Admin() {
     if (menu !== clickedMenu) {
       setMenu(clickedMenu);
     }
+
+    console.log(isAdmin());
   };
   return (
     <Container>
