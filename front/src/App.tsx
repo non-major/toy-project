@@ -17,6 +17,7 @@ import NotFound from "./pages/NotFound/NotFound";
 import { worker } from "./mocks/browers";
 import { Provider } from "react-redux";
 import store from "./redux/store";
+import isAdmin from "./utils/isAdmin";
 
 // if (process.env.NODE_ENV === "development") {
 //   worker.start();
@@ -42,7 +43,11 @@ const App = () => {
                 <Route path="register" element={<Register />} />
                 <Route path="login" element={<Login />} />
                 <Route path="notFound" element={<NotFound />} />
-                <Route path="admin" element={<Admin />} />
+                {isAdmin() ? (
+                  <Route path="admin" element={<Admin />} />
+                ) : (
+                  <Route path="admin" element={<NotFound />} />
+                )}
                 <Route
                   path="mypage/statistics"
                   element={
