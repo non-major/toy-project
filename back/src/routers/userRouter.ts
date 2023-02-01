@@ -18,3 +18,10 @@ userRouter.delete(
   loginRequired,
   asyncHandler(userController.delete)
 );
+
+//관리자 모드
+userRouter.delete(
+  "/admin/delete/:userId",
+  loginRequired,
+  asyncHandler(userController.adminUserDelete)
+);
