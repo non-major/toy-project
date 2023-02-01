@@ -1,8 +1,8 @@
 import styled from "styled-components";
+import MyButton from "../../components/MyButton";
 
 const RegisterBox = styled.div`
-  min-height: 50vh;
-  margin-top: 40px;
+  min-height: 60vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -50,4 +50,41 @@ const Input = styled.input`
   font-family: "S-CoreDream-4Regular";
 `;
 
-export { RegisterBox, Title, Formbox, MyForm, Errors, Input };
+const KakaoBtn = styled.button`
+  background-color: #fee500;
+  width: 100%;
+  border: none;
+  border-radius: 12px;
+  margin-top: 10px;
+  padding: 10px 20px 10px 20px;
+  color: "#00000085";
+  font-size: 18px;
+  white-space: pre-line;
+  &:hover {
+    opacity: 0.8;
+  }
+  cursor: pointer;
+  font-family: "S-CoreDream-4Regular";
+  display: flex;
+  align-items: center;
+`;
+
+const KakaoLogo = styled.img`
+  width: 23px;
+`;
+
+const KakaoText = styled.span`
+  flex: 1;
+`;
+
+export {
+  RegisterBox,
+  Title,
+  Formbox,
+  MyForm,
+  Errors,
+  Input,
+  KakaoBtn,
+  KakaoLogo,
+  KakaoText,
+};
