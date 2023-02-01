@@ -43,6 +43,7 @@ export const postReport = async (
     instance.post(`/api/reports/${postId}`, {
       type: Number(reasonType),
     });
+    alert("신고 완료되었습니다.");
   } else if (token) {
     alert("이미 신고한 게시물입니다.");
   } else {
