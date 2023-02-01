@@ -10,7 +10,13 @@ import {
   Button,
 } from "./UserListItem.styles";
 
-export const UserListItem = ({ id, nickname, email, status }: UserType) => {
+export const UserListItem = ({
+  id,
+  nickname,
+  email,
+  status,
+  setRefresh,
+}: UserType) => {
   return (
     <Container>
       <Section>
@@ -19,7 +25,9 @@ export const UserListItem = ({ id, nickname, email, status }: UserType) => {
       </Section>
       <Section>{status === 1 ? "관리자" : "회원"}</Section>
       <Section>
-        <Button onClick={() => deleteUserForAdmin(id)} disabled={status === 1}>
+        <Button
+          onClick={() => deleteUserForAdmin(id, setRefresh)}
+          disabled={status === 1}>
           삭제
         </Button>
       </Section>
