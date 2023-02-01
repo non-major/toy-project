@@ -42,12 +42,6 @@ const MyPage = ({ isMain }: MyPageProps) => {
     [userInfo?.post_count],
   );
 
-  const onUserRemove = async () => {
-    if (window.confirm("정말 탈퇴하시겠어요?😭")) {
-      deleteUserInfo();
-    }
-  };
-
   const Statistics = () => {
     return (
       <>
@@ -73,12 +67,6 @@ const MyPage = ({ isMain }: MyPageProps) => {
     return (
       <>
         <Register isEdit={true} />
-        <RemoveUserBox>
-          <div>book극곰을 더이상 이용하지 않는다면😢</div>
-          <RemoveUser onClick={onUserRemove}>
-            {"회원탈퇴 바로가기 >"}
-          </RemoveUser>
-        </RemoveUserBox>
       </>
     );
   };
