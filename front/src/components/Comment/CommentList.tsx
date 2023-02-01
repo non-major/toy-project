@@ -1,23 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Comment from "./Comment";
 import { CommentWrap } from "./Comment.styles";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import getComments from "../../api/getComments";
-import axios, { AxiosError } from "axios";
 import postOneComment from "./../../api/postOneComment";
-import { useNavigate } from "react-router-dom";
 
-type CommentData = {
+export type CommentData = {
   id: string;
   content: string;
   date: string;
   postId: number;
   userId: number;
   isAuthor: boolean;
+  nickname: string;
 };
 
 function CommentList({ postId }: { postId: string | undefined }) {
-  const navigate = useNavigate();
   const { data, isSuccess } = useQuery({
     queryKey: ["comments", postId],
     queryFn: () => getComments(postId),
@@ -34,7 +32,6 @@ function CommentList({ postId }: { postId: string | undefined }) {
       content: localCommentText,
       date: new Date().toString(),
     });
-    console.log(promiseResult);
   };
 
   const queryClient = useQueryClient();
