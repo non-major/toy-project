@@ -7,8 +7,8 @@ import { RegisterBox } from "../../pages/User/User.styles";
 const KakaoLogin = () => {
   const code = new URL(window.location.href).searchParams.get("code");
   useEffect(() => {
-    kakaoLogin(code).then((res) => console.log(res));
-  });
+    kakaoLogin(code);
+  }, [code]);
 
   return (
     <RegisterBox>

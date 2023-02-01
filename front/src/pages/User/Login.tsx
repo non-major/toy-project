@@ -1,12 +1,19 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import MyButton from "../../components/MyButton";
-import { kakaoLogin, userLogin } from "../../api/userInfo";
-import { Errors, Formbox, Input, MyForm, RegisterBox } from "./User.styles";
+import { userLogin } from "../../api/userInfo";
+import {
+  Errors,
+  Formbox,
+  Input,
+  KakaoBtn,
+  KakaoLogo,
+  KakaoText,
+  MyForm,
+  RegisterBox,
+} from "./User.styles";
 import { MyTitle } from "./Register";
-import { KAKAO_AUTH_URL, REST_API_KEY } from "../../components/kakao/kakaoUrl";
-import KakaoLogin from "react-kakao-login";
-import { useNavigate } from "react-router-dom";
+import { KAKAO_AUTH_URL } from "../../components/kakao/kakaoUrl";
 
 interface FormData {
   errors: {
@@ -73,19 +80,14 @@ const Login = () => {
           {errors.password && <Errors>{errors?.password?.message}</Errors>}
           <MyButton btntype={"submit"}>{"로그인"}</MyButton>
         </MyForm>
+        <KakaoBtn onClick={kakaoLoginHandler}>
+          <KakaoLogo
+            src="https://mblogthumb-phinf.pstatic.net/MjAxODAyMDJfMTA5/MDAxNTE3NTAyODA4ODAz.pfFBh3N_7cDEfgp925XW22NJgDO2-2_CdhjOOJsaqjog.YUrOiE5xseldfEb3R9_y8LMPuy8o4ml5JCqLHi1yHGgg.PNG.marketstory24/%25EC%25B9%25B4%25EC%25B9%25B4%25EC%2598%25A4%25ED%2586%25A1_%25EB%25A1%259C%25EA%25B3%25A0_4.png?type=w800"
+            alt="카카오 아이콘"
+          />
+          <KakaoText>카카오로 로그인하기</KakaoText>
+        </KakaoBtn>
       </Formbox>
-      <img
-        src="kakao_login_wide.png"
-        alt="kakaologin"
-        onClick={kakaoLoginHandler}
-      />
-      {/* <KakaoLogin
-        token={`${REST_API_KEY}`}
-        onSuccess={(res) => console.log(res)}
-        onFail={() => console.log("실패")}
-        onLogout={() => console.log("로그아웃")}
-        // useLoginForm
-      /> */}
     </RegisterBox>
   );
 };

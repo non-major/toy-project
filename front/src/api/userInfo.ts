@@ -1,5 +1,4 @@
 import axios from "axios";
-import { KAKAO_AUTH_URL } from "../components/kakao/kakaoUrl";
 
 const userToken = sessionStorage.getItem("userToken");
 
@@ -74,8 +73,7 @@ const deleteUserInfo = async () => {
 const userLogin = async (data: Data) => {
   try {
     const res = await axios.post("/api/guest/login", data);
-    const userToken = res.data;
-    sessionStorage.setItem("userToken", userToken);
+    sessionStorage.setItem("userToken", res.data);
     alert("로그인이 완료되었습니다.");
     window.location.replace("/");
   } catch (err: unknown) {
@@ -87,8 +85,11 @@ const userLogin = async (data: Data) => {
 
 const kakaoLogin = async (code: any) => {
   try {
-    await axios.get(`/api/auth/kakao/login?code=${code}`);
-  } catch {
+    const res = await axios.get(`/api/auth/kakao/login?code=${code}`);
+    sessionStorage.setItem("userToken", res.data.accessToken);
+    sessionStorage.setItem("role", res.data.role);
+    window.location.replace("/");
+  } catch (err) {
     console.log("카카오 로그인 실패");
   }
 };
