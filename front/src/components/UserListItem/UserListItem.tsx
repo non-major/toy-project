@@ -19,7 +19,9 @@ export const UserListItem = ({ id, nickname, email, status }: UserType) => {
       </Section>
       <Section>{status === 1 ? "관리자" : "회원"}</Section>
       <Section>
-        <Button onClick={() => deleteUserForAdmin(id)}>삭제</Button>
+        <Button onClick={() => deleteUserForAdmin(id)} disabled={status === 1}>
+          삭제
+        </Button>
       </Section>
     </Container>
   );
