@@ -4,9 +4,11 @@ import { UserListItem } from "../UserListItem/UserListItem";
 import { UserListContainer } from "./UserList.styles";
 
 export interface UserType {
+  id: string;
+  status: number;
   nickname: string;
   email: string;
-  signUpDate: string;
+  // signUpDate: string;
 }
 
 const UserList = () => {
@@ -28,15 +30,15 @@ const UserList = () => {
   return (
     <UserListContainer>
       {users.map((user) => {
-        const nickname = user.nickname;
-        const email = user.email;
-        const signUpDate = user.signUpDate;
+        const { id, nickname, email, status } = user;
+
         return (
           <UserListItem
             key={email}
+            id={id}
             nickname={nickname}
             email={email}
-            signUpDate={signUpDate}
+            status={status}
           />
         );
       })}

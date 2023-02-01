@@ -34,7 +34,6 @@ export const ReportList = memo(
         .get("/api/reports/reportedList")
         .then((res) => res.data)
         .then((data) => {
-          console.log(data);
           setReports(data);
         });
     };

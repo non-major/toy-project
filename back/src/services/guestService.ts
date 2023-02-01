@@ -58,6 +58,7 @@ export class GuestService {
         userEmail: user.email,
         nickname: user.nickname,
         status: user.status,
+        kakaoId: user.kakaoId,
       },
       secretKey
     );

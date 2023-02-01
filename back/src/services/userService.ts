@@ -54,6 +54,20 @@ export class UserService {
     return user;
   }
 
+  async kakaoUserUpdate(userId: number, nickname: string): Promise<user> {
+    const newNickname = await userModel.findByNickname(nickname);
+
+    if (newNickname) {
+      throw new Error(
+        "이 닉네임은 현재 사용중입니다.다른 닉네임을 입력해 주세요."
+      );
+    }
+
+    const user = await this.userModel.kakaoUserUpdate(userId, nickname);
+
+    return user;
+  }
+
   async delete(id: number): Promise<user[]> {
     const user = await userModel.findById(id);
     if (!user) {
