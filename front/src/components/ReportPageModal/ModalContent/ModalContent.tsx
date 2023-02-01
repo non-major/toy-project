@@ -25,7 +25,6 @@ const ModalContent = ({ selectedPostId, setModalState }: ModalContentType) => {
 
   useEffect(() => {
     axios.get(`/api/reports/${selectedPostId}`).then((res) => {
-      console.log(res.data);
       setReportList(res.data);
     });
   }, [selectedPostId]);
