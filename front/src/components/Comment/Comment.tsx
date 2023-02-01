@@ -9,15 +9,9 @@ import {
 } from "./Comment.styles";
 import { useQueryClient, useMutation } from "react-query";
 import { dateFormatter } from "../../api/dateFormatter";
+import { CommentData } from "./CommentList";
 
-const Comment = (props: {
-  id: string;
-  content: string;
-  date: string;
-  postId: number;
-  userId: number;
-  isAuthor: boolean;
-}) => {
+const Comment = (props: CommentData) => {
   const [isEdit, setIsEdit] = useState(false);
 
   const [localContent, setLocalContent] = useState(props.content);
@@ -62,7 +56,7 @@ const Comment = (props: {
 
   return (
     <CommentWrap>
-      <CommentAuthor>{props.userId}</CommentAuthor>
+      <CommentAuthor>{props.nickname}</CommentAuthor>
       <CommentContent>
         {isEdit ? (
           <input
