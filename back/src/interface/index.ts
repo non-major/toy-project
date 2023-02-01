@@ -4,6 +4,7 @@ interface user {
   password: string;
   nickname?: string;
   status?: number;
+  kakaoId?: number;
 }
 
 interface kakaoUser {
@@ -56,6 +57,7 @@ interface IUserModel {
   delete(id: number): Promise<user[]>;
   rank(): Promise<rank[]>;
   monthPostCount(userId: number): Promise<monthPostCount[]>;
+  kakaoUserUpdate(userId: number, nickname: string): Promise<user>;
 }
 
 interface IPostModel {
