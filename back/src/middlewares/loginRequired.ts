@@ -24,10 +24,12 @@ export function loginRequired(req: Request, res: Response, next: NextFunction) {
     const userEmail = (<{ userEmail: string }>jwtDecoded).userEmail;
     const status = (<{ status: number }>jwtDecoded).status;
     const userNickname = (<{ userNickname: string }>jwtDecoded).userNickname;
+    const kakaoId = (<{ kakaoid: string }>jwtDecoded).kakaoid;
     req.body.userId = userId;
     req.body.userEmail = userEmail;
     req.body.userNickname = userNickname;
     req.body.status = status;
+    req.body.kakaoId = kakaoId;
 
     next();
   } catch (error) {

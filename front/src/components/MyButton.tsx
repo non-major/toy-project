@@ -27,7 +27,7 @@ export default MyButton;
 
 const Button = styled.button<BtnProps>`
   border: none;
-  border-radius: 50px;
+  border-radius: 12px;
   padding: 10px 20px 10px 20px;
   color: white;
   font-size: 18px;
