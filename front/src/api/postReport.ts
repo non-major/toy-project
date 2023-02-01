@@ -39,14 +39,10 @@ export const postReport = async (
   postId: string | undefined,
   reasonType: string,
 ) => {
-  if (!(await isReported(postId))[0]) {
-    instance.post(
-      `/api/reports/${postId}`,
-      {
-        type: Number(reasonType),
-      },
-      { headers: { Authorization: `Bearer ${token}` } },
-    );
+  if (!(await isReported(postId))[0] && token) {
+    instance.post(`/api/reports/${postId}`, {
+      type: Number(reasonType),
+    });
   } else if (token) {
     alert("이미 신고한 게시물입니다.");
   } else {

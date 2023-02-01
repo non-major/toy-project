@@ -1,23 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Comment from "./Comment";
 import { CommentWrap } from "./Comment.styles";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import getComments from "../../api/getComments";
-import axios, { AxiosError } from "axios";
 import postOneComment from "./../../api/postOneComment";
-import { useNavigate } from "react-router-dom";
 
-type CommentData = {
+export type CommentData = {
   id: string;
   content: string;
   date: string;
   postId: number;
   userId: number;
   isAuthor: boolean;
+  nickname: string;
 };
 
 function CommentList({ postId }: { postId: string | undefined }) {
-  const navigate = useNavigate();
   const { data, isSuccess } = useQuery({
     queryKey: ["comments", postId],
     queryFn: () => getComments(postId),
@@ -29,16 +27,11 @@ function CommentList({ postId }: { postId: string | undefined }) {
     setLocalCommentText(() => e.target.value);
   };
 
-  // 성공했을 때 response가 빈 객체..?
   const handleCommentSubmit = async () => {
     const promiseResult = await postOneComment(postId, {
       content: localCommentText,
       date: new Date().toString(),
     });
-    if (promiseResult.response.status === 403) {
-      alert("로그인 한 사용자만 댓글 등록이 가능합니다.");
-      navigate("/login");
-    }
   };
 
   const queryClient = useQueryClient();

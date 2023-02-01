@@ -69,13 +69,6 @@ function EditContent() {
         config,
       )
       .then((response) => {
-        console.log({
-          title: response.data.title,
-          content: response.data.content,
-          image: response.data.image,
-          date: response.data.date,
-          postId: response.data.id,
-        });
         alert("독서 기록 수정이 완료되었습니다.");
         navigate(`/content/${response.data.id}`);
       })

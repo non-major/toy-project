@@ -9,6 +9,7 @@ interface userControllerInterface {
   delete: AsyncRequestHandler;
   userRank: AsyncRequestHandler;
   monthPostCount: AsyncRequestHandler;
+  adminUserDelete: AsyncRequestHandler;
 }
 
 export class UserController implements userControllerInterface {
@@ -49,6 +50,17 @@ export class UserController implements userControllerInterface {
 
   delete: AsyncRequestHandler = async (req, res) => {
     const id = req.body.userId;
+    const userDelete = userService.delete(id);
+    res.json(userDelete);
+  };
+
+  adminUserDelete: AsyncRequestHandler = async (req, res) => {
+    const status = req.body.status;
+    if (status !== 1) {
+      throw new Error("관리자가 아닙니다.");
+    }
+    const userId = req.params.userId;
+    const id = parseInt(userId);
     const userDelete = userService.delete(id);
     res.json(userDelete);
   };

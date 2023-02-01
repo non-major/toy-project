@@ -8,6 +8,7 @@ import React, {
 } from "react";
 import { ReportContainer } from "./ReportList.styles";
 import { ReportListItem } from "../ReportListItem/ReportListItem";
+import { instance } from "../../api/axiosInstance";
 
 interface ReportListProps {
   setIsOpenModal: Dispatch<SetStateAction<boolean>>;
@@ -28,8 +29,8 @@ export const ReportList = memo(
   ({ setIsOpenModal, setSelectedPostId }: ReportListProps) => {
     const [reports, setReports] = useState<ReportListItemProps[]>([]);
 
-    const getReports = () => {
-      axios
+    const getReports = async () => {
+      await instance
         .get("/api/reports/reportedList")
         .then((res) => res.data)
         .then((data) => {

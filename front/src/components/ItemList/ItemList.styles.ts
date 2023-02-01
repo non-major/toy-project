@@ -7,15 +7,16 @@ export const ItemListStyle = styled.div`
 
   .item {
     margin: 40px 8px 0 8px;
-  }
 
-  .item span {
-    cursor: default;
-  }
+    span {
+      color: ${(props) => props.theme.color.darkGray};
+      cursor: default;
+    }
 
-  .item a {
-    text-decoration: none;
-    color: black;
+    a {
+      text-decoration: none;
+      color: black;
+    }
   }
 
   .img {
@@ -28,7 +29,7 @@ export const ItemListStyle = styled.div`
   .img img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
   }
 
   .title {
