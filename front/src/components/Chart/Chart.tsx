@@ -1,6 +1,14 @@
 import React from "react";
 import { useQuery } from "react-query";
-import { BarChart, XAxis, YAxis, CartesianGrid, Bar, Tooltip } from "recharts";
+import {
+  BarChart,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Bar,
+  Tooltip,
+  LabelList,
+} from "recharts";
 import { getBookStatistics } from "../../api/statistics";
 import MyButton from "../MyButton";
 import { EmptyChart, EmptyNewLink, EmptyText } from "./Chart.styles";
@@ -23,8 +31,13 @@ const emptyData = month.map((item) => {
 });
 
 const Chart = () => {
-  const { data: postCount } = useQuery("contentsCount", () =>
-    getBookStatistics(),
+  const { data: postCount } = useQuery(
+    "contentsCount",
+    () => getBookStatistics(),
+    {
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+    },
   );
   let monthCount = 0;
   const monthData = month.map((item) => {
@@ -58,12 +71,13 @@ const Chart = () => {
             domain={[0, "dataMax+5"]}
             allowDecimals={false}
           />
-          <Tooltip />
-          <Bar
-            dataKey="count"
-            fill="#5e92f3"
-            label={{ value: "count", position: "top", fill: "#5e92f3" }}
+          <Tooltip
+            formatter={(value) => [`${value}권`, `읽은 책`]}
+            labelFormatter={(value) => [`${value}월`]}
           />
+          <Bar dataKey="count" fill="#5e92f3">
+            <LabelList dataKey="count" position="top" fill="#5e92f3" />
+          </Bar>
         </BarChart>
       ) : (
         <EmptyChart>
@@ -81,11 +95,7 @@ const Chart = () => {
               domain={[0, "dataMax+5"]}
               allowDecimals={false}
             />
-            <Bar
-              dataKey="count"
-              fill="gray"
-              label={{ value: "count", position: "top", fill: "gray" }}
-            />
+            <Bar dataKey="count" fill="gray" />
           </BarChart>
           <EmptyText>
             <div>등록된 게시글이 없어요😵</div>
