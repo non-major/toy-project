@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import MyButton from "../../components/MyButton";
 import {
   createUserInfo,
   deleteUserInfo,
   getUsersInfo,
+  kakaoUpdate,
   updateUserInfo,
 } from "../../api/userInfo";
 import {
@@ -43,23 +44,31 @@ export const MyTitle = ({ children }: Props) => {
 };
 
 const Register = ({ isEdit }: RegisterProps) => {
-  const [email, setEmail] = useState("");
+  const iskakaoLogin = sessionStorage.getItem("role");
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     getValues,
-  } = useForm<FormData>();
+  } = useForm<FormData>({
+    defaultValues: {
+      email: "",
+    },
+  });
 
-  const { data: userInfo } = useQuery("email", () => getUsersInfo(), {
-    enabled: Boolean(isEdit),
+  const { data: userInfo } = useQuery("userInfo", () => getUsersInfo(), {
+    enabled: Boolean(!isEdit),
   });
 
   const onSubmit = (data: FormData) => {
     if (isEdit) {
       if (window.confirm("수정하시겠습니까?")) {
-        updateUserInfo(data);
+        if (sessionStorage.getItem("role")) {
+          kakaoUpdate(data);
+        } else {
+          updateUserInfo(data);
+        }
       }
     } else {
       createUserInfo(data);
@@ -81,11 +90,10 @@ const Register = ({ isEdit }: RegisterProps) => {
           <label>
             <p>이메일</p>
             <Input
-              value={isEdit ? userInfo?.email || "" : email}
+              value={isEdit && userInfo?.email}
               disabled={isEdit ? true : false}
               type="email"
               placeholder="이메일"
-              id="email"
               {...(isEdit
                 ? null
                 : register("email", {
@@ -98,35 +106,40 @@ const Register = ({ isEdit }: RegisterProps) => {
             />
           </label>
           {errors.email && <Errors>{errors?.email?.message}</Errors>}
-          <label>
-            <p>비밀번호</p>
-            <Input
-              type="password"
-              placeholder="비밀번호"
-              {...register("password", {
-                required: "비밀번호를 입력해주세요",
-                minLength: {
-                  value: 6,
-                  message: "최소 6자 이상의 비밀번호를 입력해주세요",
-                },
-              })}
-            />
-          </label>
+          {!iskakaoLogin && (
+            <label>
+              <p>비밀번호</p>
+              <Input
+                type="password"
+                placeholder="비밀번호"
+                {...register("password", {
+                  required: "비밀번호를 입력해주세요",
+                  minLength: {
+                    value: 6,
+                    message: "최소 6자 이상의 비밀번호를 입력해주세요",
+                  },
+                })}
+              />
+            </label>
+          )}
           {errors.password && <Errors>{errors.password.message}</Errors>}
-          <label>
-            <p>비밀번호확인</p>
-            <Input
-              type="password"
-              placeholder="비밀번호 확인"
-              {...register("passwordConfirm", {
-                required: "비밀번호를 다시 입력해주세요",
-                validate: (value) => {
-                  const { password } = getValues();
-                  return password === value || "비밀번호가 일치하지 않습니다";
-                },
-              })}
-            />
-          </label>
+          {!iskakaoLogin && (
+            <label>
+              <p>비밀번호확인</p>
+              <Input
+                type="password"
+                placeholder="비밀번호 확인"
+                disabled={sessionStorage.getItem("role") ? true : false}
+                {...register("passwordConfirm", {
+                  required: "비밀번호를 다시 입력해주세요",
+                  validate: (value) => {
+                    const { password } = getValues();
+                    return password === value || "비밀번호가 일치하지 않습니다";
+                  },
+                })}
+              />
+            </label>
+          )}
           {errors.passwordConfirm && (
             <Errors>{errors?.passwordConfirm?.message}</Errors>
           )}

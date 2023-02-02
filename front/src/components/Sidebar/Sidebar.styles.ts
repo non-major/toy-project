@@ -6,6 +6,7 @@ const SidebarContainer = styled.div`
   border-right: 1px solid gray;
   padding-right: 40px;
   white-space: nowrap;
+  min-height: 70vh;
 
   @media (max-width: 768px) {
     border: none;
