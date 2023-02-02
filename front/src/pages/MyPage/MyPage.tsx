@@ -79,14 +79,16 @@ const MyPage = ({ isMain }: MyPageProps) => {
         <SidebarText to="/mypage/statistics">통계보기</SidebarText>
         <SidebarText to="/mypage/useredit">회원정보수정</SidebarText>
       </Sidebar>
-      <Content>
-        {isMain && (
-          <div style={{ padding: "20px" }}>
-            <MyTitle>{`${userInfo?.nickname} 님의 레벨은?`}</MyTitle>
-          </div>
-        )}
-        {isMain ? <Statistics /> : <EditRegister />}
-      </Content>
+      {userInfo && (
+        <Content>
+          {isMain && (
+            <div style={{ padding: "20px" }}>
+              <MyTitle>{`${userInfo?.nickname} 님의 레벨은?`}</MyTitle>
+            </div>
+          )}
+          {isMain ? <Statistics /> : <EditRegister />}
+        </Content>
+      )}
     </MypageBox>
   );
 };

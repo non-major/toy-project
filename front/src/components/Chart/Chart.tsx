@@ -53,7 +53,6 @@ const Chart = () => {
       count: monthCount,
     };
   });
-  console.log(monthData);
 
   return (
     <div>
@@ -72,7 +71,10 @@ const Chart = () => {
             domain={[0, "dataMax+5"]}
             allowDecimals={false}
           />
-          <Tooltip />
+          <Tooltip
+            formatter={(value) => [`${value}권`, `읽은 책`]}
+            labelFormatter={(value) => [`${value}월`]}
+          />
           <Bar dataKey="count" fill="#5e92f3">
             <LabelList dataKey="count" position="top" fill="#5e92f3" />
           </Bar>
@@ -93,11 +95,7 @@ const Chart = () => {
               domain={[0, "dataMax+5"]}
               allowDecimals={false}
             />
-            <Bar
-              dataKey="count"
-              fill="gray"
-              // label={{ value: "count", position: "top", fill: "gray" }}
-            />
+            <Bar dataKey="count" fill="gray" />
           </BarChart>
           <EmptyText>
             <div>등록된 게시글이 없어요😵</div>

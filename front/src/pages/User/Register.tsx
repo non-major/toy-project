@@ -52,9 +52,8 @@ const Register = ({ isEdit }: RegisterProps) => {
     getValues,
   } = useForm<FormData>();
 
-  useQuery("email", () => getUsersInfo(), {
+  const { data: userInfo } = useQuery("email", () => getUsersInfo(), {
     enabled: Boolean(isEdit),
-    onSuccess: (userInfo) => setEmail(userInfo.email),
   });
 
   const onSubmit = (data: FormData) => {
@@ -82,7 +81,7 @@ const Register = ({ isEdit }: RegisterProps) => {
           <label>
             <p>이메일</p>
             <Input
-              value={email}
+              value={isEdit ? userInfo?.email || "" : email}
               disabled={isEdit ? true : false}
               type="email"
               placeholder="이메일"
