@@ -18,9 +18,9 @@ interface MonthCount {
   count: number;
 }
 
-const month: string[] = [];
+const month: number[] = [];
 for (let i = 1; i <= 12; i++) {
-  month.push(i.toString());
+  month.push(i);
 }
 
 const emptyData = month.map((item) => {
@@ -39,19 +39,14 @@ const Chart = () => {
       refetchOnWindowFocus: false,
     },
   );
-  let monthCount = 0;
-  const monthData = month.map((item) => {
-    postCount?.forEach((i: MonthCount) => {
-      if (Number(i.month.split("-")[1]) === Number(item)) {
-        monthCount = Number(i.count);
-      } else {
-        monthCount = 0;
+
+  const monthData = emptyData.map((item) => {
+    postCount?.map((i: MonthCount) => {
+      if (Number(i.month.split("-")[1]) === item.month) {
+        item.count = Number(i.count);
       }
     });
-    return {
-      month: item,
-      count: monthCount,
-    };
+    return item;
   });
 
   return (
