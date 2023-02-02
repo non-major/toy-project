@@ -94,6 +94,27 @@ const kakaoLogin = async (code: any) => {
   }
 };
 
+const kakaoUpdate = async (data: Data) => {
+  try {
+    await axios.patch(
+      `/api/users/kakao/update`,
+      {
+        nickname: data.nickname,
+      },
+      {
+        headers: {
+          authorization: `Bearer ${userToken}`,
+        },
+      },
+    );
+    alert("회원정보가 수정되었습니다.");
+    window.location.replace("/mypage/statistics");
+  } catch (err: unknown) {
+    if (axios.isAxiosError(err) && err.response) {
+      console.log(err);
+    }
+  }
+};
 export {
   getUsersInfo,
   updateUserInfo,
@@ -101,4 +122,5 @@ export {
   deleteUserInfo,
   userLogin,
   kakaoLogin,
+  kakaoUpdate,
 };

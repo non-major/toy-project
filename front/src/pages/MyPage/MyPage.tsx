@@ -1,15 +1,7 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import Register, { MyTitle } from "../User/Register";
-import { deleteUserInfo, getUsersInfo } from "../../api/userInfo";
-import {
-  ChartBox,
-  Content,
-  Level,
-  LevelBox,
-  MypageBox,
-  RemoveUser,
-  RemoveUserBox,
-} from "./MyPage.styles";
+import { getUsersInfo } from "../../api/userInfo";
+import { ChartBox, Content, Level, LevelBox, MypageBox } from "./MyPage.styles";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import SidebarText from "../../components/Sidebar/SidebarText";
 import Chart from "../../components/Chart/Chart";
