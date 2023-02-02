@@ -4,11 +4,13 @@ import React, {
   useEffect,
   Dispatch,
   SetStateAction,
+  useContext,
   memo,
 } from "react";
 import { ReportContainer } from "./ReportList.styles";
 import { ReportListItem } from "../ReportListItem/ReportListItem";
 import { instance } from "../../api/axiosInstance";
+import { RefreshContext } from "../../pages/Admin/Admin";
 
 interface ReportListProps {
   setIsOpenModal: Dispatch<SetStateAction<boolean>>;
@@ -28,6 +30,7 @@ export interface ReportListItemProps {
 export const ReportList = memo(
   ({ setIsOpenModal, setSelectedPostId }: ReportListProps) => {
     const [reports, setReports] = useState<ReportListItemProps[]>([]);
+    const refresh = useContext(RefreshContext);
 
     const getReports = async () => {
       await instance
@@ -40,7 +43,7 @@ export const ReportList = memo(
 
     useEffect(() => {
       getReports();
-    }, []);
+    }, [refresh]);
 
     return (
       <ReportContainer>

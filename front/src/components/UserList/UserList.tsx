@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Dispatch, SetStateAction } from "react";
 import { UserListItem } from "../UserListItem/UserListItem";
 import { UserListContainer } from "./UserList.styles";
 
@@ -8,11 +8,13 @@ export interface UserType {
   status: number;
   nickname: string;
   email: string;
+  setRefresh: Dispatch<SetStateAction<number>>;
   // signUpDate: string;
 }
 
 const UserList = () => {
   const [users, setUsers] = useState<UserType[]>([]);
+  const [refresh, setRefresh] = useState(1);
 
   const getUsers = () => {
     axios
@@ -25,7 +27,7 @@ const UserList = () => {
 
   useEffect(() => {
     getUsers();
-  }, []);
+  }, [refresh]);
 
   return (
     <UserListContainer>
@@ -39,6 +41,7 @@ const UserList = () => {
             nickname={nickname}
             email={email}
             status={status}
+            setRefresh={setRefresh}
           />
         );
       })}

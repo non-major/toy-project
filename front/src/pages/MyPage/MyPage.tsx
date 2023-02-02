@@ -35,7 +35,10 @@ const levelDivision = (level: number) => {
 };
 
 const MyPage = ({ isMain }: MyPageProps) => {
-  const { data: userInfo } = useQuery("userInfo", () => getUsersInfo());
+  const { data: userInfo } = useQuery("userInfo", () => getUsersInfo(), {
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+  });
 
   const userLevel = useMemo(
     () => levelDivision(userInfo?.post_count),
@@ -76,14 +79,16 @@ const MyPage = ({ isMain }: MyPageProps) => {
         <SidebarText to="/mypage/statistics">통계보기</SidebarText>
         <SidebarText to="/mypage/useredit">회원정보수정</SidebarText>
       </Sidebar>
-      <Content>
-        {isMain && (
-          <div style={{ padding: "20px" }}>
-            <MyTitle>{`${userInfo?.nickname} 님의 레벨은?`}</MyTitle>
-          </div>
-        )}
-        {isMain ? <Statistics /> : <EditRegister />}
-      </Content>
+      {userInfo && (
+        <Content>
+          {isMain && (
+            <div style={{ padding: "20px" }}>
+              <MyTitle>{`${userInfo?.nickname} 님의 레벨은?`}</MyTitle>
+            </div>
+          )}
+          {isMain ? <Statistics /> : <EditRegister />}
+        </Content>
+      )}
     </MypageBox>
   );
 };

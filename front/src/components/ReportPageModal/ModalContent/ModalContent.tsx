@@ -1,5 +1,11 @@
 import axios from "axios";
-import { useState, useEffect, Dispatch, SetStateAction } from "react";
+import {
+  useState,
+  useEffect,
+  Dispatch,
+  SetStateAction,
+  useContext,
+} from "react";
 import {
   Container,
   ReporterList,
@@ -8,6 +14,7 @@ import {
   DeleteButton,
 } from "./ModalContent.styles";
 import { reasons } from "../../ContentReportModal/ContentReportModalReasonForm";
+import { RefreshDispatchContext } from "../../../pages/Admin/Admin";
 
 interface ModalContentType {
   selectedPostId: string | null;
@@ -21,6 +28,7 @@ export interface ReportListType {
 }
 
 const ModalContent = ({ selectedPostId, setModalState }: ModalContentType) => {
+  const setRefresh = useContext(RefreshDispatchContext);
   const [reportList, setReportList] = useState<ReportListType[]>([]);
 
   useEffect(() => {
@@ -41,9 +49,8 @@ const ModalContent = ({ selectedPostId, setModalState }: ModalContentType) => {
       })}
       <DeleteButton
         onClick={() => {
-          axios
-            .delete(`/api/reports/${selectedPostId}`)
-            .then((res) => console.log(res));
+          axios.delete(`/api/reports/${selectedPostId}`);
+          setRefresh((state) => !state);
           setModalState(false);
         }}>
         게시글 삭제
