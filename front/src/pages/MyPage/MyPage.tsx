@@ -35,7 +35,10 @@ const levelDivision = (level: number) => {
 };
 
 const MyPage = ({ isMain }: MyPageProps) => {
-  const { data: userInfo } = useQuery("userInfo", () => getUsersInfo());
+  const { data: userInfo } = useQuery("userInfo", () => getUsersInfo(), {
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+  });
 
   const userLevel = useMemo(
     () => levelDivision(userInfo?.post_count),

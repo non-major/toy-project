@@ -40,7 +40,7 @@ export const MyTitle = ({ children }: Props) => {
 };
 
 const Register = ({ isEdit }: RegisterProps) => {
-  const [email, setEmail] = useState();
+  const [email, setEmail] = useState("");
 
   const {
     register,
