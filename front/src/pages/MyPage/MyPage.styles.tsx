@@ -2,8 +2,10 @@ import styled from "styled-components";
 
 const MypageBox = styled.div`
   width: 100%;
-  min-height: 80vh;
+  min-height: 70vh;
+  min-width: 50vh;
   display: flex;
+  margin-top: 0px;
   @media (max-width: 768px) {
     flex-direction: column;
   }
@@ -27,7 +29,7 @@ const Level = styled.div`
 `;
 
 const ChartBox = styled.h2`
-  margin-top: 10%;
+  margin-top: 40px;
   display: flex;
   flex-direction: column;
   justify-content: center;

@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import MyButton from "../../components/MyButton";
 import {
   createUserInfo,
+  deleteUserInfo,
   getUsersInfo,
   updateUserInfo,
 } from "../../api/userInfo";
@@ -14,6 +15,8 @@ import {
   RegisterBox,
   Title,
 } from "./User.styles";
+import { RemoveUser, RemoveUserBox } from "../MyPage/MyPage.styles";
+import { useQuery } from "react-query";
 
 interface Props {
   children: React.ReactNode;
@@ -49,13 +52,10 @@ const Register = ({ isEdit }: RegisterProps) => {
     getValues,
   } = useForm<FormData>();
 
-  useEffect(() => {
-    if (isEdit) {
-      getUsersInfo().then((user) => {
-        setEmail(user.email);
-      });
-    }
-  }, [isEdit]);
+  useQuery("email", () => getUsersInfo(), {
+    enabled: Boolean(isEdit),
+    onSuccess: (userInfo) => setEmail(userInfo.email),
+  });
 
   const onSubmit = (data: FormData) => {
     if (isEdit) {
@@ -64,6 +64,12 @@ const Register = ({ isEdit }: RegisterProps) => {
       }
     } else {
       createUserInfo(data);
+    }
+  };
+
+  const onUserRemove = async () => {
+    if (window.confirm("정말 탈퇴하시겠어요?😭")) {
+      deleteUserInfo();
     }
   };
   const Regex = { email: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g };
@@ -145,6 +151,14 @@ const Register = ({ isEdit }: RegisterProps) => {
           </MyButton>
         </MyForm>
       </Formbox>
+      {isEdit && (
+        <RemoveUserBox>
+          <div>book극곰을 더이상 이용하지 않는다면😢</div>
+          <RemoveUser onClick={onUserRemove}>
+            {"회원탈퇴 바로가기 >"}
+          </RemoveUser>
+        </RemoveUserBox>
+      )}
     </RegisterBox>
   );
 };

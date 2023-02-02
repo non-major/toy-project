@@ -14,11 +14,11 @@ type ImageSearchModalProps = {
   setModalState: Dispatch<SetStateAction<boolean>>;
 };
 
-type Book = { [key: string]: string };
+type BookInfo = { [key: string]: string };
 
 const ImageSearchModal = (props: ImageSearchModalProps) => {
   const [bookSearchKeyword, setbookSearchKeyword] = useState("");
-  const [bookSearchResult, setbookSearchResult] = useState(Array<Book>);
+  const [bookSearchResult, setbookSearchResult] = useState(Array<BookInfo>);
   const handleImageSearchInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
   ) => {
@@ -38,8 +38,14 @@ const ImageSearchModal = (props: ImageSearchModalProps) => {
     }
   };
 
+  const handleImageSearchInputEnter = (e: React.KeyboardEvent) => {
+    if (e.keyCode === 13) {
+      handleImageSearchClick();
+    }
+  };
+
   return (
-    <Modal title="이미지 검색하기" setModalState={props.setModalState}>
+    <Modal title="책 이미지 검색하기" setModalState={props.setModalState}>
       <ImgSearchModalWrap>
         <ImgSearchBar>
           <ImgSearchInput
@@ -48,6 +54,7 @@ const ImageSearchModal = (props: ImageSearchModalProps) => {
             placeholder="책 제목, 지은이, 키워드로 검색할 수 있습니다."
             value={bookSearchKeyword}
             onChange={handleImageSearchInputChange}
+            onKeyUp={handleImageSearchInputEnter}
           />
           <MyButton btntype="basic" onClick={handleImageSearchClick}>
             검색
@@ -60,7 +67,7 @@ const ImageSearchModal = (props: ImageSearchModalProps) => {
             setBookImageUrl={props.setBookImageUrl}
             setModalState={props.setModalState}
           />
-        ))}{" "}
+        ))}
       </ImgSearchModalWrap>
     </Modal>
   );

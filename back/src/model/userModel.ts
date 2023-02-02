@@ -69,6 +69,15 @@ export class UserModel implements IUserModel {
       .then(() => this.findById(id));
   }
 
+  async kakaoUserUpdate(userId: number, nickname: string): Promise<user> {
+    return await pg
+      .query(`UPDATE users SET nickname = ($1) WHERE id = ($2)`, [
+        nickname,
+        userId,
+      ])
+      .then(() => this.findById(userId));
+  }
+
   async delete(id: number): Promise<user[]> {
     const deleteUser = await pg.query(`DELETE FROM users WHERE id = ($1)`, [
       id,

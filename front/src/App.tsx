@@ -17,10 +17,12 @@ import NotFound from "./pages/NotFound/NotFound";
 import { worker } from "./mocks/browers";
 import { Provider } from "react-redux";
 import store from "./redux/store";
+import KakaoLogin from "./components/kakao/KakaoLogin";
+import isAdmin from "./utils/isAdmin";
 
-if (process.env.NODE_ENV === "development") {
-  worker.start();
-}
+// if (process.env.NODE_ENV === "development") {
+//   worker.start();
+// }
 
 const queryClient = new QueryClient();
 
@@ -42,7 +44,11 @@ const App = () => {
                 <Route path="register" element={<Register />} />
                 <Route path="login" element={<Login />} />
                 <Route path="notFound" element={<NotFound />} />
-                <Route path="admin" element={<Admin />} />
+                {isAdmin() ? (
+                  <Route path="admin" element={<Admin />} />
+                ) : (
+                  <Route path="admin" element={<NotFound />} />
+                )}
                 <Route
                   path="mypage/statistics"
                   element={
@@ -59,6 +65,7 @@ const App = () => {
                     </PrivateRoute>
                   }
                 />
+                <Route path="api/auth/kakao/login" element={<KakaoLogin />} />
               </Route>
             </Routes>
           </div>

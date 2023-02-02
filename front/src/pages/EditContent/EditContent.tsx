@@ -11,9 +11,9 @@ import {
   ImgSearchInput,
 } from "./EditContent.styles";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import getOnePost from "../../api/getOnePost";
 
 function EditContent() {
+  const navigate = useNavigate();
   const { id } = useParams();
   const [post, setPost] = useState({
     title: "",
@@ -21,32 +21,36 @@ function EditContent() {
     content: "",
   });
 
-  const postQuery = useQuery({
-    queryKey: ["posts", id],
-    queryFn: () => getOnePost(id),
-  });
-
-  useEffect(() => {
-    const postData = postQuery?.data?.data.post;
-    if (postQuery.status === "success") {
-      setPost((post) => {
-        return {
-          ...post,
-          title: postData.title,
-          content: postData.content,
-          img: postData.image,
-        };
-      });
-    }
-  }, [postQuery.status, postQuery?.data?.data.post]);
-
-  const navigate = useNavigate();
-
   const token = sessionStorage.getItem("userToken");
-
   const config = {
     headers: { Authorization: `Bearer ${token}` },
   };
+
+  useEffect(() => {
+    if (!token) {
+      alert("로그인 한 사용자만 사용할 수 있는 서비스입니다.");
+      navigate("/login");
+    }
+  }, [navigate, token]);
+
+  const getOnePost = async () => {
+    try {
+      const res = await axios.get(`/api/posts/${id}`, config);
+      return res.data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const { data: posts } = useQuery(["posts", id], () => getOnePost(), {
+    onSuccess: (posts) =>
+      setPost({
+        ...post,
+        title: posts.post.title,
+        content: posts.post.content,
+        img: posts.post.image,
+      }),
+  });
 
   const handleChangeState = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPost({ ...post, [e.target.name]: e.target.value });
@@ -69,13 +73,6 @@ function EditContent() {
         config,
       )
       .then((response) => {
-        console.log({
-          title: response.data.title,
-          content: response.data.content,
-          image: response.data.image,
-          date: response.data.date,
-          postId: response.data.id,
-        });
         alert("독서 기록 수정이 완료되었습니다.");
         navigate(`/content/${response.data.id}`);
       })
@@ -120,6 +117,7 @@ function EditContent() {
           name="img"
           id="img"
           placeholder="어떤 책을 읽으셨나요?"
+          disabled
           value={post.img}
           onChange={handleChangeState}
         />

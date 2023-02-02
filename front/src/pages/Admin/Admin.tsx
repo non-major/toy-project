@@ -1,4 +1,9 @@
-import React, { useState } from "react";
+import React, {
+  useState,
+  Dispatch,
+  SetStateAction,
+  createContext,
+} from "react";
 import { ReportList } from "../../components/ReportList/ReportList";
 import ReportPageModal from "../../components/ReportPageModal/ReportPageModal";
 import UserList from "../../components/UserList/UserList";
@@ -6,9 +11,16 @@ import { Container, Menu, Sidebar, Content } from "./Admin.styles";
 
 const menuList = ["report", "userlist"];
 
+export const RefreshContext = createContext(false);
+export const RefreshDispatchContext = createContext<
+  Dispatch<SetStateAction<boolean>>
+>(() => {});
+
 function Admin() {
   const [menu, setMenu] = useState("report");
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
+  const [refresh, setRefresh] = useState(false);
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     const clickedMenu = (event.target as HTMLElement).id;
@@ -31,12 +43,24 @@ function Admin() {
       </Sidebar>
       <Content>
         {menu === "report" ? (
-          <ReportList setIsOpenModal={setIsOpenModal} />
+          <RefreshContext.Provider value={refresh}>
+            <ReportList
+              setIsOpenModal={setIsOpenModal}
+              setSelectedPostId={setSelectedPostId}
+            />
+          </RefreshContext.Provider>
         ) : (
           <UserList />
         )}
       </Content>
-      {isOpenModal && <ReportPageModal setModalState={setIsOpenModal} />}
+      {isOpenModal && (
+        <RefreshDispatchContext.Provider value={setRefresh}>
+          <ReportPageModal
+            setModalState={setIsOpenModal}
+            selectedPostId={selectedPostId}
+          />
+        </RefreshDispatchContext.Provider>
+      )}
     </Container>
   );
 }

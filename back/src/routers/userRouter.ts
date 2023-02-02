@@ -13,8 +13,20 @@ userRouter.get(
 
 userRouter.get("/rank", asyncHandler(userController.userRank));
 userRouter.patch("/update", loginRequired, asyncHandler(userController.update));
+userRouter.patch(
+  "/kakao/update",
+  loginRequired,
+  asyncHandler(userController.kakaoUserUpdate)
+);
 userRouter.delete(
   "/delete",
   loginRequired,
   asyncHandler(userController.delete)
+);
+
+//관리자 모드
+userRouter.delete(
+  "/admin/delete/:userId",
+  loginRequired,
+  asyncHandler(userController.adminUserDelete)
 );

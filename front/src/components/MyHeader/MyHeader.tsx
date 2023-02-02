@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { logoutAccout } from "../../redux/userReducer";
+import isAdmin from "../../utils/isAdmin";
 import Modal from "../Modal/Modal";
 import { Header, Nav, SearchBar } from "./MyHeader.styles";
 
@@ -14,9 +15,7 @@ const MyHeader = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    sessionStorage.getItem("role") === "admin"
-      ? setAdmin(true)
-      : setAdmin(false);
+    isAdmin() === true ? setAdmin(true) : setAdmin(false);
   }, [isLogin]);
 
   const onSearch = () => {
@@ -104,12 +103,7 @@ const MyHeader = () => {
         <input
           type="text"
           ref={searchRef}
-          placeholder="검색어를 입력해 주세요."
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              onSearch();
-            }
-          }}></input>
+          placeholder="검색어를 입력해 주세요."></input>
         <img
           src="https://res.cloudinary.com/dk9scwone/image/upload/v1671095050/freeIconMagnifyingglass_p7owop.png"
           alt="검색"

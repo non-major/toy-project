@@ -4,6 +4,7 @@ interface user {
   password: string;
   nickname?: string;
   status?: number;
+  kakaoId?: number;
 }
 
 interface kakaoUser {
@@ -56,6 +57,7 @@ interface IUserModel {
   delete(id: number): Promise<user[]>;
   rank(): Promise<rank[]>;
   monthPostCount(userId: number): Promise<monthPostCount[]>;
+  kakaoUserUpdate(userId: number, nickname: string): Promise<user>;
 }
 
 interface IPostModel {
@@ -71,14 +73,6 @@ interface IPostModel {
   findMyPostsCount(userId: number): Promise<number>;
   updatePost(id: number, postInfo: post): Promise<post>;
   delete(id: number, userId: number): Promise<number>;
-}
-
-interface ICommentModel {
-  create(comment: comment): Promise<comment>;
-  findByPostId(postId: number): Promise<comment[]>;
-  findById(id: number): Promise<comment>;
-  update(id: number, toUpdate: comment): Promise<comment>;
-  delete(id: number): Promise<comment[]>;
 }
 
 interface ICommentModel {

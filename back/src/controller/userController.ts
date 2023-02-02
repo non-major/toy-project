@@ -9,6 +9,8 @@ interface userControllerInterface {
   delete: AsyncRequestHandler;
   userRank: AsyncRequestHandler;
   monthPostCount: AsyncRequestHandler;
+  adminUserDelete: AsyncRequestHandler;
+  kakaoUserUpdate: AsyncRequestHandler;
 }
 
 export class UserController implements userControllerInterface {
@@ -19,6 +21,7 @@ export class UserController implements userControllerInterface {
 
   findUser: AsyncRequestHandler = async (req, res) => {
     const userId = req.body.userId;
+
     const user = await userService.findUser(userId);
 
     res.json(user);
@@ -47,8 +50,31 @@ export class UserController implements userControllerInterface {
     res.json(userUpdate);
   };
 
+  kakaoUserUpdate: AsyncRequestHandler = async (req, res) => {
+    const { userId, nickname, kakaoId } = req.body;
+
+    if (kakaoId == null) {
+      throw new Error("카카오톡 로그인 회원이 아닙니다.");
+    }
+
+    const kakaoUserUpdate = await userService.kakaoUserUpdate(userId, nickname);
+
+    res.json(kakaoUserUpdate);
+  };
+
   delete: AsyncRequestHandler = async (req, res) => {
     const id = req.body.userId;
+    const userDelete = userService.delete(id);
+    res.json(userDelete);
+  };
+
+  adminUserDelete: AsyncRequestHandler = async (req, res) => {
+    const status = req.body.status;
+    if (status !== 1) {
+      throw new Error("관리자가 아닙니다.");
+    }
+    const userId = req.params.userId;
+    const id = parseInt(userId);
     const userDelete = userService.delete(id);
     res.json(userDelete);
   };

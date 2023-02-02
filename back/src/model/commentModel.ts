@@ -6,7 +6,7 @@ export class CommentModel implements ICommentModel {
   async create(comment: comment): Promise<comment> {
     const { postId, userId, content, date } = comment;
     const newComment = await pg.query(
-      `INSERT INTO comments ("postId", "userId", content, date) VALUES ($1,$2,$3,$4)RETURNING*`,
+      `INSERT INTO comments ("postId", "userId", content, date) VALUES ($1,$2,$3,$4) RETURNING *`,
       [postId, userId, content, date]
     );
     return newComment.rows[0];
@@ -23,7 +23,7 @@ export class CommentModel implements ICommentModel {
   // 댓글 찾기 (게시물 -> 여러개)
   async findByPostId(postId: number): Promise<comment[]> {
     const comments = await pg.query(
-      `SELECT * FROM comments WHERE "postId" = ($1)`,
+      `SELECT comments.id, comments."postId", comments."userId", comments."content", comments."date", users.nickname FROM comments inner join users on comments."userId" = users.id WHERE "postId" = ($1)`,
       [postId]
     );
     return comments.rows;

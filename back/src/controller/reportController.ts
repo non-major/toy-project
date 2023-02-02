@@ -22,7 +22,7 @@ export class ReportController implements reportControllerInterface {
       userId: intUserId,
       type: intType,
     };
-    const reportPost = reportService.create(postReportInfo);
+    const reportPost = await reportService.create(postReportInfo);
     res.json(reportPost);
   };
 

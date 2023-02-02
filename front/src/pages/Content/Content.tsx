@@ -15,8 +15,10 @@ import {
 } from "./Content.styles";
 import { RiAlarmWarningFill } from "react-icons/ri";
 import { instance } from "../../api/axiosInstance";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient, useQuery } from "react-query";
 import Modal from "../../components/Modal/Modal";
+import { dateFormatter } from "./../../api/dateFormatter";
+import axios from "axios";
 
 function Content() {
   const navigate = useNavigate();
@@ -28,47 +30,36 @@ function Content() {
     author: "",
     content: "",
     img: "",
+    isAuthor: false,
   });
-
-  const [isAuthor, setIsAuthor] = useState(false);
 
   const { id } = useParams();
 
-  const userToken = sessionStorage.getItem("userToken");
+  const getOnePost = async () => {
+    try {
+      const res = await axios.get(`/api/posts/${id}`, {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("userToken")}`,
+        },
+      });
+      return res.data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-  useEffect(() => {
-    const getOnePost = async () => {
-      await instance
-        .get(`/api/posts/${id}`)
-        .then((response) => {
-          const postData = response.data.post;
-          const isCurrentAuthor = response.data.isAuthor;
-          setPost((post) => {
-            return {
-              ...post,
-              title: postData.title,
-              date: postData.date,
-              author: postData.user_nickname,
-              content: postData.content,
-              img: postData.image,
-            };
-          });
-          if (isCurrentAuthor === "false") {
-            setIsAuthor(false);
-          } else {
-            setIsAuthor(true);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-          if (err.response.status === 400) {
-            navigate("/notFound");
-          }
-        });
-    };
-    getOnePost();
-  }, [id, isAuthor, userToken, navigate]);
-  // 게시글 불러와서 post 세팅
+  const { data: posts } = useQuery(["posts", id], () => getOnePost(), {
+    onSuccess: (posts) =>
+      setPost({
+        ...post,
+        title: posts.post.title,
+        date: posts.post.date,
+        author: posts.post.user_nickname,
+        content: posts.post.content,
+        img: posts.post.image,
+        isAuthor: posts.isAuthor === "true" ? true : false,
+      }),
+  });
 
   const handleEdit = () => {
     navigate(`/edit/${id}`);
@@ -111,6 +102,7 @@ function Content() {
     <>
       {isReportModalOpen && (
         <ReportModal
+          postId={id}
           postTitle={post.title}
           setModalState={setIsReportModalOpen}
         />
@@ -125,7 +117,7 @@ function Content() {
         </ContentReportWrapper>
         <ContentTitle>
           <span className="contentTitle">{post.title}</span>
-          <span className="contentDate">{post.date}</span>
+          <span className="contentDate">{dateFormatter(post.date)}</span>
         </ContentTitle>
         <div className="contentAuthor">
           <span>@{post.author}</span>
@@ -137,7 +129,7 @@ function Content() {
           <p>{post.content}</p>
         </ContentSubstance>
         <ButtonWrap>
-          {isAuthor && (
+          {post.isAuthor ? (
             <>
               <MyButton btntype="basic" onClick={handleEdit}>
                 수정하기
@@ -150,7 +142,7 @@ function Content() {
                 삭제하기
               </MyButton>
             </>
-          )}
+          ) : null}
         </ButtonWrap>
         <CommentList postId={id} />
       </ContentWrap>
