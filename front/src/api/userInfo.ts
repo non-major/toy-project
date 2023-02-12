@@ -32,7 +32,9 @@ const createUserInfo = async (data: Data) => {
     window.location.replace("/login");
   } catch (err: unknown) {
     if (axios.isAxiosError(err) && err.response) {
-      alert(`${err.response?.data.reason}`);
+      if (err.response.status === 500) {
+        alert(`이 이메일은 현재 사용중입니다.다른 이메일을 입력해 주세요.`);
+      }
     }
   }
 };
@@ -53,10 +55,8 @@ const updateUserInfo = async (data: Data) => {
     );
     alert("회원정보가 수정되었습니다.");
     window.location.replace("/mypage/statistics");
-  } catch (err: unknown) {
-    if (axios.isAxiosError(err) && err.response) {
-      alert(`${err.response?.data.reason}`);
-    }
+  } catch (err) {
+    alert(`회원정보를 수정할 수 없습니다.`);
   }
 };
 
@@ -78,7 +78,9 @@ const userLogin = async (data: Data) => {
     window.location.replace("/");
   } catch (err: unknown) {
     if (axios.isAxiosError(err) && err.response) {
-      alert(`이메일 또는 비밀번호가 일치하지 않습니다.`);
+      if (err.response.status === 500) {
+        alert(`이메일 또는 비밀번호가 일치하지 않습니다.`);
+      }
     }
   }
 };
@@ -90,7 +92,7 @@ const kakaoLogin = async (code: any) => {
     sessionStorage.setItem("role", res.data.role);
     window.location.replace("/");
   } catch (err) {
-    console.log("카카오 로그인 실패");
+    alert("카카오 로그인 실패");
   }
 };
 
@@ -109,10 +111,8 @@ const kakaoUpdate = async (data: Data) => {
     );
     alert("회원정보가 수정되었습니다.");
     window.location.replace("/mypage/statistics");
-  } catch (err: unknown) {
-    if (axios.isAxiosError(err) && err.response) {
-      console.log(err);
-    }
+  } catch (err) {
+    alert(`회원정보를 수정할 수 없습니다.`);
   }
 };
 export {

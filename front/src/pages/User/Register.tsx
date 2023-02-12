@@ -58,7 +58,7 @@ const Register = ({ isEdit }: RegisterProps) => {
   });
 
   const { data: userInfo } = useQuery("userInfo", () => getUsersInfo(), {
-    enabled: Boolean(!isEdit),
+    enabled: Boolean(isEdit),
   });
 
   const onSubmit = (data: FormData) => {
