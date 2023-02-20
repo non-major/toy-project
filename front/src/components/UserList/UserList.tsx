@@ -31,9 +31,7 @@ const UserList = () => {
     {
       refetchOnWindowFocus: false,
       refetchOnMount: false,
-      onSuccess: () => {
-        console.log("fetch userList");
-      },
+      onSuccess: () => {},
     },
   );
 

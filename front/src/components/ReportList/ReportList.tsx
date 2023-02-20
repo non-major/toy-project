@@ -42,9 +42,7 @@ export const ReportList = memo(
       {
         refetchOnWindowFocus: false,
         refetchOnMount: false,
-        onSuccess: () => {
-          console.log("fetch reportList");
-        },
+        onSuccess: () => {},
       },
     );
 
