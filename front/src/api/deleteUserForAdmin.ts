@@ -1,7 +1,7 @@
 import { SetStateAction, Dispatch } from "react";
 import { instance } from "./axiosInstance";
 
-export const deleteUserForAdmin = (
+export const deleteUserForAdmin = async (
   userId: string,
   dispatch?: Dispatch<SetStateAction<number>>,
 ) => {

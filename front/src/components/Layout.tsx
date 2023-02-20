@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import MyFooter from "./MyFooter/MyFooter";
 import MyHeader from "./MyHeader/MyHeader";
 import styled from "styled-components";
-import ReportModal from "./ContentReportModal/ContentReportModal";
 
 const Layout = () => {
   const { pathname } = useLocation();

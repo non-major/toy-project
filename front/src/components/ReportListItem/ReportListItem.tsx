@@ -1,10 +1,8 @@
-import React from "react";
 import { ReportListItemProps } from "../ReportList/ReportList";
 import {
   Container,
   BookImage,
   Title,
-  Nickname,
   Content,
   Section,
 } from "./ReportListItem.styles";
@@ -12,7 +10,6 @@ import {
 export const ReportListItem = ({
   id,
   image,
-  nickname,
   title,
   content,
   setIsOpenModal,
@@ -29,7 +26,6 @@ export const ReportListItem = ({
       </Section>
       <Section>
         <Title>{title}</Title>
-        {/* <Nickname>@{nickname}</Nickname> */}
         <Content>{content}</Content>
       </Section>
     </Container>

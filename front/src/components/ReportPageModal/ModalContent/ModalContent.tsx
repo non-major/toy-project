@@ -14,7 +14,8 @@ import {
   DeleteButton,
 } from "./ModalContent.styles";
 import { reasons } from "../../ContentReportModal/ContentReportModalReasonForm";
-import { RefreshDispatchContext } from "../../../pages/Admin/Admin";
+// import { RefreshDispatchContext } from "../../../pages/Admin/Admin";
+import { useMutation, useQueryClient } from "react-query";
 
 interface ModalContentType {
   selectedPostId: string | null;
@@ -27,9 +28,29 @@ export interface ReportListType {
   type: number;
 }
 
+const deletePost = (selectedPostId: string | null) => {
+  axios.delete(`/api/reports/${selectedPostId}`);
+};
+
 const ModalContent = ({ selectedPostId, setModalState }: ModalContentType) => {
-  const setRefresh = useContext(RefreshDispatchContext);
+  // const setRefresh = useContext(RefreshDispatchContext);
   const [reportList, setReportList] = useState<ReportListType[]>([]);
+
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation<void, unknown, string | null>(
+    async (selectedPostId) => {
+      deletePost(selectedPostId);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: ["reportList"],
+          refetchActive: true,
+        });
+      },
+    },
+  );
 
   useEffect(() => {
     axios.get(`/api/reports/${selectedPostId}`).then((res) => {
@@ -49,8 +70,9 @@ const ModalContent = ({ selectedPostId, setModalState }: ModalContentType) => {
       })}
       <DeleteButton
         onClick={() => {
-          axios.delete(`/api/reports/${selectedPostId}`);
-          setRefresh((state) => !state);
+          // axios.delete(`/api/reports/${selectedPostId}`);
+          mutation.mutate(selectedPostId);
+          // setRefresh((state) => !state);
           setModalState(false);
         }}>
         게시글 삭제

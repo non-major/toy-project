@@ -1,16 +1,8 @@
-import axios from "axios";
-import React, {
-  useState,
-  useEffect,
-  Dispatch,
-  SetStateAction,
-  useContext,
-  memo,
-} from "react";
+import React, { Dispatch, SetStateAction, memo } from "react";
 import { ReportContainer } from "./ReportList.styles";
 import { ReportListItem } from "../ReportListItem/ReportListItem";
 import { instance } from "../../api/axiosInstance";
-import { RefreshContext } from "../../pages/Admin/Admin";
+import { useQuery } from "react-query";
 
 interface ReportListProps {
   setIsOpenModal: Dispatch<SetStateAction<boolean>>;
@@ -27,45 +19,65 @@ export interface ReportListItemProps {
   setSelectedPostId: Dispatch<SetStateAction<string | null>>;
 }
 
+type Report = {
+  id: string;
+  title: string;
+  content: string;
+  nickname: string;
+  image: string;
+};
+
+const fetchReportList = async () => {
+  const data = await instance.get("/api/reports/reportedList").then((res) => {
+    return res.data;
+  });
+  return data;
+};
+
 export const ReportList = memo(
   ({ setIsOpenModal, setSelectedPostId }: ReportListProps) => {
-    const [reports, setReports] = useState<ReportListItemProps[]>([]);
-    const refresh = useContext(RefreshContext);
+    const { isLoading, isError, data } = useQuery<Report[]>(
+      "reportList",
+      fetchReportList,
+      {
+        refetchOnWindowFocus: false,
+        refetchOnMount: false,
+        onSuccess: () => {
+          console.log("fetch reportList");
+        },
+      },
+    );
 
-    const getReports = async () => {
-      await instance
-        .get("/api/reports/reportedList")
-        .then((res) => res.data)
-        .then((data) => {
-          setReports(data);
-        });
-    };
+    if (isLoading) {
+      return <span>Loading...</span>;
+    }
 
-    useEffect(() => {
-      getReports();
-    }, [refresh]);
+    if (isError) {
+      return <span>데이터 요청 실패</span>;
+    }
 
     return (
       <ReportContainer>
-        {reports.map((report) => {
-          const id = report.id;
-          const image = report.image;
-          const nickname = report.nickname;
-          const title = report.title;
-          const content = report.content;
-          return (
-            <ReportListItem
-              key={id}
-              id={id}
-              image={image}
-              nickname={nickname}
-              title={title}
-              content={content}
-              setIsOpenModal={setIsOpenModal}
-              setSelectedPostId={setSelectedPostId}
-            />
-          );
-        })}
+        {data &&
+          data.map((report) => {
+            const id = report.id;
+            const image = report.image;
+            const nickname = report.nickname;
+            const title = report.title;
+            const content = report.content;
+            return (
+              <ReportListItem
+                key={id}
+                id={id}
+                image={image}
+                nickname={nickname}
+                title={title}
+                content={content}
+                setIsOpenModal={setIsOpenModal}
+                setSelectedPostId={setSelectedPostId}
+              />
+            );
+          })}
       </ReportContainer>
     );
   },

@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { ReportListType } from "./ModalContent";
 import theme from "../../../styles/Theme";
 
 const Container = styled.div`

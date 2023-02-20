@@ -1,6 +1,5 @@
-import React, { useState, Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 import Modal from "../Modal/Modal";
-import styled from "styled-components";
 import {
   ReportModalTitle,
   ReportContentBookTitle,

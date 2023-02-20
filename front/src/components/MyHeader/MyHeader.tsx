@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useQueryClient } from "react-query";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { logoutAccout } from "../../redux/userReducer";
@@ -13,6 +14,7 @@ const MyHeader = () => {
   const navigate = useNavigate();
   const isLogin = useAppSelector((state) => state.user.isLogin);
   const dispatch = useAppDispatch();
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     isAdmin() === true ? setAdmin(true) : setAdmin(false);
@@ -53,7 +55,18 @@ const MyHeader = () => {
     return (
       <div className="nav">
         <ul>
-          <Link to="/admin">회원관리</Link>
+          <Link
+            to="/admin"
+            onClick={() => {
+              queryClient.removeQueries({
+                queryKey: ["reportList"],
+              });
+              queryClient.removeQueries({
+                queryKey: ["userList"],
+              });
+            }}>
+            회원관리
+          </Link>
           <Link
             to="/"
             onClick={() => {

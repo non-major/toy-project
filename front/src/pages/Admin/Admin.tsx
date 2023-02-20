@@ -20,8 +20,6 @@ function Admin() {
   const [menu, setMenu] = useState("report");
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
-  const [refresh, setRefresh] = useState(false);
-
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     const clickedMenu = (event.target as HTMLElement).id;
 
@@ -33,33 +31,39 @@ function Admin() {
     <Container>
       <Sidebar>
         <ul>
-          <Menu id={menuList[0]} onClick={handleMenu} menu={menu}>
+          <Menu
+            id={menuList[0]}
+            onClick={(event) => {
+              handleMenu(event);
+            }}
+            menu={menu}>
             신고내역
           </Menu>
-          <Menu id={menuList[1]} onClick={handleMenu} menu={menu}>
+          <Menu
+            id={menuList[1]}
+            onClick={(event) => {
+              handleMenu(event);
+            }}
+            menu={menu}>
             회원관리
           </Menu>
         </ul>
       </Sidebar>
       <Content>
         {menu === "report" ? (
-          <RefreshContext.Provider value={refresh}>
-            <ReportList
-              setIsOpenModal={setIsOpenModal}
-              setSelectedPostId={setSelectedPostId}
-            />
-          </RefreshContext.Provider>
+          <ReportList
+            setIsOpenModal={setIsOpenModal}
+            setSelectedPostId={setSelectedPostId}
+          />
         ) : (
           <UserList />
         )}
       </Content>
       {isOpenModal && (
-        <RefreshDispatchContext.Provider value={setRefresh}>
-          <ReportPageModal
-            setModalState={setIsOpenModal}
-            selectedPostId={selectedPostId}
-          />
-        </RefreshDispatchContext.Provider>
+        <ReportPageModal
+          setModalState={setIsOpenModal}
+          selectedPostId={selectedPostId}
+        />
       )}
     </Container>
   );

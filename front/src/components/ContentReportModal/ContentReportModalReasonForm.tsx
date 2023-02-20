@@ -3,6 +3,7 @@ import MyButton from "../MyButton";
 import ButtonWrap from "../../styles/ButtonWrap";
 import { ReportReasonSelect } from "./ContentReportModal.styles";
 import { isReported, postReport } from "../../api/postReport";
+import { useMutation, useQueryClient } from "react-query";
 
 export const reasons = [
   { reasonId: 1, reasonType: "욕설, 부적절한 언어, 비방" },
@@ -43,10 +44,21 @@ const ReportModalReasonForm = ({
     })();
   }, [postId, reasonType, reportMessage]);
 
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation(() => postReport(postId, reasonType), {
+    onSuccess: () => {
+      return queryClient.invalidateQueries({
+        queryKey: ["reportList"],
+        refetchActive: true,
+      });
+    },
+  });
+
   const onSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    postReport(postId, reasonType);
     setModalState(false);
+    mutation.mutate();
   };
 
   return (
