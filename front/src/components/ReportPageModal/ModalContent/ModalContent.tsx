@@ -30,6 +30,7 @@ export interface ReportListType {
 
 const deletePost = (selectedPostId: string | null) => {
   axios.delete(`/api/reports/${selectedPostId}`);
+  location.reload();
 };
 
 const ModalContent = ({ selectedPostId, setModalState }: ModalContentType) => {
@@ -44,7 +45,7 @@ const ModalContent = ({ selectedPostId, setModalState }: ModalContentType) => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries({
+        return queryClient.invalidateQueries({
           queryKey: ["reportList"],
           refetchActive: true,
         });

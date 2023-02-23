@@ -16,4 +16,5 @@ export const deleteUserForAdmin = async (
       () => console.log("회원 삭제 에러"),
     );
   }
+  location.reload();
 };
