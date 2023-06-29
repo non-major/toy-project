@@ -11,7 +11,7 @@ export function loginRequired(req: Request, res: Response, next: NextFunction) {
     errorResponse(
       res,
       "FORBIDDEN",
-      "로그인한 유저만 사용할 수 있는 서비스입니다."
+      "로그인한 유저만 사용할 수 있는 서비스입니다.."
     );
 
     return;
